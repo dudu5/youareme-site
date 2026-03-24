@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ground — You Are Me</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #00c9a7;
+    --white: #ffffff;
+    --dim: rgba(255,255,255,0.52);
+    --dimmer: rgba(255,255,255,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--white);
+    background: #000;
+    overflow-x: hidden;
+  }
+
+  /* ── FIXED BACKGROUND ── */
+  .bg-fixed {
+    position: fixed;
+    inset: 0;
+    background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.75),    /* ← darkness / tint strength – change the 0.65 here */
+      rgba(0, 0, 0, 0.75)
+    ),
+    url('ground_background.webp');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+  .bg-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.80);
+    z-index: 1;
+  }
+
+  .site-wrap {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── NAV — minimal, just URL ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: flex-start;
+    padding: 22px 48px;
+    background: transparent;
+  }
+  .nav-url {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--dimmer);
+    text-transform: uppercase;
+  }
+
+  /* ── CONTENT COLUMN ── */
+  .col {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 36px;
+  }
+
+  /* ── HERO — full screen opening ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 0;
+  }
+  .hero-statement {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 300;
+    line-height: 1.18;
+    color: var(--white);
+    margin-bottom: 64px;
+  }
+  .hero-statement i {
+    color: var(--teal);
+    font-style: italic;
+  }
+  .hero-hint {
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero-hint::after {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: var(--dimmer);
+  }
+
+  /* ── NARRATIVE ── */
+  .narrative {
+    padding-bottom: 120px;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.85s ease, transform 0.85s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .prose {
+    font-size: clamp(17px, 2.4vw, 22px);
+    line-height: 1.9;
+    font-weight: 300;
+    color: var(--dim);
+    margin-bottom: 24px;
+  }
+  .prose b { color: var(--white); font-weight: 400; }
+  .prose i { color: var(--teal); font-style: normal; }
+
+  .statement {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 5vw, 52px);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--white);
+    margin-bottom: 28px;
+  }
+  .statement i { color: var(--teal); font-style: italic; }
+
+  .rule {
+    width: 36px;
+    height: 1px;
+    background: rgba(255,255,255,0.18);
+    margin: 52px 0;
+  }
+  .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+    margin: 80px 0;
+  }
+
+  .sp-sm { height: 28px; }
+  .sp-md { height: 52px; }
+
+  /* ── VIDEO BLOCK ── */
+  .video-block { padding: 0 0 20px; }
+  .video-num {
+    font-size: 9px;
+    letter-spacing: 0.55em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .video-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 68px);
+    font-weight: 300;
+    line-height: 1.0;
+    margin-bottom: 32px;
+  }
+  .video-title .sub {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.3em;
+    font-weight: 200;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--dimmer);
+    margin-bottom: 6px;
+  }
+  .embed-wrap {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.09);
+    margin-bottom: 14px;
+  }
+  .embed-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+
+  /* ── OPEN FIELD ── */
+  .open-field { padding: 48px 0 0; }
+  .field-prompt {
+    font-size: clamp(16px, 2.2vw, 20px);
+    font-weight: 300;
+    color: var(--dim);
+    margin-bottom: 18px;
+    line-height: 1.65;
+  }
+  .field-prompt i { color: var(--teal); font-style: normal; }
+  textarea {
+    width: 100%;
+    min-height: 110px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.75;
+    padding: 18px 22px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s;
+    border-radius: 0;
+  }
+  textarea::placeholder { color: rgba(255,255,255,0.18); }
+  textarea:focus { border-color: rgba(0,201,167,0.35); }
+
+  /* ── CHAPTER PLACEHOLDER ── */
+  .chapter-block {
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(0,0,0,0.3);
+    padding: 36px 36px 32px;
+    position: relative;
+  }
+  .chapter-num {
+    font-size: 9px;
+    letter-spacing: 0.55em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.50);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .chapter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 4vw, 44px);
+    font-weight: 300;
+    color: rgba(255,255,255,0.50);
+    line-height: 1.1;
+  }
+  .chapter-title .sub {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.38em;
+    font-weight: 200;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 5px;
+  }
+  .chapter-glyph {
+    position: absolute;
+    top: 32px; right: 32px;
+    font-size: 15px;
+    color: rgba(255,255,255,0.20);
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* ── SINGLE EMAIL CAPTURE (after all chapters) ── */
+  .email-capture {
+    padding: 48px 0 0;
+  }
+  .email-capture-note {
+    font-size: clamp(16px, 2vw, 19px);
+    font-weight: 300;
+    color: var(--dim);
+    margin-bottom: 22px;
+    line-height: 1.7;
+  }
+  .email-row {
+    display: flex;
+  }
+  .email-row input[type="email"] {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.11);
+    border-right: none;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 14px 18px;
+    outline: none;
+    border-radius: 0;
+    transition: border-color 0.3s;
+  }
+  .email-row input[type="email"]::placeholder { color: rgba(255,255,255,0.18); }
+  .email-row input[type="email"]:focus { border-color: rgba(0,201,167,0.35); }
+  .email-row button {
+    background: var(--teal);
+    color: #000;
+    border: none;
+    padding: 14px 26px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+    border-radius: 0;
+  }
+  .email-row button:hover { opacity: 0.82; }
+
+  /* ── CLOSING BLOCKS ── */
+  .closing-block {
+    border-left: 2px solid var(--teal);
+    padding: 4px 0 4px 30px;
+  }
+
+  .myspiral-block {
+    padding: 0;
+  }
+  .myspiral-block .prose a {
+    color: var(--teal);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0,201,167,0.3);
+    transition: border-color 0.2s;
+  }
+  .myspiral-block .prose a:hover {
+    border-color: var(--teal);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 80px 0 64px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+  .footer-title span { color: var(--teal); }
+  .footer-url {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--dimmer);
+  }
+
+  @media (max-width: 580px) {
+    nav { padding: 18px 24px; }
+    .col { padding: 0 22px; }
+    .chapter-block { padding: 24px 22px 22px; }
+    .chapter-glyph { display: none; }
+    .email-row { flex-direction: column; }
+    .email-row input[type="email"] { border-right: 1px solid rgba(255,255,255,0.11); }
+  }
+  .chapter-block::after {
+  content: "Coming soon…";
+  position: absolute;
+  bottom: 24px;
+  right: 36px;
+  color: rgba(250, 110, 133, 0.35);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 580px) {
+  .chapter-block {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 50px; /* Adds extra room at the bottom for the label */
+  }
+  
+  .chapter-block::after {
+    left: 22px;         /* Moves it to the left side */
+    right: auto;        /* Removes the right-side pinning */
+    bottom: 15px;       /* Pushes it lower so it doesn't hit the title */
+    font-size: 13px;
+  }
+}
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-ueYEguemb1yoTmQce6Gad.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body>
+
+<div class="bg-fixed"></div>
+<div class="bg-overlay"></div>
+
+<div class="site-wrap">
+
+  <nav>
+    <div class="nav-url" style="display:flex; align-items:center; gap:0;">
+      <a href="index.html" style="text-decoration:none; font-size:10px; letter-spacing:0.35em; text-transform:uppercase; font-family:'DM Sans',sans-serif;">
+        <span style="color:#ffffff;">You Are </span><span style="color:#00c9a7;">Me</span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="col">
+
+    <!-- ── HERO — full screen ── -->
+    <div class="hero">
+      <p class="hero-statement">
+        You are the only person<br>
+        you will <i>never stop</i><br>
+        living with.
+      </p>
+      <div class="hero-hint">Begin</div>
+    </div>
+
+    <!-- ── NARRATIVE ── -->
+    <div class="narrative">
+
+      <div class="reveal">
+        <p class="prose">Yet I spent most of my life knowing surprisingly little about what was actually happening inside me.</p>
+      </div>
+      <div class="sp-sm"></div>
+      <div class="reveal">
+        <p class="prose">I knew my opinions. My preferences. My plans.</p>
+      </div>
+      <div class="sp-sm"></div>
+      <div class="reveal">
+        <p class="prose">But the deeper currents — <b>what I actually needed</b>, what drove my reactions, what I was really feeling beneath the performance — remained largely unexamined.</p>
+      </div>
+
+      <div class="rule reveal"></div>
+
+      <div class="reveal">
+        <p class="statement"><i>Ground</i> is the map I built<br>for that territory.</p>
+      </div>
+      <div class="sp-sm"></div>
+      <div class="reveal">
+        <p class="prose">Not a self-help system. Not a methodology to master.</p>
+      </div>
+      <div class="sp-sm"></div>
+      <div class="reveal">
+        <p class="prose">A map. Made from lived experience. Refined over years.</p>
+      </div>
+
+      <div class="rule reveal"></div>
+
+      <div class="reveal">
+        <p class="prose">It starts with one simple — and surprisingly radical — realization:</p>
+      </div>
+      <div class="sp-sm"></div>
+      <div class="reveal">
+        <p class="statement">I am the <i>absolute center</i><br>of my reality.</p>
+      </div>
+      <div class="sp-sm"></div>
+      <div class="reveal">
+        <p class="prose">Everything I have ever felt, feared, loved or lost — happened inside me.</p>
+      </div>
+      <div class="sp-sm"></div>
+      <div class="reveal">
+        <p class="prose">Which means the most important place I could ever learn to inhabit... <b>is here.</b></p>
+      </div>
+
+      <div class="sp-sm"></div>
+      <div class="reveal">
+        <p class="prose">This is the first chapter.</p>
+      </div>
+      <div class="sp-sm"></div>
+      <div class="reveal">
+        <p class="prose">Watch it when you have 15 minutes of honest attention. That's all it asks.</p>
+      </div>
+
+      <div class="video-block reveal" id="chapter1"></div>
+      <!-- ── VIDEO 1 ── -->
+      <div class="divider reveal"></div>
+
+      <div class="video-block reveal">
+        <span class="video-num">Chapter 01</span>
+        <div class="video-title">
+          <span class="sub">The</span>
+          Absolute Center
+        </div>
+        <div class="embed-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/SZco5EJncVc"
+            title="Chapter 1: The Absolute Center"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+
+      <div class="divider reveal"></div>
+
+      <!-- ── WHERE THE MAPS COME FROM ── -->
+      <div class="reveal">
+        <p class="statement">Where these maps come from</p>
+      </div>
+      <div class="sp-sm"></div>
+      <div class="reveal">
+        <p class="prose">These maps didn't come from research.</p>
+      </div>
+      <div class="sp-sm"></div>
+      <div class="reveal">
+        <p class="prose">They came from living — through failure, through fear, through years of trying to understand what moves human beings, and how to navigate being one myself.</p>
+      </div>
+
+      <div id="originExpanded" style="display:none;">
+        <div class="sp-sm"></div>
+        <div class="reveal">
+          <p class="prose">Thousands of hours of listening, reading, thinking, mapping. Countless iterations — maps built and rebuilt, patterns recognized and refined, structures synthesized and tested. In business. In workshops, coaching sessions, and circles.</p>
+        </div>
+        <div class="sp-sm"></div>
+        <div class="reveal">
+          <p class="prose">Showing the maps to others — and facing the moment when they didn't see what I saw. I learned early that this always comes back to me: either I'm not communicating it clearly enough, or what I think I see isn't as solid as I believe. Both mean the same thing — go back. Look again. Rebuild.</p>
+        </div>
+        <div class="sp-sm"></div>
+        <div class="reveal">
+          <p class="prose">That loop, repeated over years, is what these maps are made of. It taught me patience — how to really listen. First to others, then finally to myself.</p>
+        </div>
+        <div class="sp-sm"></div>
+        <div class="reveal">
+          <p class="prose" style="color:#ffffff;">They're not finished. They never will be. Each conversation refines them.</p>
+        </div>
+        <div class="sp-sm"></div>
+        <div class="reveal">
+          <p class="prose">Which means by engaging now — you're not just working on yourself. You're helping build something that will serve everyone who comes after you.</p>
+        </div>
+      </div>
+
+      <div class="sp-sm"></div>
+      <div class="reveal">
+        <button onclick="toggleOrigin()" id="originToggle" style="background:none; border:none; font-family:'DM Sans',sans-serif; font-size:13px; letter-spacing:0.15em; text-transform:uppercase; color:rgba(255,255,255,0.35); cursor:pointer; padding:0; transition:color 0.2s;">Read more ↓</button>
+      </div>
+
+      <!-- ── NEXT CHAPTER ── -->
+      <div class="divider reveal"></div>
+
+      <div class="closing-block reveal">
+        <p class="prose" style="margin-bottom:8px;">The maps are still being released.</p>
+        <p class="statement" style="font-size:clamp(24px,3.5vw,38px);">Don't miss<br>the next chapter.</p>
+        <div class="sp-sm"></div>
+      </div>
+
+      <div class="email-capture reveal">
+        <p class="email-capture-note">Leave your email — I'll let you know when the next episode is out.</p>
+        <div class="email-row">
+          <input type="email" id="notifyEmail" placeholder="your@email.com">
+          <button id="notifyBtn" onclick="groundEmail('notifyEmail', 'notifyBtn', 'ground-notify', 'notifyConfirm')">Notify me</button>
+        </div>
+        <p id="notifyConfirm" style="font-size:12px; color:var(--teal); margin-top:10px; font-family:'DM Sans',sans-serif; letter-spacing:0.05em; min-height:18px;"></p>
+      </div>
+
+      <!-- ── CHAPTERS 2–8 ── -->
+      <div class="divider reveal"></div>
+
+      <div class="chapter-block reveal">
+        <span class="chapter-glyph">◎</span>
+        <span class="chapter-num">Chapter 02</span>
+        <div class="chapter-title">
+          <span class="sub">The</span>
+          Field
+        </div>
+      </div>
+
+      <div class="divider reveal"></div>
+
+      <div class="chapter-block reveal">
+        <span class="chapter-glyph">◎</span>
+        <span class="chapter-num">Chapter 03</span>
+        <div class="chapter-title">
+          <span class="sub">The</span>
+          Path
+        </div>
+      </div>
+
+      <!-- Hidden chapters -->
+      <div id="chaptersExpanded" style="display:none;">
+        <div class="divider reveal"></div>
+
+        <div class="chapter-block reveal">
+          <span class="chapter-glyph">◎</span>
+          <span class="chapter-num">Chapter 04</span>
+          <div class="chapter-title">
+            <span class="sub">The</span>
+            Fuel vs. Strategy
+          </div>
+        </div>
+
+        <div class="divider reveal"></div>
+
+        <div class="chapter-block reveal">
+          <span class="chapter-glyph">◎</span>
+          <span class="chapter-num">Chapter 05</span>
+          <div class="chapter-title">
+            <span class="sub">The</span>
+            Radar
+          </div>
+        </div>
+
+        <div class="divider reveal"></div>
+
+        <div class="chapter-block reveal">
+          <span class="chapter-glyph">◎</span>
+          <span class="chapter-num">Chapter 06</span>
+          <div class="chapter-title">
+            <span class="sub">The</span>
+            Social Mirror
+          </div>
+        </div>
+
+        <div class="divider reveal"></div>
+
+        <div class="chapter-block reveal">
+          <span class="chapter-glyph">◎</span>
+          <span class="chapter-num">Chapter 07</span>
+          <div class="chapter-title">
+            <span class="sub">The</span>
+            Pure Signal
+          </div>
+        </div>
+
+        <div class="divider reveal"></div>
+
+        <div class="chapter-block reveal">
+          <span class="chapter-glyph">◎</span>
+          <span class="chapter-num">Chapter 08</span>
+          <div class="chapter-title">
+            <span class="sub">The</span>
+            Full Map
+          </div>
+        </div>
+      </div>
+
+      <div class="divider reveal"></div>
+      <div class="reveal">
+        <button onclick="toggleChapters()" id="chaptersToggle" style="background:none; border:none; font-family:'DM Sans',sans-serif; font-size:13px; letter-spacing:0.15em; text-transform:uppercase; color:rgba(255,255,255,0.35); cursor:pointer; padding:0; transition:color 0.2s;">+ 6 more chapters</button>
+      </div>
+
+      <!-- ── OPEN CIRCLE ── -->
+      <div class="divider reveal"></div>
+
+      <div class="closing-block reveal">
+        <div class="sp-sm"></div>
+        <p class="prose" style="margin-bottom:22px;">Once in a while I open a circle — a few hours to sit with the maps together. No presentation. Just honest exchange about what you're seeing in yourself.</p>
+        <p class="statement" style="font-size:clamp(24px,3.5vw,38px);">Your perspective<br>belongs in that room.</p>
+        <div class="sp-sm"></div>
+      </div>
+
+      <div class="email-capture reveal">
+        <p class="email-capture-note">Get the invite — no pressure, join when it calls you.</p>
+        <div class="email-row">
+          <input type="email" id="circleEmail" placeholder="your@email.com">
+          <button id="circleBtn" onclick="groundCircle()">Send me the invite</button>
+        </div>
+        <p id="circleConfirm" style="font-size:12px; color:var(--teal); margin-top:10px; font-family:'DM Sans',sans-serif; letter-spacing:0.05em; min-height:18px;"></p>
+      </div>
+
+    </div><!-- end narrative -->
+
+    <!-- FOOTER -->
+    <footer class="reveal">
+      <div class="footer-title">You Are <span>Me</span></div>
+      <div class="footer-url">youareme.one</div>
+    </footer>
+
+  </div><!-- end col -->
+</div><!-- end site-wrap -->
+
+<script>
+  // ── SCROLL REVEAL ──
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // ── GOOGLE SHEET ENDPOINT ──
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwTBZo1v4e1qdirDN7CI78Pz38IQx8vt2uav0zIAF8QI9BrCThn8CLAm54cnN_t0BO7/exec';
+
+  async function sendToSheet(type, content) {
+    const url = `${SHEET_URL}?type=${encodeURIComponent(type)}&content=${encodeURIComponent(content)}`;
+    try { await fetch(url, { method: 'POST', mode: 'no-cors' }); } catch(e) {}
+  }
+
+  function groundEmail(inputId, btnId, type, confirmId) {
+    const input = document.getElementById(inputId);
+    const btn = document.getElementById(btnId);
+    const confirm = document.getElementById(confirmId);
+    const email = input.value.trim();
+    if (!email || !email.includes('@')) {
+      input.style.borderColor = 'rgba(224,48,48,0.5)';
+      setTimeout(() => input.style.borderColor = '', 1500);
+      return;
+    }
+    btn.textContent = '...';
+    btn.disabled = true;
+    plausible('Email submitted', {props: {type: type}}); sendToSheet(type, email);
+    input.value = '';
+    btn.textContent = 'Done ✓';
+    btn.style.background = 'rgba(0,201,167,0.6)';
+    confirm.textContent = 'You\'re on the list.';
+  }
+
+  function groundCircle() {
+    const input = document.getElementById('circleEmail');
+    const btn = document.getElementById('circleBtn');
+    const confirm = document.getElementById('circleConfirm');
+    const email = input.value.trim();
+    if (!email || !email.includes('@')) {
+      input.style.borderColor = 'rgba(224,48,48,0.5)';
+      setTimeout(() => input.style.borderColor = '', 1500);
+      return;
+    }
+    btn.textContent = '...';
+    btn.disabled = true;
+    sendToSheet('ground-circle', email);
+
+    // ICS download
+    const ics = [
+      'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//YouAreMe//Ground//EN',
+      'BEGIN:VEVENT',
+      'DTSTART:20250411T120000Z', 'DTEND:20250411T150000Z',
+      'SUMMARY:Ground — Open Circle',
+      'DESCRIPTION:An open session to sit with the maps together. Honest exchange about what you are seeing in yourself.',
+      'LOCATION:Online / Cracow (hybrid)',
+      'URL:https://youareme.one/ground',
+      'END:VEVENT', 'END:VCALENDAR'
+    ].join('\r\n');
+    const blob = new Blob([ics], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'ground-circle.ics'; a.click();
+    URL.revokeObjectURL(url);
+
+    input.value = '';
+    btn.textContent = 'Sent ✓';
+    btn.style.background = 'rgba(0,201,167,0.6)';
+    confirm.textContent = 'You\'re on the list. Calendar invite downloading now.';
+  }
+
+  function toggleChapters() {
+    const el = document.getElementById('chaptersExpanded');
+    const btn = document.getElementById('chaptersToggle');
+    const open = el.style.display !== 'none';
+    el.style.display = open ? 'none' : 'block';
+    btn.textContent = open ? '+ 6 more chapters' : '− show less';
+    if (!open) plausible('Chapters expanded');
+  }
+
+  function toggleOrigin() {
+    const el = document.getElementById('originExpanded');
+    const btn = document.getElementById('originToggle');
+    const open = el.style.display !== 'none';
+    el.style.display = open ? 'none' : 'block';
+    btn.textContent = open ? 'Read more ↓' : 'Read less ↑';
+    if (!open) plausible('Origin story expanded');
+  }
+
+  // Scroll depth tracking
+  const scrollMilestones = [25, 50, 75, 100];
+  const scrollFired = new Set();
+  window.addEventListener('scroll', () => {
+    const pct = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+    scrollMilestones.forEach(m => {
+      if (pct >= m && !scrollFired.has(m)) {
+        scrollFired.add(m);
+        plausible('Scroll depth', {props: {depth: m + '%'}});
+      }
+    });
+  });
+
+  // Video play tracking
+  document.querySelector('.embed-wrap iframe').addEventListener('click', () => {
+    plausible('Video played', {props: {chapter: 'Chapter 01'}});
+  });
+
+  // ── TEXTAREA SUBMIT ──
+  const ta = document.querySelector('textarea');
+  if (ta) {
+    const submitBtn = document.createElement('button');
+    submitBtn.textContent = 'Send';
+    submitBtn.style.cssText = 'margin-top:10px;background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);font-family:"DM Sans",sans-serif;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;padding:10px 24px;cursor:pointer;transition:all 0.2s;display:block';
+    ta.parentNode.insertBefore(submitBtn, ta.nextSibling);
+    submitBtn.addEventListener('click', async function() {
+      const text = ta.value.trim();
+      if (!text) return;
+      this.textContent = '...'; this.disabled = true;
+      await sendToSheet('response', text);
+      ta.value = ''; this.textContent = 'Sent ✓';
+      setTimeout(() => { this.textContent = 'Send'; this.disabled = false; }, 3000);
+    });
+  }
+</script>
+</body>
+</html>

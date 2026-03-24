@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MySpiral — You Are Me</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+     :root {
+    --teal: #00c9a7;
+    --white: #ffffff;
+    --dim: rgba(255,255,255,0.52);
+    --dimmer: rgba(255,255,255,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--white);
+    background: #000;
+    overflow-x: hidden;
+  }
+
+  /* ── FIXED BACKGROUND ── */
+  .bg-fixed {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(
+        rgba(0,0,0,0.95) 0%,
+        rgba(0,0,0,0.96) 50%,
+        rgba(0,0,0,0.98) 100%
+      ),
+      url('ground_background.webp');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+  .bg-overlay {
+    display: none;
+  }
+
+  .site-wrap {
+    position: relative;
+    z-index: 1;
+  }
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── NAV — minimal, just URL ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: flex-end;
+    padding: 22px 48px;
+    background: transparent;
+  }
+  .nav-url {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--dimmer);
+    text-transform: uppercase;
+  }
+
+  /* ── CONTENT COLUMN ── */
+  .col {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 36px;
+  }
+
+  /* ── HERO — full screen opening ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 0;
+  }
+  .hero-statement {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 300;
+    line-height: 1.18;
+    color: var(--white);
+    margin-bottom: 9px;
+  }
+  .hero-statement i {
+    color: var(--teal);
+    font-style: italic;
+  }
+  .hero-hint {
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero-hint::after {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: var(--dimmer);
+  }
+
+  /* ── NARRATIVE ── */
+  .narrative {
+    padding-bottom: 0;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.85s ease, transform 0.85s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .prose {
+    font-size: clamp(17px, 2.4vw, 22px);
+    line-height: 1.9;
+    font-weight: 300;
+    color: var(--dim);
+    margin-bottom: 24px;
+  }
+  .prose b { color: var(--white); font-weight: 400; }
+  .prose i { color: var(--teal); font-style: normal; }
+
+  .statement {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 5vw, 52px);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--white);
+    margin-bottom: 28px;
+  }
+  .statement i { color: var(--teal); font-style: italic; }
+
+  .rule {
+    width: 36px;
+    height: 1px;
+    background: rgba(255,255,255,0.35);
+    margin: 52px 0;
+  }
+  .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+    margin: 80px 0;
+  }
+
+  .sp-sm { height: 28px; }
+  .sp-md { height: 52px; }
+
+  /* ── VIDEO BLOCK ── */
+  .video-block { padding: 0 0 20px; }
+  .video-num {
+    font-size: 9px;
+    letter-spacing: 0.55em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .video-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 68px);
+    font-weight: 300;
+    line-height: 1.0;
+    margin-bottom: 32px;
+  }
+  .video-title .sub {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.3em;
+    font-weight: 200;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--dimmer);
+    margin-bottom: 6px;
+  }
+  .embed-wrap {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.09);
+    margin-bottom: 14px;
+  }
+  .embed-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+
+  /* ── OPEN FIELD ── */
+  .open-field { padding: 48px 0 0; }
+  .field-prompt {
+    font-size: clamp(16px, 2.2vw, 20px);
+    font-weight: 300;
+    color: var(--dim);
+    margin-bottom: 18px;
+    line-height: 1.65;
+  }
+  .field-prompt i { color: var(--teal); font-style: normal; }
+  textarea {
+    width: 100%;
+    min-height: 110px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.75;
+    padding: 18px 22px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s;
+    border-radius: 0;
+  }
+  textarea::placeholder { color: rgba(255,255,255,0.18); }
+  textarea:focus { border-color: rgba(0,201,167,0.35); }
+
+  /* ── CHAPTER PLACEHOLDER ── */
+  .chapter-block {
+    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(0,0,0,0.3);
+    padding: 36px 36px 32px;
+    position: relative;
+  }
+  .chapter-num {
+    font-size: 9px;
+    letter-spacing: 0.55em;
+    text-transform: uppercase;
+    color: var(--dimmer);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .chapter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 4vw, 44px);
+    font-weight: 300;
+    color: rgba(255,255,255,0.32);
+    line-height: 1.1;
+  }
+  .chapter-title .sub {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.38em;
+    font-weight: 200;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.14);
+    margin-bottom: 5px;
+  }
+  .chapter-glyph {
+    position: absolute;
+    top: 32px; right: 32px;
+    font-size: 15px;
+    color: rgba(255,255,255,0.08);
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* ── SINGLE EMAIL CAPTURE (after all chapters) ── */
+  .email-capture {
+    padding: 48px 0 0;
+  }
+  .email-capture-note {
+    font-size: clamp(16px, 2vw, 19px);
+    font-weight: 300;
+    color: var(--dim);
+    margin-bottom: 22px;
+    line-height: 1.7;
+  }
+  .email-row {
+    display: flex;
+  }
+  .email-row input[type="email"] {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.11);
+    border-right: none;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 14px 18px;
+    outline: none;
+    border-radius: 0;
+    transition: border-color 0.3s;
+  }
+  .email-row input[type="email"]::placeholder { color: rgba(255,255,255,0.18); }
+  .email-row input[type="email"]:focus { border-color: rgba(0,201,167,0.35); }
+  .email-row button {
+    background: var(--teal);
+    color: #000;
+    border: none;
+    padding: 14px 26px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+    border-radius: 0;
+  }
+  .email-row button:hover { opacity: 0.82; }
+
+  /* ── CLOSING BLOCKS ── */
+  .closing-block {
+    border-left: 2px solid var(--teal);
+    padding: 4px 0 4px 30px;
+  }
+
+  .myspiral-block {
+    padding: 0;
+  }
+  .myspiral-block .prose a {
+    color: var(--teal);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0,201,167,0.3);
+    transition: border-color 0.2s;
+  }
+  .myspiral-block .prose a:hover {
+    border-color: var(--teal);
+  }
+
+  /* ── ACCORDION SECTIONS ── */
+  .ms-section {
+    cursor: pointer;
+    user-select: none;
+    padding: 8px 0;
+    transition: opacity 0.2s ease;
+  }
+  .ms-section:hover { opacity: 0.8; }
+
+  .ms-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  .ms-chevron {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 200;
+    color: var(--teal);
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    line-height: 1;
+  }
+
+  .ms-chevron.open { transform: rotate(45deg); }
+
+  .ms-preview {
+    margin-top: 12px;
+    margin-bottom: 0;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .ms-body {
+    display: none;
+    padding: 8px 0 16px;
+    border-left: 1px solid rgba(0,201,167,0.2);
+    padding-left: 24px;
+    margin-top: 8px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 80px 0 64px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+  .footer-title span { color: var(--teal); }
+  .footer-url {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--dimmer);
+  }
+
+  @media (max-width: 580px) {
+    nav { padding: 18px 24px; }
+    .col { padding: 0 22px; }
+    .chapter-block { padding: 24px 22px 22px; }
+    .chapter-glyph { display: none; }
+    .email-row { flex-direction: column; }
+    .email-row input[type="email"] { border-right: 1px solid rgba(255,255,255,0.11); }
+  }
+    .testimonial {
+      margin: 32px 0;
+      padding-left: 24px;
+      border-left: 2px solid var(--teal);
+    }
+    .testimonial cite {
+      display: block;
+      margin-top: 12px;
+      font-style: normal;
+      color: white;
+      font-size: 0.92em;
+    }
+    .cta-intro {
+      text-align: center;
+      font-size: clamp(20px, 3.2vw, 32px);   /* same as you had before */
+      line-height: 1.4;
+      margin: 0 0 32px 0;                    /* space between text and button */
+      color: var(--white);                   /* pure white */
+    }
+    
+    .cta-button-wrapper {
+      text-align: center;          /* centers the inline-block child */
+      margin: 0 auto;
+    }
+    .cta-final-btn {
+  display: inline-block;
+  background: transparent;
+  border: 2px solid var(--white);
+  color: var(--white);                    /* white text overall */
+  padding: 18px 48px;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 0;
+}
+
+.cta-final-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.12);
+}
+
+/* Make sure "ready" stays teal */
+.cta-final-btn .highlight-teal {
+  color: var(--teal);
+}
+
+    /* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: rgba(0,0,0,0.92);
+  border: 1px solid rgba(var(--teal), 0.25);
+  padding: 40px 32px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  border-radius: 0;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--dim);
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.modal h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  margin: 0 0 24px;
+  color: var(--white);
+}
+
+.email-display {
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  color: var(--teal);
+  margin: 0 0 24px;
+  word-break: break-all;
+}
+
+.copy-btn {
+  background: transparent;
+  border: 2px solid var(--teal);
+  color: var(--teal);
+  padding: 14px 32px;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.copy-btn:hover {
+  background: rgba(255,255,255,0.08);
+  color: white;
+}
+
+.modal-hint {
+  margin-top: 28px;
+  font-size: 0.9em;
+  color: var(--dimmer);
+}
+  </style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-ueYEguemb1yoTmQce6Gad.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body>
+
+<div class="bg-fixed"></div>
+<div class="bg-overlay"></div>
+
+<div class="site-wrap">
+
+  <nav>
+    <a href="index.html" style="text-decoration:none; font-size:10px; letter-spacing:0.35em; text-transform:uppercase; font-family:'DM Sans',sans-serif; color:var(--dimmer);">youareme.one / myspiral</a>
+  </nav>
+
+  <div class="col">
+
+    <!-- Hero / Intro -->
+    <div class="hero">
+      <p class="hero-statement">
+        MySpiral
+      </p>
+      <div class="hero-hint">A 4-week inward journey</div>
+    </div>
+
+    <div class="narrative">
+
+      <!-- INTRO — always open -->
+      <div class="reveal">
+        <p class="statement">I could describe my life in a way that sounds impressive.</p>
+      </div>
+      <div class="reveal">
+        <p class="prose">Startups. Countries. Languages. Building things.</p>
+      </div>
+      <div class="reveal">
+        <p class="prose">That's not what it felt like.</p>
+      </div>
+      <div class="reveal">
+        <p class="prose">What it felt like was running — driven by fear and deep uncertainty — becoming very skilled at reading others, supporting others, building others.</p>
+      </div>
+      <div class="reveal">
+        <p class="prose">While remaining hollow inside. Dislocated from myself.</p>
+      </div>
+      <div class="reveal">
+        <p class="prose">Not broken. Just... never home.</p>
+      </div>
+      <div class="reveal">
+        <p class="statement" style="font-size: clamp(28px, 4.5vw, 42px);">
+          <i>MySpiral</i> is what I built<br>when I finally stopped running.
+        </p>
+      </div>
+      <div class="reveal">
+        <p class="statement" style="font-size: clamp(22px, 3vw, 32px); color: var(--dim);">
+          Applied to the only place where all meaningful change actually begins.<br><i>You.</i>
+        </p>
+      </div>
+
+      <div class="rule reveal"></div>
+
+      <!-- SECTION: What it is -->
+      <div class="ms-section reveal" onclick="msToggle('what-it-is')">
+        <div class="ms-section-header">
+          <p class="statement" style="margin:0;">What it is</p>
+          <span class="ms-chevron" id="chevron-what-it-is">+</span>
+        </div>
+        <p class="prose ms-preview">A four week group journey. Small by design — four to six people.</p>
+      </div>
+      <div class="ms-body" id="body-what-it-is">
+        <div class="reveal"><p class="prose">Built around the same maps you've been watching.</p></div>
+        <div class="reveal"><p class="prose">Each week we meet for three hours. You bring your honest attention. I bring structure, presence, and a decade of lived experience with this work.</p></div>
+        <div class="reveal"><p class="prose">Between sessions is where the real movement happens — noticing your patterns, catching your autopilot, practicing the inward gaze in the middle of your actual life.</p></div>
+        <div class="reveal"><p class="prose">We also meet individually — minimum twice, for as long as you need.</p></div>
+      </div>
+
+      <div class="rule reveal"></div>
+
+      <!-- SECTION: What it asks -->
+      <div class="ms-section reveal" onclick="msToggle('what-it-asks')">
+        <div class="ms-section-header">
+          <p class="statement" style="margin:0;">What it asks of you</p>
+          <span class="ms-chevron" id="chevron-what-it-asks">+</span>
+        </div>
+        <p class="prose ms-preview">Not performance. Not having it figured out.</p>
+      </div>
+      <div class="ms-body" id="body-what-it-asks">
+        <div class="reveal"><p class="prose">Just honest showing up. To yourself first. To the group second.</p></div>
+        <div class="reveal"><p class="prose">The people who get the most from this are the ones willing to be wrong about themselves — and to face what's underneath.</p></div>
+      </div>
+
+      <div class="rule reveal"></div>
+
+      <!-- SECTION: Testimonials -->
+      <div class="ms-section reveal" onclick="msToggle('testimonials')">
+        <div class="ms-section-header">
+          <p class="statement" style="margin:0;">What others have found here</p>
+          <span class="ms-chevron" id="chevron-testimonials">+</span>
+        </div>
+        <p class="prose ms-preview" style="font-style:italic;">"One of the best investments I've ever made in myself."</p>
+      </div>
+      <div class="ms-body" id="body-testimonials">
+        <div class="testimonial reveal"><p class="prose">"One of the best investments I've ever made in myself. I can barely separate what comes from Aleksander and what is just 'me' anymore."</p><cite>— Reidar</cite></div>
+        <div class="testimonial reveal"><p class="prose">"The anxiety that usually spins in my head suddenly lost its grip. The problems that felt so heavy before suddenly looked tiny from that bigger perspective."</p><cite>— Özgun</cite></div>
+        <div class="testimonial reveal"><p class="prose">"It's a clear path to aligning with your true direction."</p><cite>— Martin</cite></div>
+        <div class="testimonial reveal"><p class="prose">"We map out where I am, where I want to go, and what small steps will take me closer. Those steps incrementally diffuse the fog of thoughts into an emergingly clear path."</p><cite>— Alok</cite></div>
+        <div class="testimonial reveal"><p class="prose">"He helped me connect logic with emotions — something I couldn't do before. He made the overwhelming feel achievable."</p><cite>— Kacper</cite></div>
+        <div class="testimonial reveal"><p class="prose">"Each session felt like pressing pause on the noise of everyday life."</p><cite>— Alexander</cite></div>
+        <div class="testimonial reveal"><p class="prose">"Just noticing my habits is a win. It's a supportive space that makes self-work feel doable and inspiring."</p><cite>— Calle</cite></div>
+        <div class="testimonial reveal"><p class="prose">"Observation is a win — even with zero change. That reframed how I see progress."</p><cite>— Pontus</cite></div>
+        <div class="testimonial reveal"><p class="prose">"The Needs mapping really helped me zoom out on where I stand now and then prioritize, turning abstract ideas into something tangible."</p><cite>— Pauline</cite></div>
+        <div class="testimonial reveal"><p class="prose">"Somehow makes deep self-reflection feel natural and even fun."</p><cite>— Lou</cite></div>
+      </div>
+
+      <div class="rule reveal"></div>
+
+      <!-- SECTION: What this is built on -->
+      <div class="ms-section reveal" onclick="msToggle('built-on')">
+        <div class="ms-section-header">
+          <p class="statement" style="margin:0;">What this is built on</p>
+          <span class="ms-chevron" id="chevron-built-on">+</span>
+        </div>
+        <p class="prose ms-preview">These maps didn't come from research.</p>
+      </div>
+      <div class="ms-body" id="body-built-on">
+        <div class="reveal"><p class="prose">They came from living — through failure, through fear, through years of trying to understand what moves human beings, and how to navigate being one myself.</p></div>
+        <div class="reveal"><p class="prose">Thousands of hours of listening, reading, thinking, mapping. Countless iterations — maps built and rebuilt, patterns recognized and refined, structures synthesized and tested. In business. In workshops, coaching sessions, and circles.</p></div>
+        <div class="reveal"><p class="prose">Showing the maps to others — and facing the moment when they didn't see what I saw. I learned early that this always comes back to me: either I'm not communicating it clearly enough, or what I think I see isn't as solid as I believe. Both mean the same thing — go back. Look again. Rebuild.</p></div>
+        <div class="reveal"><p class="prose">That loop, repeated over years, is what these maps are made of.</p></div>
+        <div class="reveal"><p class="prose" style="color:#fff;">They're not finished. They never will be. Each cohort refines them.</p></div>
+        <div class="reveal"><p class="prose">Which means by joining now, you're not just working on yourself — you're helping build something that will serve everyone who comes after you.</p></div>
+      </div>
+
+      <div class="rule reveal"></div>
+
+      <!-- SECTION: This cohort -->
+      <div class="ms-section reveal" onclick="msToggle('cohort')">
+        <div class="ms-section-header">
+          <p class="statement" style="margin:0;">This cohort</p>
+          <span class="ms-chevron" id="chevron-cohort">+</span>
+        </div>
+        <p class="prose ms-preview">Four to six people. Four group sessions of three hours each.</p>
+      </div>
+      <div class="ms-body" id="body-cohort">
+        <div class="reveal"><p class="prose">Minimum two individual sessions — more if you need them.</p></div>
+        <div class="reveal"><p class="prose">Two group evaluation sessions — where we reflect on what worked, what didn't, and what the next cohort needs.</p></div>
+      </div>
+
+      <div class="rule reveal"></div>
+
+      <!-- SECTION: Is this for you -->
+      <div class="ms-section reveal" onclick="msToggle('for-you')">
+        <div class="ms-section-header">
+          <p class="statement" style="margin:0;">Is this for you?</p>
+          <span class="ms-chevron" id="chevron-for-you">+</span>
+        </div>
+        <p class="prose ms-preview">If you've been watching the videos and something keeps pulling at you.</p>
+      </div>
+      <div class="ms-body" id="body-for-you">
+        <div class="reveal"><p class="prose">If you recognize yourself in the maps but aren't sure what to do with that recognition.</p></div>
+        <div class="reveal"><p class="prose">If you're done with surface-level self-help and ready for something that asks more — and gives more back.</p></div>
+        <div class="reveal"><p class="prose">Then yes. Probably.</p></div>
+      </div>
+      
+      <!-- SESSION ONE -->
+      <div class="rule reveal"></div>
+
+      <div class="reveal">
+        <p class="statement">Session One</p>
+      </div>
+      <div class="reveal">
+        <p class="prose">A free session to start. We sit with what your map is showing you — together. What does it mean? What wants to move?</p>
+      </div>
+      <div class="reveal">
+        <p class="prose">The session ends with an open invitation to continue — three weekly meetings to practice how to move. That part is paid.</p>
+      </div>
+
+      <div class="reveal" style="margin-top: 32px;">
+        <p style="font-family:'DM Sans',sans-serif; font-size:13px; letter-spacing:0.08em; color:var(--teal); margin-bottom:24px;">Saturday 11 April · 14:00–17:00</p>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
+          <div onclick="msSelectOption('online')" id="ms-opt-online" style="display:flex; align-items:center; gap:12px; padding:14px 20px; border:1px solid rgba(255,255,255,0.15); cursor:pointer; flex:1; min-width:140px; transition:border-color 0.2s;">
+            <div id="ms-dot-online" style="width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);flex-shrink:0;transition:all 0.2s;"></div>
+            <div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#fff;">Online</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(255,255,255,0.4);margin-top:3px;">Join from anywhere</div>
+            </div>
+          </div>
+          <div onclick="msSelectOption('cracow')" id="ms-opt-cracow" style="display:flex; align-items:center; gap:12px; padding:14px 20px; border:1px solid rgba(255,255,255,0.15); cursor:pointer; flex:1; min-width:140px; transition:border-color 0.2s;">
+            <div id="ms-dot-cracow" style="width:8px;height:8px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);flex-shrink:0;transition:all 0.2s;"></div>
+            <div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#fff;">Cracow</div>
+              <div style="font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(255,255,255,0.4);margin-top:3px;">In person · hybrid</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <input type="email" id="ms-invite-email" placeholder="your@email.com" style="flex:1;min-width:200px;background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;padding:14px 18px;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(0,201,167,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.2)'">
+          <button onclick="msGetInvite()" style="padding:14px 28px;background:transparent;border:1px solid var(--teal);color:var(--teal);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:all 0.2s;" id="ms-invite-btn">Get invite</button>
+        </div>
+        <p id="ms-invite-confirm" style="font-size:12px;color:var(--teal);margin-top:12px;font-family:'DM Sans',sans-serif;letter-spacing:0.05em;min-height:18px;"></p>
+      </div>
+
+      <!-- Facilitator photo -->
+      <div class="facilitator reveal" style="text-align: center; margin: 60px 0 0 0; padding-bottom: 0;">
+        <img src="Me.png" alt="Aleksander" style="width: 280px; max-width: 90%; height: auto; border: none;">
+      </div>
+    </div><!-- end narrative -->
+
+    <footer class="reveal" style="padding-top: 24px;">
+      <div class="footer-title">My<span>Spiral</span></div>
+      <div class="footer-url">youareme.one / myspiral</div>
+    </footer>
+
+  </div><!-- end col -->
+</div><!-- end site-wrap -->
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  });
+
+  function msToggle(id) {
+    const body = document.getElementById('body-' + id);
+    const chevron = document.getElementById('chevron-' + id);
+    const isOpen = body.style.display === 'block';
+    body.style.display = isOpen ? 'none' : 'block';
+    chevron.classList.toggle('open', !isOpen);
+    if (!isOpen) {
+      // Observe newly visible elements
+      body.querySelectorAll('.reveal').forEach(el => io.observe(el));
+      if (window.plausible) plausible('Section expanded', {props: {section: id}});
+    }
+  }
+</script>
+<script>
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwTBZo1v4e1qdirDN7CI78Pz38IQx8vt2uav0zIAF8QI9BrCThn8CLAm54cnN_t0BO7/exec';
+  let msSelectedOption = null;
+
+  function msSelectOption(opt) {
+    msSelectedOption = opt;
+    ['online','cracow'].forEach(o => {
+      const el = document.getElementById('ms-opt-' + o);
+      const dot = document.getElementById('ms-dot-' + o);
+      if (o === opt) {
+        el.style.borderColor = 'rgba(0,201,167,0.6)';
+        dot.style.background = '#00c9a7';
+        dot.style.borderColor = '#00c9a7';
+        dot.style.boxShadow = '0 0 6px #00c9a7';
+      } else {
+        el.style.borderColor = 'rgba(255,255,255,0.15)';
+        dot.style.background = 'transparent';
+        dot.style.borderColor = 'rgba(255,255,255,0.3)';
+        dot.style.boxShadow = 'none';
+      }
+    });
+  }
+
+  function msGetInvite() {
+    const input = document.getElementById('ms-invite-email');
+    const btn = document.getElementById('ms-invite-btn');
+    const confirm = document.getElementById('ms-invite-confirm');
+    const email = input.value.trim();
+    if (!email || !email.includes('@')) {
+      input.style.borderColor = 'rgba(224,48,48,0.5)';
+      setTimeout(() => input.style.borderColor = 'rgba(255,255,255,0.2)', 1500);
+      return;
+    }
+    const type = 'myspiral-' + (msSelectedOption || 'online');
+    btn.textContent = '...';
+    btn.disabled = true;
+    fetch(`${SHEET_URL}?type=${encodeURIComponent(type)}&content=${encodeURIComponent(email)}`, {
+      method: 'POST', mode: 'no-cors'
+    }).catch(() => {});
+    const ics = [
+      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//YouAreMe//MySpiral//EN',
+      'BEGIN:VEVENT',
+      'DTSTART:20250411T120000Z','DTEND:20250411T150000Z',
+      'SUMMARY:MySpiral — Session One',
+      'DESCRIPTION:A free session to sit with your needs map together.',
+      'LOCATION:' + (msSelectedOption === 'cracow' ? 'Cracow (hybrid)' : 'Online'),
+      'URL:https://youareme.one/myspiral',
+      'END:VEVENT','END:VCALENDAR'
+    ].join('\r\n');
+    const blob = new Blob([ics], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'myspiral-session-one.ics'; a.click();
+    URL.revokeObjectURL(url);
+    input.value = '';
+    btn.textContent = 'Sent ✓';
+    confirm.textContent = "You're on the list. Calendar invite downloading now.";
+    if (window.plausible) plausible('Email submitted', {props: {type}});
+  }
+</script>
+</body>
+</html>
