@@ -853,6 +853,58 @@
     min-height: 18px;
   }
 
+  .next-options {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .next-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .next-option:hover { border-color: var(--text-dim); }
+  .next-option.selected { border-color: var(--accent); }
+
+  .next-option-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--text-dim);
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+
+  .next-option.selected .next-option-dot {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+  }
+
+  .next-option-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .next-option-sub {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 3px;
+    letter-spacing: 0.05em;
+  }
+
   @media print {
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     .progress-bar, .header, .save-indicator, .sort-controls, .download-section { display: none !important; }
@@ -1102,24 +1154,51 @@
         <div class="whats-next-label">What comes next</div>
         <p class="whats-next-intro">You have a map. The question now is what to do with it.</p>
 
+        <!-- GROUND -->
         <div class="next-card">
           <div class="next-card-eyebrow">The maps</div>
           <div class="next-card-title">Ground</div>
           <p class="next-card-body">Eight chapters mapping the inner territory — what you're made of, what drives you, what you actually need. Free to watch, built from lived experience.</p>
-          <a href="ground.html" class="next-card-link">Explore the maps →</a>
+          <div class="invite-row">
+            <input type="email" id="groundEmail" placeholder="your@email.com" class="invite-input">
+            <button onclick="collectEmail('groundEmail', 'ground-notify', 'ground-confirm')" class="invite-btn">Notify me</button>
+          </div>
+          <div id="ground-confirm" class="invite-confirm"></div>
+          <a href="ground.html" class="next-card-link" style="display:inline-block; margin-top:16px;">Or explore now →</a>
         </div>
 
-        <div class="next-card">
+        <!-- MYSPIRAL -->
+        <div class="next-card" style="border-bottom:none;">
           <div class="next-card-eyebrow">The first step</div>
           <div class="next-card-title">MySpiral — Session One</div>
           <p class="next-card-body">A free session. We sit with what your map is showing you — together. What does it mean? What wants to move? The session ends with an open invitation to continue — three weekly meetings to practice how to move. That part is paid.</p>
-          <div class="next-card-event">Next circle — Saturday 11 April, 14:00–17:00 · Online or Cracow (hybrid)</div>
-          <div class="invite-row">
+
+          <div class="next-card-event">Saturday 11 April · 14:00–17:00</div>
+
+          <div class="next-options">
+            <div class="next-option" onclick="selectOption('online')" id="opt-online">
+              <div class="next-option-dot" id="dot-online"></div>
+              <div>
+                <div class="next-option-title">Online</div>
+                <div class="next-option-sub">Join from anywhere</div>
+              </div>
+            </div>
+            <div class="next-option" onclick="selectOption('cracow')" id="opt-cracow">
+              <div class="next-option-dot" id="dot-cracow"></div>
+              <div>
+                <div class="next-option-title">Cracow</div>
+                <div class="next-option-sub">In person · hybrid</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="invite-row" style="margin-top:16px;">
             <input type="email" id="inviteEmail" placeholder="your@email.com" class="invite-input">
             <button onclick="getInvite()" class="invite-btn">Get invite</button>
           </div>
           <div id="inviteConfirm" class="invite-confirm"></div>
         </div>
+
       </div>
     </div>
   </div>
@@ -1860,10 +1939,41 @@ function download(filename, content, type) {
   URL.revokeObjectURL(url);
 }
 
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwefVFmGfqPgjrLpbRkHuCGw_fxMfGU1D8yef-9chYLYC66sFcKG8Ik_DQ1LKrdR81U/exec';
+
+let selectedOption = null;
+
+function selectOption(opt) {
+  selectedOption = opt;
+  ['online','cracow'].forEach(o => {
+    document.getElementById('opt-' + o).classList.toggle('selected', o === opt);
+  });
+}
+
+function collectEmail(inputId, type, confirmId) {
+  const input = document.getElementById(inputId);
+  const confirm = document.getElementById(confirmId);
+  const btn = input.nextElementSibling;
+  const email = input.value.trim();
+  if (!email || !email.includes('@')) {
+    input.style.borderColor = 'rgba(224,48,48,0.5)';
+    setTimeout(() => input.style.borderColor = '', 1500);
+    return;
+  }
+  btn.textContent = '...';
+  btn.disabled = true;
+  fetch(`${SHEET_URL}?type=${encodeURIComponent(type)}&content=${encodeURIComponent(email)}`, {
+    method: 'POST', mode: 'no-cors'
+  }).catch(() => {});
+  input.value = '';
+  btn.textContent = 'Done ✓';
+  confirm.textContent = 'You\'re on the list.';
+}
+
 function getInvite() {
   const input = document.getElementById('inviteEmail');
   const confirm = document.getElementById('inviteConfirm');
-  const btn = document.querySelector('.invite-btn');
+  const btn = input.nextElementSibling;
   const email = input.value.trim();
 
   if (!email || !email.includes('@')) {
@@ -1872,16 +1982,15 @@ function getInvite() {
     return;
   }
 
+  const type = 'myspiral-' + (selectedOption || 'online');
   btn.textContent = '...';
   btn.disabled = true;
 
-  // Send to Google Sheet
-  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwefVFmGfqPgjrLpbRkHuCGw_fxMfGU1D8yef-9chYLYC66sFcKG8Ik_DQ1LKrdR81U/exec';
-  fetch(`${SHEET_URL}?type=myspiral-invite&content=${encodeURIComponent(email)}`, {
+  fetch(`${SHEET_URL}?type=${encodeURIComponent(type)}&content=${encodeURIComponent(email)}`, {
     method: 'POST', mode: 'no-cors'
   }).catch(() => {});
 
-  // Generate and download ICS
+  // Generate ICS
   const ics = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
@@ -1890,8 +1999,8 @@ function getInvite() {
     'DTSTART:20250411T120000Z',
     'DTEND:20250411T150000Z',
     'SUMMARY:MySpiral — Session One',
-    'DESCRIPTION:A free session to sit with your needs map. What does it mean? What wants to move?\\nOnline or in person in Cracow.',
-    'LOCATION:Online / Cracow (hybrid)',
+    'DESCRIPTION:A free session to sit with your needs map. What does it mean? What wants to move?',
+    'LOCATION:' + (selectedOption === 'cracow' ? 'Cracow (hybrid)' : 'Online'),
     'URL:https://youareme.one',
     'END:VEVENT',
     'END:VCALENDAR'
@@ -1905,7 +2014,6 @@ function getInvite() {
 
   input.value = '';
   btn.textContent = 'Sent ✓';
-  btn.style.borderColor = 'var(--accent)';
   confirm.textContent = 'You\'re on the list. Calendar invite downloading now.';
 }
 
