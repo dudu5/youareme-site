@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explore — You Are Me</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #00c9a7;
+    --accent-border: rgba(0,201,167,0.5);
+    --accent-bg: rgba(0,201,167,0.08);
+    --white: #ffffff;
+    --dim: rgba(255,255,255,0.52);
+    --dimmer: rgba(255,255,255,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--white);
+    background: #0a0a0a;
+    overflow-x: hidden;
+  }
+
+  .bg-fixed {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)),
+      url('ground_background.webp');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 16px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+  }
+
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-cta {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .nav-cta:hover { opacity: 0.7; }
+
+  .page-header, .page-intro, .controls, .content-grid, footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 36px 0;
+  }
+
+  .page-eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .page-eyebrow-icon { font-size: 18px; }
+
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .page-desc {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--dim);
+    max-width: 520px;
+    margin: 0 auto 48px;
+  }
+
+  .page-intro {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 36px 24px;
+  }
+
+  .page-photo {
+    float: right;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: -6px 0 16px 24px;
+    shape-outside: circle(50%);
+  }
+
+  .page-intro p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(16px, 2.2vw, 19px);
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--dim);
+    margin-bottom: 20px;
+  }
+
+  .page-intro p:last-child { margin-bottom: 0; }
+
+  /* ── SEARCH + FILTERS ── */
+  .controls {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 36px 48px;
+  }
+
+  .search-wrap {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--dimmer);
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 14px 16px 14px 40px;
+    outline: none;
+    transition: border-color 0.2s;
+    border-radius: 0;
+  }
+
+  .search-input::placeholder { color: var(--dimmer); }
+  .search-input:focus { border-color: var(--accent-border); }
+
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .filter-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dimmer);
+    margin-right: 4px;
+  }
+
+  .filter-tag {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 0;
+  }
+
+  .filter-tag:hover {
+    border-color: rgba(255,255,255,0.25);
+    color: var(--white);
+  }
+
+  .filter-tag.active {
+    border-color: var(--accent-border);
+    color: var(--accent);
+    background: var(--accent-bg);
+  }
+
+  .sort-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .sort-btn {
+    background: none;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--dimmer);
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s;
+  }
+
+  .sort-btn:hover { color: var(--dim); }
+  .sort-btn.active { color: var(--accent); }
+
+  /* ── CONTENT GRID ── */
+  .content-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 36px 100px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .content-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 28px 24px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.3s, background 0.3s;
+    cursor: pointer;
+  }
+
+  .content-card:hover {
+    border-color: var(--accent-border);
+    background: var(--accent-bg);
+  }
+
+  .content-card.placeholder { cursor: default; }
+  .content-card.placeholder:hover { border-color: rgba(255,255,255,0.08); background: none; }
+
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1.25;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--dim);
+    flex: 1;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  .card-tag {
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    color: rgb(251,146,60);
+    border: 1px solid rgba(251,146,60,0.25);
+    padding: 3px 8px;
+  }
+
+  .card-meta {
+    font-size: 11px;
+    color: var(--accent);
+    margin-top: 12px;
+  }
+
+  .card-meta.muted { color: var(--dimmer); }
+
+  /* ── EXPANDED CARD ── */
+  .card-expanded {
+    display: none;
+    grid-column: 1 / -1;
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 36px 32px;
+    animation: fadeUp 0.3s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-expanded.open { display: block; }
+
+  .expanded-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .expanded-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--white);
+  }
+
+  .expanded-close {
+    background: none;
+    border: none;
+    color: var(--dimmer);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 0 0 16px;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+
+  .expanded-close:hover { color: var(--white); }
+
+  .expanded-embed {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 24px;
+  }
+
+  .expanded-embed iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .expanded-desc {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--dim);
+    margin-bottom: 32px;
+  }
+
+  .expanded-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 36px;
+  }
+
+  .expanded-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin-bottom: 32px;
+  }
+
+  .engage-inline {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .engage-inline-block {}
+
+  .engage-inline-label {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--dim);
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+
+  .engage-textarea {
+    width: 100%;
+    min-height: 70px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.6;
+    padding: 12px 14px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+    border-radius: 0;
+    margin-bottom: 10px;
+  }
+
+  .engage-textarea::placeholder { color: var(--dimmer); }
+  .engage-textarea:focus { border-color: var(--accent-border); }
+
+  .engage-input {
+    width: 100%;
+    min-height: 70px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    border-radius: 0;
+    margin-bottom: 10px;
+  }
+
+  .engage-input::placeholder { color: var(--dimmer); }
+  .engage-input:focus { border-color: var(--accent-border); }
+
+  .engage-btn {
+    background: transparent;
+    border: 1px solid var(--accent-border);
+    color: var(--accent);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 0;
+  }
+
+  .engage-btn:hover { background: var(--accent-bg); }
+
+  .engage-confirm {
+    font-size: 12px;
+    color: var(--accent);
+    margin-top: 8px;
+    min-height: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .engage-inline { grid-template-columns: 1fr; gap: 24px; }
+    .card-expanded { padding: 28px 22px; }
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 0;
+    color: var(--dimmer);
+    font-size: 15px;
+    font-weight: 300;
+  }
+
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 60px 0 48px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+
+  .footer-title span { color: var(--accent); }
+
+  .footer-url {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--dimmer);
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 18px 22px; }
+    .page-header { padding: 40px 22px 0; }
+    .controls { padding: 0 22px 36px; }
+    .content-grid { grid-template-columns: 1fr; padding: 0 22px 80px; }
+  }
+</style>
+<script async src="https://plausible.io/js/pa-ueYEguemb1yoTmQce6Gad.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+</head>
+<body>
+
+<div class="bg-fixed"></div>
+<nav>
+  <a href="index.html" class="nav-logo">You Are <span>Me</span></a>
+  <a href="assessment.html" class="nav-cta">Map Your Needs →</a>
+</nav>
+
+<div class="page-header">
+  <h1 class="page-title"><span style="color:var(--accent);">My</span> Perspectives</h1>
+</div>
+
+<div class="page-intro">
+  <p>This is where I share my perspectives. They are just that — my perspectives. They have been forged through my life experience, everything I have listened to, read, feelt and thought of, interacted with. I'm not claiming they are right or true, they are just what it seems like to me.</p>
+  <p>My experience has taught me that I have everything to win by articulating what I see and understand as clearly as I can — both for my own clarity, but also to enable more qualitative alignment with others.</p>
+  <p>Another thing I've learned is that my perspectives are dynamic, constantly evolving. The biggest treasure in my self development has been learning to not defend but be curious about different perspectives — especially when my body wants to defend. The more I treat my perspectives as fixed truths that define me, the more trapped I become by them. When I can hold them lightly, as working hypotheses rather than identity, I stay free to grow.</p>
+  <img src="Me.png" alt="Aleksander" class="page-photo">
+  <p>I invite you to engage with these perspectives as starting points for your own exploration. What resonates, what challenges, what sparks curiosity about your own experience? <span style="color:var(--white);">How do you navigate the experience of being you?</span></p>
+  <p style="color:var(--white); text-align:right;">👋 /Olek</p>
+</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input type="text" class="search-input" id="searchInput" placeholder="Search content..." oninput="renderContent()">
+  </div>
+  <div class="filter-row" id="filterRow">
+    <span class="filter-label">Filter</span>
+  </div>
+  <div class="sort-row">
+    <button class="sort-btn active" id="sortNewest" onclick="setSort('newest')">Newest</button>
+    <button class="sort-btn" id="sortAZ" onclick="setSort('az')">A → Z</button>
+  </div>
+</div>
+
+<div class="content-grid" id="contentGrid"></div>
+
+<footer>
+  <div class="footer-title">You Are <span>Me</span></div>
+  <div class="footer-url">youareme.one</div>
+</footer>
+
+<script>
+const content = [
+  {
+    title: "The Absolute Center",
+    desc: "The first chapter of Ground. Where all the maps begin — with the realization that you are the center of your own reality.",
+    descLong: "Everything I have ever felt, feared, loved or lost — happened inside me. Which means the most important place I could ever learn to inhabit... is here. This is the first chapter of Ground — a map built from lived experience, refined over years.",
+    format: "video",
+    formatIcon: "🎬",
+    formatType: "Video",
+    tags: ["🎬 video", "🎧 listen"],
+    meta: "Watch · 15 min",
+    embed: "https://www.youtube.com/embed/SZco5EJncVc",
+    order: 1,
+  },
+  {
+    title: "Why needs, not goals",
+    desc: "Goals are strategies. Needs are what the strategies are trying to serve. Most people optimize the wrong layer.",
+    format: "essay",
+    formatIcon: "✍️",
+    formatType: "Essay",
+    tags: ["✍️ essay", "🎧 listen"],
+    meta: "Coming soon",
+    url: null,
+    order: 2,
+  },
+  {
+    title: "What I learned from 200 maps",
+    desc: "Patterns that keep showing up across very different people. What the data says about what we all share.",
+    format: "conversation",
+    formatIcon: "🎙️",
+    formatType: "Conversation",
+    tags: ["🎙️ conversation", "🎧 listen"],
+    meta: "Coming soon",
+    url: null,
+    order: 3,
+  },
+  {
+    title: "The performance trap",
+    desc: "How performing who you think you should be keeps you from seeing who you actually are. And what happens when you stop.",
+    format: "essay",
+    formatIcon: "✍️",
+    formatType: "Essay",
+    tags: ["✍️ essay", "🎧 listen"],
+    meta: "Coming soon",
+    url: null,
+    order: 4,
+  },
+  {
+    title: "Boundaries are not walls",
+    desc: "The difference between protecting yourself and closing yourself off. Why most boundary advice gets it backwards.",
+    format: "essay",
+    formatIcon: "✍️",
+    formatType: "Essay",
+    tags: ["✍️ essay", "🎧 listen"],
+    meta: "Coming soon",
+    url: null,
+    order: 5,
+  },
+  {
+    title: "What rest actually is",
+    desc: "Rest isn't the absence of activity. It's the presence of safety. Why you can't Netflix your way to recovery.",
+    format: "conversation",
+    formatIcon: "🎙️",
+    formatType: "Conversation",
+    tags: ["🎙️ conversation", "🎧 listen"],
+    meta: "Coming soon",
+    url: null,
+    order: 6,
+  },
+];
+
+// Collect all tags
+const allTags = [...new Set(content.flatMap(c => c.tags))].sort();
+let activeTag = null;
+let currentSort = 'newest';
+
+// Build filter tags
+const filterRow = document.getElementById('filterRow');
+allTags.forEach(tag => {
+  const btn = document.createElement('button');
+  btn.className = 'filter-tag';
+  btn.textContent = tag;
+  btn.onclick = () => {
+    activeTag = activeTag === tag ? null : tag;
+    document.querySelectorAll('.filter-tag').forEach(b => b.classList.toggle('active', b.textContent === activeTag));
+    renderContent();
+  };
+  filterRow.appendChild(btn);
+});
+
+function setSort(type) {
+  currentSort = type;
+  document.getElementById('sortNewest').classList.toggle('active', type === 'newest');
+  document.getElementById('sortAZ').classList.toggle('active', type === 'az');
+  renderContent();
+}
+
+function renderContent() {
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  const grid = document.getElementById('contentGrid');
+
+  let items = content.filter(c => {
+    const matchesTag = !activeTag || c.tags.includes(activeTag);
+    const matchesSearch = !query ||
+      c.title.toLowerCase().includes(query) ||
+      c.desc.toLowerCase().includes(query) ||
+      c.tags.some(t => t.includes(query));
+    return matchesTag && matchesSearch;
+  });
+
+  if (currentSort === 'az') {
+    items.sort((a, b) => a.title.localeCompare(b.title));
+  } else {
+    items.sort((a, b) => a.order - b.order);
+  }
+
+  if (items.length === 0) {
+    grid.innerHTML = '<div class="empty-state">Nothing matches your search.</div>';
+    return;
+  }
+
+  grid.innerHTML = items.map((c, i) => {
+    const isPlaceholder = !c.embed && c.meta === 'Coming soon';
+    const cls = isPlaceholder ? 'content-card placeholder' : 'content-card';
+    const metaCls = c.meta === 'Coming soon' ? 'card-meta muted' : 'card-meta';
+    const slug = c.title.replace(/[^a-z0-9]/gi, '-').toLowerCase();
+
+    let html = `<div class="${cls}" onclick="${isPlaceholder ? '' : `openCard('${slug}')`}" data-slug="${slug}">
+      <div class="card-title">${c.title}</div>
+      <p class="card-desc">${c.desc}</p>
+      <div class="card-tags">${c.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
+      <div class="${metaCls}">${c.meta}</div>
+    </div>`;
+
+    // Expanded detail view
+    if (!isPlaceholder) {
+      const embedHtml = c.embed ? `<div class="expanded-embed"><iframe src="${c.embed}" title="${c.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>` : '';
+      const descLong = c.descLong || c.desc;
+
+      html += `<div class="card-expanded" id="expanded-${slug}">
+        <div class="expanded-header">
+          <div class="expanded-title">${c.title}</div>
+          <button class="expanded-close" onclick="closeCard('${slug}')">&times;</button>
+        </div>
+        ${embedHtml}
+        <p class="expanded-desc">${descLong}</p>
+        <div class="expanded-tags">${c.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
+        <div class="expanded-divider"></div>
+        <div class="engage-inline">
+          <div class="engage-inline-block">
+            <p class="engage-inline-label">What question did this raise for you?</p>
+            <textarea class="engage-textarea" id="q-${slug}" placeholder="Your question or thought..."></textarea>
+            <button class="engage-btn" onclick="submitInlineQuestion('${slug}', '${c.title}')">Submit</button>
+            <div class="engage-confirm" id="qc-${slug}"></div>
+          </div>
+          <div class="engage-inline-block">
+            <p class="engage-inline-label">Get notified about new content</p>
+            <input type="email" class="engage-input" id="e-${slug}" placeholder="your@email.com">
+            <button class="engage-btn" onclick="submitInlineNotify('${slug}')">Notify me</button>
+            <div class="engage-confirm" id="ec-${slug}"></div>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    return html;
+  }).join('');
+}
+
+let openSlug = null;
+
+function openCard(slug) {
+  if (openSlug) closeCard(openSlug);
+  const card = document.querySelector(`.content-card[data-slug="${slug}"]`);
+  const el = document.getElementById('expanded-' + slug);
+  if (card) card.style.display = 'none';
+  if (el) {
+    el.classList.add('open');
+    openSlug = slug;
+    setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  }
+}
+
+function closeCard(slug) {
+  const card = document.querySelector(`.content-card[data-slug="${slug}"]`);
+  const el = document.getElementById('expanded-' + slug);
+  if (el) el.classList.remove('open');
+  if (card) card.style.display = '';
+  if (openSlug === slug) openSlug = null;
+}
+
+function submitInlineQuestion(slug, title) {
+  const input = document.getElementById('q-' + slug);
+  const confirm = document.getElementById('qc-' + slug);
+  const text = input.value.trim();
+  if (!text) return;
+  sendToSheet('explore-question-' + title, text);
+  input.value = '';
+  confirm.textContent = 'Thank you. Your question is in.';
+}
+
+function submitInlineNotify(slug) {
+  const input = document.getElementById('e-' + slug);
+  const confirm = document.getElementById('ec-' + slug);
+  const email = input.value.trim();
+  if (!email || !email.includes('@')) {
+    input.style.borderColor = 'rgba(224,48,48,0.5)';
+    setTimeout(() => input.style.borderColor = '', 1500);
+    return;
+  }
+  sendToSheet('explore-notify', email);
+  input.value = '';
+  confirm.textContent = "You're on the list.";
+}
+
+// ── SHEETS ──
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwTBZo1v4e1qdirDN7CI78Pz38IQx8vt2uav0zIAF8QI9BrCThn8CLAm54cnN_t0BO7/exec';
+
+async function sendToSheet(type, val) {
+  const url = `${SHEET_URL}?type=${encodeURIComponent(type)}&content=${encodeURIComponent(val)}`;
+  try { await fetch(url, { method: 'POST', mode: 'no-cors' }); } catch(e) {}
+}
+
+renderContent();
+
+</script>
+</body>
+</html>
