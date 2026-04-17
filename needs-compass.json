@@ -1,0 +1,309 @@
+{
+  "categories": [
+    {
+      "parent": "Health & Vitality",
+      "emoji": "🩺",
+      "name": "Physical Health & Energy",
+      "definition": "The body keeps the score of everything else. When this is low, it often means you've been borrowing energy from tomorrow to get through today — and the debt is quietly accumulating.\n\nYou might want to focus here if your body feels like something to push through rather than live inside. If you can't remember the last time you felt genuinely well, rather than just functional.\n\nWhat is one thing your body has been asking for that you keep postponing?",
+      "questions": [
+        "Does my body have the energy to support the life I want to live?",
+        "Am I maintaining my physical health in ways that matter to me?",
+        "Is chronic physical depletion or pain a significant factor right now?",
+        "Do I feel at home in my body?",
+        "Does my physical state support or undermine my other areas of life?"
+      ]
+    },
+    {
+      "parent": "Health & Vitality",
+      "emoji": "🔥",
+      "name": "Sexual Expression & Vitality",
+      "definition": "A low score here often points to disconnection — from the body's aliveness, from desire, from a dimension of self that has been suppressed, deprioritized, or wrapped in shame. Life force and creative energy move through this channel too.\n\nYou might want to focus here if this part of your experience feels absent, shut down, or complicated by shame. If aliveness in the body feels like something you observe in others more than something you inhabit.\n\nWhere do you feel most alive in your body — and where does that aliveness go quiet?",
+      "questions": [
+        "Is my sexual energy — in whatever way is relevant to me — honored and expressed?",
+        "Do I feel connected to my body's aliveness and vitality?",
+        "Is there shame, suppression, or disconnection present in this area?",
+        "Does my creative and physical life force feel available to me?",
+        "Am I integrating this dimension of myself into my life authentically?"
+      ]
+    },
+    {
+      "parent": "Rest & Recovery",
+      "emoji": "🛌",
+      "name": "Sleep & Physical Restoration",
+      "definition": "Rest is the foundation everything else runs on. When this scores low, tiredness has usually become the background noise of daily life — so familiar it no longer registers as a problem, just as normal.\n\nYou might want to focus here if sleep feels like something earned after enough is done, or stolen between obligations. If your nervous system never quite lands.\n\nWhat would it take to treat sleep as non-negotiable rather than adjustable?",
+      "questions": [
+        "Am I sleeping enough to feel genuinely restored?",
+        "Does my body feel recovered, or does fatigue carry over day to day?",
+        "Do I wake up with enough energy to meet the day?",
+        "Is my nervous system getting the recovery it needs?",
+        "Is rest something I allow myself, or something I feel guilty about?"
+      ]
+    },
+    {
+      "parent": "Rest & Recovery",
+      "emoji": "🛋️",
+      "name": "Relaxation & Downtime",
+      "definition": "When stimulation becomes the default, stillness starts to feel uncomfortable — even suspicious. There's always something next, something to check, something to manage. The nervous system forgets how to land.\n\nYou might want to focus here if genuine unhurried time has become rare. If doing nothing feels like a problem to solve rather than a thing to inhabit.\n\nWhen did you last feel genuinely unhurried — and what made that possible?",
+      "questions": [
+        "Do I have regular periods of genuine low-stimulation time?",
+        "Can I be still without immediately reaching for input or activity?",
+        "Does my body get to down-regulate, or am I mostly in activation?",
+        "When I rest, does it feel like actual rest?",
+        "Is there space in my week for doing nothing in particular?"
+      ]
+    },
+    {
+      "parent": "Rest & Recovery",
+      "emoji": "🎲",
+      "name": "Play & Spontaneous Joy",
+      "definition": "Play rarely disappears in a single decision. It drifts away gradually — traded for responsibility, efficiency, seriousness. Until one day lightness feels like something other people have.\n\nYou might want to focus here if life has become primarily purposeful and productive. If you can't easily answer what you do just for the joy of it.\n\nWhat did you used to do just for the joy of it — and what would it take to do it again?",
+      "questions": [
+        "Is there lightness and spontaneity in my life right now?",
+        "Do I do things purely for the pleasure of them, without a goal?",
+        "When did I last laugh freely or feel genuinely light?",
+        "Can I be playful — with others or alone — without self-consciousness?",
+        "Does joy feel accessible to me, or distant?"
+      ]
+    },
+    {
+      "parent": "Safety & Security",
+      "emoji": "💰",
+      "name": "Financial & Material Security",
+      "definition": "When the baseline feels unstable, a significant portion of mental bandwidth gets quietly occupied by survival calculation. It becomes hard to be present, take risks, or say no — because fear is already making those decisions.\n\nYou might want to focus here if money worry is a constant background hum. If financial anxiety is shaping choices you'd rather make from a different place.\n\nWhere is financial fear currently making a decision you'd rather make yourself?",
+      "questions": [
+        "Do I have stable access to what I materially need?",
+        "Does financial stress occupy a significant amount of my mental bandwidth?",
+        "Can I say no to situations I don't want without financial fear driving the answer?",
+        "Is my relationship with money characterized more by security or anxiety?",
+        "Do I feel I have enough — not perfectly, but enough?"
+      ]
+    },
+    {
+      "parent": "Safety & Security",
+      "emoji": "🏰",
+      "name": "Physical Safety",
+      "definition": "Safety is the ground floor. When some part of the nervous system is still on guard — scanning, bracing, managing — everything built above it is built on unstable ground. The vigilance has a cost, even when it's so familiar it no longer feels like effort.\n\nYou might want to focus here if your body rarely fully relaxes. If threat — real or anticipated — is a regular companion in daily life.\n\nWhat would feel different if you felt ten percent more physically safe?",
+      "questions": [
+        "Does my physical environment feel safe?",
+        "Is my body free from threat or harm in my daily life?",
+        "Do I feel physically secure in the spaces I inhabit most?",
+        "Is baseline physical safety something I take for granted, or something I worry about?",
+        "Does my environment support me in feeling settled and at ease?"
+      ]
+    },
+    {
+      "parent": "Safety & Security",
+      "emoji": "🧘",
+      "name": "Emotional Predictability & Stability",
+      "definition": "When relationships or environments carry an undercurrent of unpredictability, the nervous system learns to stay ready rather than rest. You're never quite sure what you'll walk into — so you prepare for everything, recover from nothing.\n\nYou might want to focus here if emotional consistency is rare in your closest relationships or environment. If vulnerability feels like a risk you can't quite afford.\n\nWhere in your life does unpredictability cost you the most energy right now?",
+      "questions": [
+        "Are my closest relationships emotionally consistent and safe?",
+        "Do I know what to expect from the environments I spend most time in?",
+        "Is emotional unpredictability or volatility something I regularly experience?",
+        "Do I feel safe enough to be vulnerable without expecting it to be used against me?",
+        "Is my nervous system mostly regulated, or mostly braced for something?"
+      ]
+    },
+    {
+      "parent": "Social Connection",
+      "emoji": "🏡",
+      "name": "Belonging & Acceptance",
+      "definition": "When belonging is low, there's often a performance running quietly in the background — managing impressions, editing what you show, staying slightly smaller than you actually are. Belonging isn't about being liked. It's about being known.\n\nYou might want to focus here if you're not sure where the real version of you is fully welcome. If you regularly leave conversations feeling like you showed up as a version of yourself rather than yourself.\n\nWhere do you feel most like yourself — and what makes that place different?",
+      "questions": [
+        "Do I feel accepted as I am in my primary communities?",
+        "Is there a group or context where I don't have to perform or manage impressions?",
+        "Do I feel like I belong somewhere — not just tolerated, but genuinely included?",
+        "Is the fear of being too much or not enough loud or quiet right now?",
+        "Do I have people who know the real version of me?"
+      ]
+    },
+    {
+      "parent": "Social Connection",
+      "emoji": "❤️",
+      "name": "Affection & Intimacy",
+      "definition": "This is a specific kind of loneliness — not necessarily being alone, but being unseen. Closeness may be present in form but not in depth. Intimacy is built in small moments of honest contact, not grand gestures.\n\nYou might want to focus here if you're around people but still feel distant. If vulnerability has become too costly or too unfamiliar to practice.\n\nWith whom do you feel closest to genuinely seen — and what would more of that require?",
+      "questions": [
+        "Do I experience genuine closeness with people in my life?",
+        "Is there physical and emotional warmth available to me?",
+        "Do I feel safe enough to be vulnerable with at least one person?",
+        "Is intimacy — in whatever form matters to me — present in my life?",
+        "Does loneliness show up frequently, or rarely?"
+      ]
+    },
+    {
+      "parent": "Social Connection",
+      "emoji": "🤲",
+      "name": "Empathy & Balanced Space",
+      "definition": "This often tips in one of two directions — giving so much that the self disappears, or protecting so fiercely that real contact becomes rare. Both are responses to the same underlying difficulty: holding your own experience while remaining genuinely open to another's.\n\nYou might want to focus here if your closest relationships feel consistently one-directional. If you often leave interactions either depleted or defended.\n\nIn your closest relationships, where does the balance between giving and receiving feel most off?",
+      "questions": [
+        "Can I sense others' needs without losing track of my own?",
+        "Do I feel able to hold space for people without depleting myself?",
+        "Is there mutuality in my closest relationships — give and take?",
+        "Do I feel understood by the people around me?",
+        "Can I be fully present with someone else while still present with myself?"
+      ]
+    },
+    {
+      "parent": "Autonomy & Freedom",
+      "emoji": "🚪",
+      "name": "Personal Space & Privacy",
+      "definition": "Without space that belongs only to you — physically, psychologically, or in time — the self starts to blur at the edges. Everything shared, everything accounted for, everything available. Hearing yourself becomes very difficult.\n\nYou might want to focus here if there is no room in your life that's genuinely yours. If solitude feels like something you have to justify or fight for.\n\nWhat would a small but real pocket of space just for you look like right now?",
+      "questions": [
+        "Do I have space — physical or psychological — that belongs only to me?",
+        "Is there time in my life that I don't have to account for or justify?",
+        "Can I retreat and recharge without it becoming a problem for others?",
+        "Do I have enough solitude, or too little?",
+        "Is my inner life protected — do I choose what to share and with whom?"
+      ]
+    },
+    {
+      "parent": "Autonomy & Freedom",
+      "emoji": "🎯",
+      "name": "Self-Determination",
+      "definition": "When this is low, life can feel like something happening to you rather than something you're building. Choices may have been made — or drifted into — that now feel hard to revisit. Resentment often lives quietly nearby.\n\nYou might want to focus here if your direction feels more inherited than chosen. If you notice a gap between the life you're living and the life you'd build if you started from where you actually are.\n\nWhere are you living someone else's answer to a question you haven't asked yourself yet?",
+      "questions": [
+        "Do I feel I am living according to my own choices, or someone else's?",
+        "Is my direction in life something I actively chose, or something I drifted into?",
+        "Do I feel genuine agency over the major decisions in my life?",
+        "Is resentment — at others or at circumstances — a frequent companion?",
+        "Does my life feel like mine?"
+      ]
+    },
+    {
+      "parent": "Autonomy & Freedom",
+      "emoji": "🛑",
+      "name": "Boundary Setting",
+      "definition": "Often two things happen at once — uncertainty about what you actually need, and fear of what happens if you ask for it. So you absorb, agree, stay quiet. Over time, the gap between your actual life and the life you'd choose quietly widens.\n\nYou might want to focus here if you regularly agree to things you don't want. If resentment or exhaustion builds from giving more than you have.\n\nWhat is one situation where a clearer boundary would create more space for what actually matters to you?",
+      "questions": [
+        "Can I say no without excessive guilt or fear of consequence?",
+        "Do the people around me respect my limits?",
+        "Is resentment building from things I agreed to but didn't actually want?",
+        "Can I communicate what I will and won't accept clearly?",
+        "Do my boundaries hold under pressure, or tend to collapse?"
+      ]
+    },
+    {
+      "parent": "Identity & Esteem",
+      "emoji": "🏆",
+      "name": "Recognition & Status",
+      "definition": "A low score here can go two ways — not receiving enough genuine acknowledgment, or receiving it but being unable to let it land. Both leave the same gap: a hunger for being seen that doesn't get filled.\n\nYou might want to focus here if you work hard but feel consistently invisible. Or if praise arrives and you immediately discount it before it can register.\n\nWhen you do something well, what gets in the way of letting that actually land?",
+      "questions": [
+        "Do I feel seen and acknowledged in the areas that matter to me?",
+        "Is the recognition I receive aligned with what I actually value?",
+        "Do I feel respected in my primary contexts — work, relationships, community?",
+        "Can I receive acknowledgment without dismissing it?",
+        "Is there a gap between how I see myself and how others see me that troubles me?"
+      ]
+    },
+    {
+      "parent": "Identity & Esteem",
+      "emoji": "🌟",
+      "name": "Self-Worth & Respect",
+      "definition": "When this is low, there's often a quiet but persistent sense that your needs, feelings, or presence require justification. Taking up space feels presumptuous. Asking feels like too much. Shame operates just below the surface.\n\nYou might want to focus here if you regularly put yourself last without choosing to. If your inner voice speaks to you in a way you'd never speak to someone you love.\n\nWhere are you currently shrinking in a way that, if you're honest, costs you something real?",
+      "questions": [
+        "Do I feel that my needs and feelings are inherently valid?",
+        "Can I show up without needing external approval first?",
+        "Is shame a dominant experience for me right now, or quiet?",
+        "Do I treat myself with the same respect I would give someone I care about?",
+        "Do I feel entitled to take up space as I am?"
+      ]
+    },
+    {
+      "parent": "Cognitive & Intellectual Fulfillment",
+      "emoji": "🧠",
+      "name": "Understanding & Learning",
+      "definition": "When this is low, the inner world can feel opaque — patterns repeat without becoming clear, reactions arrive without explanation, the same stuck points keep returning. There's movement, but not much map.\n\nYou might want to focus here if you often feel confused by your own responses. If the same dynamics keep showing up in different relationships or situations without becoming clearer.\n\nWhat is one pattern in yourself you've noticed but not yet understood?",
+      "questions": [
+        "Do I feel I understand why I behave the way I do?",
+        "When something confuses or troubles me, do I have ways to make sense of it?",
+        "Am I getting clearer on how I work as a person?",
+        "Do I have enough clarity about my own patterns and blind spots?",
+        "Am I actively learning things that genuinely matter to me?"
+      ]
+    },
+    {
+      "parent": "Cognitive & Intellectual Fulfillment",
+      "emoji": "💡",
+      "name": "Creativity & Problem-Solving",
+      "definition": "When this is low, challenges tend to feel fixed — there's the obvious path, and if it's blocked, there's stuck. Imagination gets crowded out by pressure, routine, or the weight of how things have always been done.\n\nYou might want to focus here if you notice yourself defaulting to what's known even when it isn't working. If the question \"what else is possible?\" feels hard to genuinely ask.\n\nWhere are you accepting a constraint that might actually be more flexible than it appears?",
+      "questions": [
+        "When I face a problem, do I feel equipped to find my own path through it?",
+        "Is there space in my life for original thinking and imagination?",
+        "Does creativity feel accessible to me right now, or blocked?",
+        "Am I expressing my perspective in ways that feel authentic?",
+        "Do I feel creative in the way I approach challenges in my life?"
+      ]
+    },
+    {
+      "parent": "Meaning",
+      "emoji": "🛠️",
+      "name": "Mastery & Competence",
+      "definition": "When this is low there's often a flatness in daily life — effort without growth, activity without development. Energy spent in areas that don't genuinely matter, or fear of failure keeping real investment at a safe distance.\n\nYou might want to focus here if you're busy but not developing. If you can't easily name an area where you're genuinely getting better at something that matters to you.\n\nWhat is one area where you'd genuinely like to become more capable — and what has been getting in the way?",
+      "questions": [
+        "Am I developing skills in areas that genuinely matter to me?",
+        "Do I feel capable of shaping my world in meaningful ways?",
+        "Is there a domain where I feel real competence and growing confidence?",
+        "Does stagnation or incompetence feel like a persistent source of friction?",
+        "Am I investing in becoming better at things that align with who I am?"
+      ]
+    },
+    {
+      "parent": "Meaning",
+      "emoji": "🤝",
+      "name": "Contribution & Impact",
+      "definition": "When this is low, there's a specific kind of emptiness — being busy, doing things, but without a sense that any of it actually matters beyond the immediate. Purpose feels abstract or simply absent.\n\nYou might want to focus here if what you do feels disconnected from anything larger. If the question \"does this matter?\" keeps arriving without a satisfying answer.\n\nWhere do you feel the clearest sense that what you do actually matters to someone or something?",
+      "questions": [
+        "Do I feel I am giving something meaningful to others or the world?",
+        "Is there a sense of purpose beyond my own needs and comfort?",
+        "Does my work — in whatever form — feel like it matters?",
+        "Is contribution something I experience regularly, or rarely?",
+        "Do I feel connected to something larger than myself through what I do?"
+      ]
+    },
+    {
+      "parent": "Meaning",
+      "emoji": "🚀",
+      "name": "Self-Actualization & Growth",
+      "definition": "When this is low, there's often a gap between who you are today and who you sense you could be — and that gap feels static rather than closing. Development may have stalled. The direction forward feels unclear or out of reach.\n\nYou might want to focus here if you feel like you've been the same version of yourself for too long. If there's a quieter, larger life you can imagine but can't quite find the path toward.\n\nWhat is one way you've changed in the last year that feels genuinely yours — and what made that possible?",
+      "questions": [
+        "Do I feel I am becoming more fully myself over time?",
+        "Is there a sense of momentum in my personal development?",
+        "Am I living in alignment with what I most deeply value?",
+        "Does my life feel like it's moving in a direction that's genuinely mine?",
+        "Is there existential emptiness present, or a sense of forward movement?"
+      ]
+    },
+    {
+      "parent": "Meaning",
+      "emoji": "✨",
+      "name": "Transcendence & Spiritual Connection",
+      "definition": "When this is low, life is experienced primarily at the personal level — my problems, my goals, my story. Nothing wrong with that. But something can feel missing: a sense of being part of something larger, of mattering in a way that transcends the individual.\n\nYou might want to focus here if awe, wonder, or a felt connection to something beyond yourself has gone quiet. If life has started to feel very small, very close, very much about just getting through.\n\nWhen did you last feel genuinely small in a way that felt good — and what created that?",
+      "questions": [
+        "Do I experience moments of connection to something larger than myself?",
+        "Is there a spiritual or philosophical dimension to my life that feels alive?",
+        "Do I ever feel a sense of unity — with nature, others, or existence itself?",
+        "Is awe or wonder a regular part of my experience?",
+        "Does my life feel embedded in something meaningful beyond the personal?"
+      ]
+    }
+  ],
+  "scoring": {
+    "scale": [1, 2, 3, 4, 5, 6, 7],
+    "anchors": {
+      "low": "1 — barely met",
+      "high": "7 — genuinely met"
+    },
+    "lowThreshold": 3,
+    "instruction": "How met is this need in your life right now?"
+  },
+  "parents": [
+    "Health & Vitality",
+    "Rest & Recovery",
+    "Safety & Security",
+    "Social Connection",
+    "Autonomy & Freedom",
+    "Identity & Esteem",
+    "Cognitive & Intellectual Fulfillment",
+    "Meaning"
+  ]
+}

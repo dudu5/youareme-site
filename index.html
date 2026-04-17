@@ -59,7 +59,7 @@
 
   .hero-statement {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(22px, 4.2vw, 52px);
+    font-size: clamp(28px, 5.5vw, 68px);
     font-weight: 300;
     line-height: 1.25;
     color: var(--white);
@@ -76,74 +76,28 @@
     font-style: italic;
   }
 
-  /* ── RECOGNITION CAROUSEL ── */
-  .carousel-wrap {
-    position: relative;
-    max-width: 600px;
-    width: 100%;
-    margin-bottom: 56px;
-  }
-
-  .carousel-group {
+  /* ── RECOGNITION HERO ── */
+  .recognition-hero {
+    min-height: 20vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    min-height: 96px;
+    justify-content: center;
+    padding: 0;
+    overflow: hidden;
+    max-width: 680px;
+    margin: -110px auto 0;
   }
 
-  .carousel-line {
+  .recognition-single {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(16px, 2.4vw, 20px);
+    font-size: clamp(28px, 5vw, 52px);
     font-weight: 300;
     font-style: italic;
-    color: var(--dim);
+    line-height: 1.25;
+    color: var(--white);
     text-align: center;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-
-  .carousel-line.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .carousel-nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 16px;
-  }
-
-  .carousel-btn {
-    background: none;
-    border: none;
-    color: var(--dimmer);
-    font-size: 16px;
-    cursor: pointer;
-    padding: 4px 8px;
-    transition: color 0.2s;
-  }
-
-  .carousel-btn:hover { color: var(--dim); }
-
-  .carousel-dots {
-    display: flex;
-    gap: 6px;
-  }
-
-  .carousel-dot {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--dimmer);
-    transition: background 0.3s;
-  }
-
-  .carousel-dot.active {
-    background: var(--dim);
+    max-width: 680px;
   }
 
   .scroll-hint {
@@ -249,20 +203,39 @@
     background: var(--accent-bg);
   }
 
-  /* ── EXPLORE AREAS ── */
-  .explore-toggle {
-    background: none;
-    border: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.7);
-    cursor: pointer;
-    padding: 0;
-    margin-top: 20px;
-    transition: color 0.2s;
-    display: block;
+  /* ── ASSESSMENT TOGGLE ── */
+  .assessment-toggle {
+    display: flex;
+    gap: 0;
+    margin-bottom: 24px;
   }
+
+  .toggle-btn {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--dimmer);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .toggle-btn.active { border-color: var(--accent-border); }
+
+  .toggle-btn.active {
+    border-color: var(--accent-border);
+    color: var(--accent);
+    background: var(--accent-bg);
+  }
+
+  .toggle-btn:hover:not(.active) {
+    border-color: rgba(255,255,255,0.2);
+    color: var(--dim);
+  }
+
+  /* ── EXPLORE AREAS ── */
 
   .section-import {
     margin-top: 14px;
@@ -293,17 +266,11 @@
     50% { transform: translateY(8px); opacity: 1; }
   }
 
-  .explore-toggle:hover { color: var(--white); }
-
-  .explore-toggle-bottom { margin-top: 32px; }
 
   .explore-areas {
-    display: none;
-    padding-top: 32px;
+    padding-top: 12px;
     max-width: 720px;
   }
-
-  .explore-areas.open { display: block; }
 
   .area-group {
     margin-bottom: 32px;
@@ -370,15 +337,15 @@
     width: 100%;
   }
 
-  #demoRadar polygon.data-shape {
-    transition: d 1.2s ease;
-  }
-
   /* ── NARRATIVE ── */
   .narrative {
     max-width: 680px;
     margin: 0 auto;
-    padding: 0 36px 120px;
+    padding: 80px 36px 120px;
+  }
+
+  .narrative-continued {
+    padding-top: 20px;
   }
 
   .narrative-hero {
@@ -401,24 +368,6 @@
   .narrative-statement i {
     color: var(--accent);
     font-style: italic;
-  }
-
-  .narrative-hint {
-    font-size: 10px;
-    letter-spacing: 0.5em;
-    text-transform: uppercase;
-    color: var(--dim);
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .narrative-hint::after {
-    content: '';
-    display: inline-block;
-    width: 40px;
-    height: 1px;
-    background: var(--dimmer);
   }
 
   .reveal {
@@ -684,74 +633,14 @@
   <!-- ── HERO ── -->
   <div class="hero">
     <p class="hero-statement">
-      <span class="no-wrap">What if the society that would be great</span><br>
-      <span class="no-wrap">for all of us starts with <i>You?</i></span>
+      <span class="no-wrap">I am the only person</span><br>
+      <span class="no-wrap">I will <i>never stop</i> living with.</span>
     </p>
-
-    <div class="carousel-wrap" id="carousel">
-      <div class="carousel-group" id="carouselGroup"></div>
-      <div class="carousel-nav">
-        <button class="carousel-btn" onclick="carouselPrev()">‹</button>
-        <div class="carousel-dots" id="carouselDots"></div>
-        <button class="carousel-btn" onclick="carouselNext()">›</button>
-      </div>
-    </div>
-
     <div class="scroll-hint">↓</div>
-  </div>
-
-  <!-- ── ASSESSMENT SECTION ── -->
-  <div class="section" id="assessmentSection">
-    <div class="section-inner">
-
-      <div class="section-text">
-        <div class="section-eyebrow">
-          <span class="section-eyebrow-icon">🎯</span>
-          Free assessment
-        </div>
-        <h2 class="section-title">Where are you now?</h2>
-        <p class="section-desc">Without a map, you are lost. Map your needs as they are today — not as you think they should be. 22 areas of life, 5 reflective questions each.</p>
-        <div class="section-note">
-          <div><span class="arrow">→</span> 15–45 minutes</div>
-          <div><span class="arrow">→</span> Completely free</div>
-          <div><span class="arrow">→</span> No email needed</div>
-          <div><span class="arrow">→</span> Data is yours</div>
-        </div>
-        <a href="assessment.html" class="section-cta">
-          <span>Get Your Map</span>
-          <span>→</span>
-        </a>
-        <div class="section-import">
-          <label for="importCSV">Already have a map? Import it →</label>
-          <input type="file" id="importCSV" accept=".csv,.txt" style="display:none;" onchange="handleImport(event)">
-        </div>
-        <button class="explore-toggle" id="exploreToggle" onclick="toggleExplore()">Explore all 22 areas ↓</button>
-      </div>
-
-      <div class="radar-wrap" id="radarWrap">
-        <div id="demoRadar"></div>
-      </div>
-
-    </div>
-
-    <div class="explore-areas" id="exploreAreas"></div>
-
-    <div class="section-more">↓</div>
-
   </div>
 
   <!-- ── NARRATIVE ── -->
   <div class="narrative">
-
-    <div class="narrative-hero">
-      <p class="narrative-statement">
-        You are the only person<br>
-        you will <i>never stop</i><br>
-        living with.
-      </p>
-      <div class="narrative-hint">Continue</div>
-    </div>
-
     <div class="reveal">
       <p class="prose">Yet I spent most of my life knowing surprisingly little about what was actually happening inside me.</p>
     </div>
@@ -761,26 +650,120 @@
     </div>
     <div class="sp"></div>
     <div class="reveal">
-      <p class="prose">But the deeper currents — <b>what I actually needed</b>, what drove my reactions, what I was really feeling beneath the performance — remained largely unexamined.</p>
+      <p class="prose">But the deeper currents — <b>what I actually needed</b>, what drove my reactions, what I was really feeling beneath the performance — that remained largely unexamined.</p>
     </div>
 
     <div class="rule reveal"></div>
 
     <div class="reveal">
-      <p class="prose">I never mapped that territory. Not because I didn't care. Because no one showed me how — and because looking honestly took more courage than staying busy.</p>
+      <p class="prose">I never mapped that territory. Not because I didn't care. Because no one showed me how.</p>
     </div>
     <div class="sp"></div>
     <div class="reveal">
-      <p class="prose">Maybe some of that is familiar.</p>
+      <p class="prose">And because looking honestly took more courage than staying busy.</p>
+    </div>
+    <div class="sp"></div>
+    <div class="reveal">
+      <p class="prose">What I felt —</p>
+    </div>
+  </div>
+
+  <div class="recognition-hero" id="recognitionCarousel"></div>
+
+  <div class="narrative narrative-continued">
+    <div class="reveal">
+      <p class="prose">— wasn't because I was broken.</p>
+    </div>
+    <div class="sp"></div>
+    <div class="reveal">
+      <p class="prose">It was because I was living with someone I didn't actually know.</p>
+    </div>
+    <div class="sp"></div>
+    <div class="reveal">
+      <p class="prose"><b>Myself.</b></p>
+    </div>
+    <div style="text-align:center; padding:40px 0 0;">
+      <div class="section-more">↓</div>
+    </div>
+  </div>
+
+  <!-- ── ASSESSMENT SECTION ── -->
+  <div class="section" id="assessmentSection">
+    <div class="section-inner">
+
+      <div class="section-text">
+        <h2 class="section-title" style="font-size:clamp(32px, 4.5vw, 48px); margin-bottom:20px; white-space:nowrap;">Where are you <i style="color:var(--accent);font-style:italic;">now?</i></h2>
+
+        <div class="assessment-toggle">
+          <button class="toggle-btn active" id="togglePersonal" onclick="switchAssessment('personal')">🪞 Personal</button>
+          <button class="toggle-btn" id="toggleLeader" onclick="switchAssessment('leader')">🚀 Leader</button>
+        </div>
+
+        <!-- PERSONAL -->
+        <div id="personalContent">
+          <div class="section-eyebrow">
+            <span class="section-eyebrow-icon">🧭</span>
+            Free assessment
+          </div>
+          <p class="section-desc">Without a map, you are lost. Map your needs as they are today — not as you think they should be. 22 areas of life, 5 reflective questions each.</p>
+          <div class="section-note">
+            <div><span class="arrow">→</span> 15–45 minutes</div>
+            <div><span class="arrow">→</span> Completely free</div>
+            <div><span class="arrow">→</span> No email needed</div>
+            <div><span class="arrow">→</span> Data is yours</div>
+          </div>
+          <a href="assessment.html" class="section-cta">
+            <span>Get Your Map</span>
+            <span>→</span>
+          </a>
+          <div class="section-import">
+            <label for="importCSV">Already have a map? Import it →</label>
+            <input type="file" id="importCSV" accept=".csv,.txt" style="display:none;" onchange="handleImport(event)">
+          </div>
+        </div>
+
+        <!-- LEADER -->
+        <div id="leaderContent" style="display:none;">
+          <div class="section-eyebrow">
+            <span class="section-eyebrow-icon">🔑</span>
+            Startup assessment
+          </div>
+          <p class="section-desc">Map where your startup actually stands — not where you hope it does. 8 key perspectives, honest scoring.</p>
+          <div class="section-note">
+            <div><span class="arrow">→</span> 10–20 minutes</div>
+            <div><span class="arrow">→</span> Completely free</div>
+            <div><span class="arrow">→</span> No email needed</div>
+            <div><span class="arrow">→</span> Data is yours</div>
+          </div>
+          <a href="#" class="section-cta" style="opacity:0.5; pointer-events:none;">
+            <span>Coming soon</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="radar-wrap" id="radarWrap">
+        <div id="demoRadar"></div>
+      </div>
+
     </div>
 
-    <div class="narrative-hero">
+    <div class="explore-areas" id="exploreAreas"></div>
+    <div class="explore-areas" id="exploreAreasLeader" style="display:none;"></div>
+
+  </div>
+
+  <div class="section-more">↓</div>
+
+  <!-- ── REVIEWS ── -->
+  <div class="narrative">
+
+    <div class="narrative-hero" style="min-height:auto; padding:20px 0 60px;">
       <p class="narrative-statement" style="font-size:clamp(28px, 4vw, 48px);">
         The map doesn't change<br>
         what's there. It just makes<br>
         it <i>possible to see.</i>
       </p>
-      <div class="narrative-hint">Continue</div>
     </div>
 
     <!-- REVIEWS -->
@@ -887,38 +870,9 @@
           Explore
         </div>
         <h2 class="library-title"><span style="color:var(--accent);">My</span> Perspectives</h2>
-        <p class="library-desc">Frameworks, conversations, and thinking behind my maps. Different formats, one question: <span style="color:var(--white);">how do you navigate the experience of being you?</span></p>
+        <p class="library-desc">Frameworks, conversations, and thinking behind YouAreMe.one. Different formats, one question: <span style="color:var(--white);">How do you navigate the experience of being you?</span></p>
       </div>
       <img src="Me.png" alt="Aleksander" class="library-photo">
-    </div>
-
-    <div class="library-grid">
-      <a href="ground.html" class="library-card">
-        <div class="library-card-title">The Absolute Center</div>
-        <p class="library-card-desc">The first chapter of Ground. Where all the maps begin — with the realization that you are the center of your own reality.</p>
-        <div class="library-card-tags">
-          <span class="library-card-tag">🎬 video</span>
-          <span class="library-card-tag">🎧 listen</span>
-        </div>
-      </a>
-
-      <div class="library-card placeholder">
-        <div class="library-card-title">Why needs, not goals</div>
-        <p class="library-card-desc">Goals are strategies. Needs are what the strategies are trying to serve. Most people optimize the wrong layer.</p>
-        <div class="library-card-tags">
-          <span class="library-card-tag muted">✍️ essay</span>
-          <span class="library-card-tag muted">🎧 listen</span>
-        </div>
-      </div>
-
-      <div class="library-card placeholder">
-        <div class="library-card-title">What I learned from 200 maps</div>
-        <p class="library-card-desc">Patterns that keep showing up across very different people. What the data says about what we all share.</p>
-        <div class="library-card-tags">
-          <span class="library-card-tag muted">🎙️ conversation</span>
-          <span class="library-card-tag muted">🎧 listen</span>
-        </div>
-      </div>
     </div>
 
     <div class="library-cta-wrap">
@@ -939,138 +893,102 @@
 
 <script>
 // ── RECOGNITION CAROUSEL ──
-const recognitions = [
-  "You are busier than ever but feel emptier inside",
-  "You rush through your days but feel further behind",
-  "You have no time for what actually matters to you",
-  "You feel guilty for resting instead of recharged by it",
-  "You measure your worth by productivity instead of humanity",
-  "You work harder than previous generations but feel less secure",
-  "You accept agreements online you have no idea what you are accepting",
-  "You cannot focus on one thing for more than thirty seconds",
-  "You scroll endlessly through other people living their lives",
-  "You feel scattered and pulled in every direction",
-  "Your phone controls your attention more than you do",
-  "You know apps are designed to addict you but use them anyway",
-  "You perform your life online instead of living it",
-  "You are surrounded by people but feel fundamentally alone",
-  "You share everything online but nothing real in person",
-  "You network constantly but rarely actually connect",
-  "You avoid real conversations to keep things comfortable",
-  "You please people but end up pleasing no one including yourself",
-  "You check all the boxes but still feel lost",
-  "You got what you wanted and it was not enough",
-  "You optimize your life but do not feel happier",
-  "You achieve your goals and immediately need bigger ones",
-  "You work in jobs that feel pointless but pay the bills",
-  "You follow scripts that worked for others but feel hollow to you",
-  "You argue about facts instead of exploring together",
-  "You have sources that prove your point but doubt remains",
-  "You know experts disagree but do not know who to trust",
-  "You consume information that makes you angry not informed",
-  "You avoid conversations that might challenge your views",
-  "You defend positions you have not fully examined",
-  "You deal with systems built by people who never have to use them",
-  "You spend hours on simple tasks because of bad design",
-  "You feel like institutions exist to frustrate you not serve you",
-  "You follow rules that make no sense but comply anyway",
-  "You wait in lines and systems that waste your time",
-  "You accept dysfunction because changing it feels impossible",
-  "You work full time but cannot afford basic life needs",
-  "You make financial decisions by choosing which emergency to ignore",
-  "You save for retirement with money that barely covers this month",
-  "You know the economy is rigged but participate anyway",
-  "You buy things to feel better but feel worse after",
-  "You chase financial security but it always feels just out of reach",
-  "You avoid political discussions to preserve relationships",
-  "You feel forced to choose between bad and worse options",
-  "You see common sense become controversial",
-  "You watch democracy feel like theater instead of participation",
-  "You want solutions but get tribal warfare instead",
-  "You feel politically homeless no matter which side you choose",
-  "You feel anxious about the world you are creating for the next generation",
-  "You try to make green choices but feel like drops in an ocean",
-  "You want to help the environment but every choice has hidden costs",
-  "You feel guilty about living a normal modern life",
-  "You see problems too big for individual action but act anyway",
-  "You know the future feels uncertain but live like it is not",
-  "You know what healthy choices are but struggle to make them consistently",
-  "You treat symptoms instead of addressing root causes",
-  "You buy wellness solutions that create more problems",
-  "You feel like your body is broken when it reacts normally to stress",
-  "You follow health advice that assumes unlimited time and money",
-  "You seek external fixes for internal problems",
-  "You maintain social expectations nobody actually enjoys",
-  "You have conversations that make you feel more isolated",
-  "You please others at the expense of your authentic self",
-  "You avoid conflict which creates more conflict over time",
-  "You follow relationship scripts that feel empty",
-  "You pretend to be fine when you are struggling inside",
-];
+(function() {
+  const T = '#00c9a7';
+  const t = (w) => `<i style="color:${T};font-style:italic;">${w}</i>`;
+  const lines = [
+    `I accomplished everything I set out to — and felt ${t('nothing')}`,
+    `I checked all the boxes but still felt ${t('lost')}`,
+    `I got what I wanted and it ${t("wasn't enough")}`,
+    `I felt ${t('stretched too thin')}, constantly`,
+    `I applied the ${t('brakes')} while pressing the ${t('gas')}`,
+    `I felt ${t('guilty')} for resting instead of recharged by it`,
+    `I operated on ${t('autopilot')} most of the time`,
+    `I couldn't tell what I ${t('wanted')} from what I thought I ${t('should')} want`,
+    `I followed scripts that worked for others but felt ${t('hollow')} to me`,
+    `I had ${t('no time')} for what actually mattered to me`,
+    `I felt ${t('anxious')} but couldn't name what about`,
+    `I carried a background sense of ${t('wrongness')} I couldn't locate`,
+    `I was always slightly on ${t('high alert')}`,
+    `I went through motions but didn't feel ${t('present')}`,
+    `I was surrounded by people but felt fundamentally ${t('alone')}`,
+    `I ${t('performed')} my life instead of ${t('living')} it`,
+    `I knew something was ${t('off')} but couldn't access what`,
+    `I achieved and immediately needed the ${t('next thing')}`,
+    `I wondered if something was ${t('broken')} about me`,
+  ];
 
-// Shuffle and create groups of 3
-function shuffleArray(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
+  for (let i = lines.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+    [lines[i], lines[j]] = [lines[j], lines[i]];
   }
-  return a;
-}
 
-const shuffled = shuffleArray(recognitions);
-const groups = [];
-for (let i = 0; i < shuffled.length; i += 3) {
-  if (i + 2 < shuffled.length) groups.push(shuffled.slice(i, i + 3));
-}
+  const container = document.getElementById('recognitionCarousel');
+  const el = document.createElement('div');
+  el.className = 'recognition-single';
+  container.appendChild(el);
 
-let carouselIdx = 0;
-let carouselTimer;
-const groupEl = document.getElementById('carouselGroup');
-const dotsEl = document.getElementById('carouselDots');
+  let idx = 0;
 
-// Build dots
-groups.forEach((_, i) => {
-  const dot = document.createElement('div');
-  dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-  dotsEl.appendChild(dot);
-});
+  function show(i) {
+    el.style.transition = 'opacity 1s ease';
+    el.style.opacity = '0';
 
-function showGroup(idx) {
-  carouselIdx = idx;
-  // Fade out
-  groupEl.querySelectorAll('.carousel-line').forEach(l => l.classList.remove('visible'));
+    setTimeout(() => {
+      idx = i;
+      el.innerHTML = lines[idx];
+      el.style.opacity = '1';
+    }, 1000);
+  }
 
-  setTimeout(() => {
-    groupEl.innerHTML = groups[idx].map(t =>
-      `<div class="carousel-line">${t}</div>`
-    ).join('');
-    // Stagger fade in
-    groupEl.querySelectorAll('.carousel-line').forEach((l, i) => {
-      setTimeout(() => l.classList.add('visible'), i * 120);
-    });
-  }, 300);
+  // Nav
+  const nav = document.createElement('div');
+  nav.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:16px;margin-top:20px;';
 
-  // Update dots
-  dotsEl.querySelectorAll('.carousel-dot').forEach((d, i) => {
-    d.classList.toggle('active', i === idx);
+  const prevBtn = document.createElement('button');
+  prevBtn.textContent = '‹';
+  prevBtn.style.cssText = 'background:none;border:none;color:rgba(255,255,255,0.25);font-size:16px;cursor:pointer;padding:2px 6px;transition:color 0.2s;';
+  prevBtn.onmouseover = () => prevBtn.style.color = 'rgba(255,255,255,0.5)';
+  prevBtn.onmouseout = () => prevBtn.style.color = 'rgba(255,255,255,0.25)';
+
+  const dotsWrap = document.createElement('div');
+  dotsWrap.style.cssText = 'display:flex;gap:5px;';
+  lines.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.style.cssText = `width:4px;height:4px;border-radius:50%;background:${i === 0 ? '#00c9a7' : 'rgba(255,255,255,0.25)'};transition:background 0.3s;`;
+    dotsWrap.appendChild(d);
   });
-}
 
-function carouselNext() {
-  clearInterval(carouselTimer);
-  showGroup((carouselIdx + 1) % groups.length);
-  carouselTimer = setInterval(() => carouselNext(), 7500);
-}
+  const nextBtn = document.createElement('button');
+  nextBtn.textContent = '›';
+  nextBtn.style.cssText = prevBtn.style.cssText;
+  nextBtn.onmouseover = () => nextBtn.style.color = 'rgba(255,255,255,0.5)';
+  nextBtn.onmouseout = () => nextBtn.style.color = 'rgba(255,255,255,0.25)';
 
-function carouselPrev() {
-  clearInterval(carouselTimer);
-  showGroup((carouselIdx - 1 + groups.length) % groups.length);
-  carouselTimer = setInterval(() => carouselNext(), 7500);
-}
+  nav.appendChild(prevBtn);
+  nav.appendChild(dotsWrap);
+  nav.appendChild(nextBtn);
+  container.appendChild(nav);
 
-showGroup(0);
-carouselTimer = setInterval(() => carouselNext(), 7500);
+  function updateDots() {
+    dotsWrap.querySelectorAll('div').forEach((d, i) => {
+      d.style.background = i === idx ? '#00c9a7' : 'rgba(255,255,255,0.25)';
+    });
+  }
+
+  let timer;
+  function showNav(i) {
+    show(i);
+    updateDots();
+  }
+
+  prevBtn.onclick = () => { clearInterval(timer); showNav((idx - 1 + lines.length) % lines.length); timer = setInterval(() => { show((idx + 1) % lines.length); updateDots(); }, 5000); };
+  nextBtn.onclick = () => { clearInterval(timer); showNav((idx + 1) % lines.length); timer = setInterval(() => { show((idx + 1) % lines.length); updateDots(); }, 5000); };
+
+  el.innerHTML = lines[0];
+  el.style.opacity = '1';
+  timer = setInterval(() => { show((idx + 1) % lines.length); updateDots(); }, 5000);
+})();
 
 // ── SCROLL REVEAL ──
 const io = new IntersectionObserver((entries) => {
@@ -1134,213 +1052,240 @@ const areaData = [
     desc: "Life experienced primarily at the personal level. Something can feel missing: a sense of being part of something larger." },
 ];
 
-function toggleExplore() {
-  const el = document.getElementById('exploreAreas');
-  const btn = document.getElementById('exploreToggle');
-  const isOpen = el.classList.contains('open');
-
-  if (isOpen) {
-    el.classList.remove('open');
-    btn.textContent = 'Explore all 22 areas ↓';
-    return;
+// ── DEMO RADAR (Signal-style) ──
+const radarConfig = {
+  personal: {
+    cats: [
+      {emoji:"🩺",name:"Physical Health & Energy"},{emoji:"🛌",name:"Sleep & Restoration"},
+      {emoji:"🛋️",name:"Relaxation & Downtime"},{emoji:"🎲",name:"Play & Joy"},
+      {emoji:"💰",name:"Financial Security"},{emoji:"🏰",name:"Physical Safety"},
+      {emoji:"🧘",name:"Emotional Stability"},{emoji:"🏡",name:"Belonging"},
+      {emoji:"❤️",name:"Intimacy"},{emoji:"🤲",name:"Empathy"},
+      {emoji:"🚪",name:"Personal Space"},{emoji:"🎯",name:"Self-Determination"},
+      {emoji:"🛑",name:"Boundaries"},{emoji:"🏆",name:"Recognition"},
+      {emoji:"🌟",name:"Self-Worth"},{emoji:"🧠",name:"Understanding"},
+      {emoji:"💡",name:"Creativity"},{emoji:"🔥",name:"Vitality"},
+      {emoji:"🛠️",name:"Mastery"},{emoji:"🤝",name:"Contribution"},
+      {emoji:"🚀",name:"Growth"},{emoji:"✨",name:"Transcendence"}
+    ],
+    profiles: [
+      [2,1,2,1,5,6,3,3,2,2,4,5,4,6,4,5,6,2,7,6,7,5],
+      [5,7,6,5,6,7,6,7,4,5,6,3,3,3,4,2,2,3,2,2,1,2],
+      [4,3,4,6,3,5,5,7,7,6,2,2,1,5,4,6,5,4,3,5,6,7],
+      [5,4,5,2,6,6,3,1,1,2,7,7,6,3,5,7,6,4,6,3,4,3],
+      [2,1,1,1,3,5,2,5,4,7,2,3,1,2,1,4,3,2,4,7,3,4],
+    ]
+  },
+  leader: {
+    cats: [
+      {emoji:"🧩",name:"Core Assumptions"},{emoji:"🔄",name:"Market Interaction"},
+      {emoji:"👥",name:"Customer Reality"},{emoji:"⚔️",name:"Differentiation"},
+      {emoji:"🤝",name:"Team Alignment"},{emoji:"⚖️",name:"Decision Making"},
+      {emoji:"⚡",name:"Experimentation Speed"},{emoji:"🛡️",name:"Plan B"}
+    ],
+    profiles: [
+      [7,4,3,5,6,4,2,3],
+      [3,7,6,4,3,5,7,2],
+      [5,3,7,6,5,3,4,6],
+      [4,6,5,3,7,6,5,4],
+      [2,5,4,7,4,7,6,5],
+    ]
   }
+};
 
-  // Build HTML on first open
-  if (!el.innerHTML) {
-    const groups = {};
-    areaData.forEach(a => {
-      if (!groups[a.parent]) groups[a.parent] = [];
-      groups[a.parent].push(a);
-    });
+const leaderAreaData = [
+  {parent:"Strategy",emoji:"🧩",name:"Clear Core Assumptions",
+   desc:"Your core assumptions are clearly articulated — who is your target client, what their problem comes down to, that it's worth solving, how your solution differs, and how you'll make profit."},
+  {parent:"Strategy",emoji:"🔄",name:"Market Interaction",
+   desc:"You engage frequently, qualitatively and strategically with the market. You know how to facilitate interactions without biasing outcomes."},
+  {parent:"Strategy",emoji:"👥",name:"Understanding of Customer Reality",
+   desc:"You deeply understand the reality of your target market without your solution in it — where they struggle, how challenges are solved without you, and whether you experience genuine pull."},
+  {parent:"Strategy",emoji:"⚔️",name:"Clear and Specific Differentiation",
+   desc:"You know your direct and indirect competitors. How your solution is different and better is clearly defined, and your team's strengths are leveraged to stand out."},
+  {parent:"Execution",emoji:"🤝",name:"Team Alignment",
+   desc:"Your team is well aligned on direction, priority and goals. You continuously share perspectives and resolve misalignments effectively."},
+  {parent:"Execution",emoji:"⚖️",name:"Decision Making Principles",
+   desc:"You have clear decision-making principles. Making decisions feels smooth — you don't waste time stuck in discussions without clear ways to land."},
+  {parent:"Execution",emoji:"⚡",name:"Speed of Experimentation",
+   desc:"You prioritize designing and launching experiments quickly. You seek to uncover where assumptions might be wrong and quickly adapt based on results."},
+  {parent:"Execution",emoji:"🛡️",name:"Plan B",
+   desc:"You have a clearly defined backup plan ready. Shifting to Plan B is seen as strategic, not failure, and it aligns with your long-term goals."},
+];
 
-    let html = '';
-    for (const [group, items] of Object.entries(groups)) {
-      html += `<div class="area-group"><div class="area-group-name">${group}</div>`;
-      items.forEach(a => {
-        html += `<div class="area-item">
-          <div class="area-left">
-            <span class="area-emoji">${a.emoji}</span>
-            <span class="area-name">${a.name}</span>
-          </div>
-          <div class="area-desc">${a.desc}</div>
-        </div>`;
-      });
-      html += '</div>';
-    }
-    html += '<button class="explore-toggle explore-toggle-bottom" onclick="toggleExplore(); document.getElementById(\'assessmentSection\').scrollIntoView({behavior:\'smooth\'})">Show less ↑</button>';
-    el.innerHTML = html;
-  }
+let currentMode = 'personal';
+let radarTimer = null;
 
-  el.classList.add('open');
-  btn.textContent = 'Show less ↑';
-}
+function initRadar(mode) {
+  const container = document.getElementById('demoRadar');
+  container.innerHTML = '';
+  if (radarTimer) { clearInterval(radarTimer); radarTimer = null; }
 
-// ── DEMO RADAR ──
-(function() {
-  const cats = [
-    { emoji: "🩺", name: "Physical Health & Energy" },
-    { emoji: "🛌", name: "Sleep & Restoration" },
-    { emoji: "🛋️", name: "Relaxation & Downtime" },
-    { emoji: "🎲", name: "Play & Joy" },
-    { emoji: "💰", name: "Financial Security" },
-    { emoji: "🏰", name: "Physical Safety" },
-    { emoji: "🧘", name: "Emotional Stability" },
-    { emoji: "🏡", name: "Belonging" },
-    { emoji: "❤️", name: "Intimacy" },
-    { emoji: "🤲", name: "Empathy" },
-    { emoji: "🚪", name: "Personal Space" },
-    { emoji: "🎯", name: "Self-Determination" },
-    { emoji: "🛑", name: "Boundaries" },
-    { emoji: "🏆", name: "Recognition" },
-    { emoji: "🌟", name: "Self-Worth" },
-    { emoji: "🧠", name: "Understanding" },
-    { emoji: "💡", name: "Creativity" },
-    { emoji: "🔥", name: "Vitality" },
-    { emoji: "🛠️", name: "Mastery" },
-    { emoji: "🤝", name: "Contribution" },
-    { emoji: "🚀", name: "Growth" },
-    { emoji: "✨", name: "Transcendence" }
-  ];
+  const cfg = radarConfig[mode];
+  const cats = cfg.cats;
+  const constellations = cfg.profiles.map(p => {
+    const paired = p.map((score, i) => ({score, catIdx: i}));
+    paired.sort((a, b) => b.score - a.score);
+    return {scores: paired.map(x => x.score), catOrder: paired.map(x => x.catIdx)};
+  });
 
-  const constellations = [
-    // "Depleted achiever" — high meaning/mastery, low rest/health/intimacy
-    [2,1,2,1,5,6,3,3,2,2,4,5,4,6,4,5,6,2,7,6,7,5],
-    // "Well-rested but stuck" — high safety/rest, low growth/creativity/meaning
-    [5,7,6,5,6,7,6,7,4,5,6,3,3,3,4,2,2,3,2,2,1,2],
-    // "Connected seeker" — high social/belonging, low autonomy/boundaries
-    [4,3,4,6,3,5,5,7,7,6,2,2,1,5,4,6,5,4,3,5,6,7],
-    // "Independent loner" — high autonomy/mastery, low connection/belonging
-    [5,4,5,2,6,6,3,1,1,2,7,7,6,3,5,7,6,4,6,3,4,3],
-    // "Burnt out caregiver" — high empathy/contribution, low self-worth/rest/boundaries
-    [2,1,1,1,3,5,2,5,4,7,2,3,1,2,1,4,3,2,4,7,3,4],
-  ];
+  const RED = 'rgb(239,68,68)', ORANGE = 'rgb(251,146,60)', TEAL = 'rgb(45,212,191)';
+  function scoreColor(s) { return s <= 3 ? RED : s <= 5 ? ORANGE : TEAL; }
 
-  const size = 540;
-  const padX = 0, padY = 0;
-  const totalX = size + padX * 2;
-  const totalY = size + padY * 2;
-  const cx = totalX / 2, cy = totalY / 2;
-  const maxR = size * 0.38;
-  const emojiR = size * 0.41;
-  const levels = 7;
-  const n = cats.length;
-  const angleStep = (2 * Math.PI) / n;
-  const startAngle = -Math.PI / 2;
+  const vb = 400, cx = 200, cy = 200, R = 150;
+  const n = cats.length, angleStep = (2 * Math.PI) / n, startAngle = -Math.PI / 2, levels = 7;
 
-  function polar(r, i) {
-    const a = startAngle + i * angleStep;
-    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
-  }
+  function midAngle(i) { return startAngle + i * angleStep + angleStep / 2; }
+  function spokeAngle(i) { return startAngle + i * angleStep; }
+  function pol(r, a) { return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
 
-  // Static parts: rings + spokes + emoji labels
-  let rings = '';
+  let grid = '';
   for (let l = 1; l <= levels; l++) {
-    const r = (l / levels) * maxR;
-    const pts = cats.map((_, i) => polar(r, i).join(',')).join(' ');
-    rings += `<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>`;
+    const r = (l / levels) * R;
+    grid += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="${l === levels ? 1.5 : 0.5}"/>`;
+  }
+  for (let i = 0; i < n; i++) {
+    const [x, y] = pol(R, spokeAngle(i));
+    grid += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>`;
   }
 
-  let spokes = '';
-  cats.forEach((_, i) => {
-    const [x, y] = polar(maxR, i);
-    spokes += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>`;
-  });
-
-  let labels = '';
-  cats.forEach((cat, i) => {
-    const [ex, ey] = polar(emojiR, i);
-    labels += `<text x="${ex}" y="${ey + 5}" text-anchor="middle" font-size="13">${cat.emoji}</text>`;
-  });
-
-  function dataPoints(scores) {
-    return scores.map((s, i) => {
-      const r = (s / levels) * maxR;
-      return polar(r, i).join(',');
-    }).join(' ');
+  function buildLabels(scores, catOrder) {
+    let html = '';
+    for (let i = 0; i < n; i++) {
+      const ma = midAngle(i), s = Math.round(scores[i]), cat = cats[catOrder[i]];
+      const color = scoreColor(s), cosA = Math.cos(ma);
+      const anchor = cosA < -0.15 ? 'end' : cosA > 0.15 ? 'start' : 'middle';
+      const [ex, ey] = pol(R + 16, ma);
+      html += `<text x="${ex}" y="${ey + 5}" text-anchor="middle" font-size="14">${cat.emoji}</text>`;
+      const [sx, sy] = pol(R + 32, ma);
+      html += `<text x="${sx}" y="${sy + 4}" text-anchor="${anchor}" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="${color}">${s}</text>`;
+    }
+    return html;
   }
 
-  function dataDots(scores) {
-    return scores.map((s, i) => {
-      const r = (s / levels) * maxR;
-      const [x, y] = polar(r, i);
-      const color = s <= 3 ? '#e8a87c' : '#00c9a7';
-      return `<circle cx="${x}" cy="${y}" r="2.5" fill="${color}"/>`;
-    }).join('');
+  function buildSlices(scores) {
+    let html = '';
+    for (let i = 0; i < n; i++) {
+      const s = scores[i], color = scoreColor(s), r = (s / levels) * R;
+      const a1 = spokeAngle(i), a2 = a1 + angleStep;
+      const [x1, y1] = pol(r, a1), [x2, y2] = pol(r, a2);
+      html += `<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${angleStep > Math.PI ? 1 : 0} 1 ${x2},${y2} Z" fill="${color}" opacity="0.08"/>`;
+    }
+    return html;
+  }
+
+  function buildData(scores) {
+    const pts = scores.map((s, i) => pol((s / levels) * R, midAngle(i)).join(',')).join(' ');
+    let html = `<polygon points="${pts}" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linejoin="round"/>`;
+    scores.forEach((s, i) => {
+      const [x, y] = pol((s / levels) * R, midAngle(i));
+      html += `<circle cx="${x}" cy="${y}" r="3" fill="${scoreColor(s)}"/>`;
+    });
+    return html;
   }
 
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('viewBox', `0 0 ${totalX} ${totalY}`);
+  svg.setAttribute('viewBox', `0 0 ${vb} ${vb}`);
   svg.style.width = '100%';
+  svg.style.padding = '40px';
 
-  const staticGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  const borderCircle = `<circle cx="${cx}" cy="${cy}" r="${emojiR + 20}" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2.5"/>`;
-  staticGroup.innerHTML = borderCircle + rings + spokes + labels;
-  svg.appendChild(staticGroup);
+  const gridG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  gridG.innerHTML = grid; svg.appendChild(gridG);
+  const slicesG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  svg.appendChild(slicesG);
+  const dataG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  svg.appendChild(dataG);
+  const labelsG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  svg.appendChild(labelsG);
 
-  // Data polygon — animated via points attribute
-  const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-  poly.setAttribute('fill', 'rgba(0,201,167,0.12)');
-  poly.setAttribute('stroke', '#00c9a7');
-  poly.setAttribute('stroke-width', '1.5');
-  poly.setAttribute('stroke-linejoin', 'round');
-  poly.classList.add('data-shape');
-  svg.appendChild(poly);
-
-  const dotsGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  svg.appendChild(dotsGroup);
-
-  document.getElementById('demoRadar').appendChild(svg);
+  container.appendChild(svg);
 
   let current = 0;
 
-  function setConstellation(idx) {
-    const scores = constellations[idx];
-    // Animate polygon points
-    poly.style.transition = 'none';
-    void poly.offsetWidth;
-    poly.setAttribute('points', dataPoints(scores));
-
-    // Animate dots
-    dotsGroup.innerHTML = dataDots(scores);
-    dotsGroup.querySelectorAll('circle').forEach((c, i) => {
-      c.style.opacity = '0';
-      c.style.transition = `opacity 0.4s ease ${i * 0.02}s`;
-      requestAnimationFrame(() => requestAnimationFrame(() => c.style.opacity = '1'));
-    });
+  function renderScores(scores, catOrder) {
+    slicesG.innerHTML = buildSlices(scores);
+    dataG.innerHTML = buildData(scores);
+    labelsG.innerHTML = buildLabels(scores, catOrder);
   }
 
-  // Smooth point-by-point interpolation
   function lerp(a, b, t) { return a + (b - a) * t; }
 
-  function animateToConstellation(idx) {
-    const from = constellations[current];
-    const to = constellations[idx];
-    const duration = 1200;
-    const start = performance.now();
+  function animateTo(idx) {
+    const from = constellations[current].scores, to = constellations[idx].scores;
+    const toCats = constellations[idx].catOrder;
+    const duration = 1200, startT = performance.now();
+    let swapped = false;
+    labelsG.style.transition = 'opacity 0.4s ease';
+    labelsG.style.opacity = '0';
 
     function tick(now) {
-      const t = Math.min((now - start) / duration, 1);
+      const t = Math.min((now - startT) / duration, 1);
       const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
       const interp = from.map((v, i) => lerp(v, to[i], eased));
-      poly.setAttribute('points', dataPoints(interp));
-      dotsGroup.innerHTML = dataDots(interp.map(Math.round));
+      slicesG.innerHTML = buildSlices(interp);
+      dataG.innerHTML = buildData(interp);
+      if (t >= 0.35 && !swapped) {
+        swapped = true;
+        labelsG.innerHTML = buildLabels(interp, toCats);
+        labelsG.style.opacity = '1';
+      }
       if (t < 1) requestAnimationFrame(tick);
+      else { renderScores(to, toCats); labelsG.style.opacity = '1'; }
     }
-
     requestAnimationFrame(tick);
     current = idx;
   }
 
-  // Initial
-  setConstellation(0);
-
-  // Cycle
-  setInterval(() => {
+  renderScores(constellations[0].scores, constellations[0].catOrder);
+  radarTimer = setInterval(() => {
     const next = (current + 1) % constellations.length;
-    animateToConstellation(next);
+    animateTo(next);
   }, 4000);
+}
 
+// ── ASSESSMENT TOGGLE ──
+function switchAssessment(mode) {
+  currentMode = mode;
+  document.getElementById('togglePersonal').classList.toggle('active', mode === 'personal');
+  document.getElementById('toggleLeader').classList.toggle('active', mode === 'leader');
+  document.getElementById('personalContent').style.display = mode === 'personal' ? '' : 'none';
+  document.getElementById('leaderContent').style.display = mode === 'leader' ? '' : 'none';
+  document.getElementById('exploreAreas').style.display = mode === 'personal' ? '' : 'none';
+  document.getElementById('exploreAreasLeader').style.display = mode === 'leader' ? '' : 'none';
+  initRadar(mode);
+}
+
+// Pre-populate both explore areas
+(function() {
+  // Personal areas
+  const personalEl = document.getElementById('exploreAreas');
+  const groups = {};
+  areaData.forEach(a => { if (!groups[a.parent]) groups[a.parent] = []; groups[a.parent].push(a); });
+  let html = '';
+  for (const [group, items] of Object.entries(groups)) {
+    html += `<div class="area-group"><div class="area-group-name">${group}</div>`;
+    items.forEach(a => {
+      html += `<div class="area-item"><div class="area-left"><span class="area-emoji">${a.emoji}</span><span class="area-name">${a.name}</span></div><div class="area-desc">${a.desc}</div></div>`;
+    });
+    html += '</div>';
+  }
+  personalEl.innerHTML = html;
+
+  // Leader areas
+  const leaderEl = document.getElementById('exploreAreasLeader');
+  const lGroups = {};
+  leaderAreaData.forEach(a => { if (!lGroups[a.parent]) lGroups[a.parent] = []; lGroups[a.parent].push(a); });
+  let lHtml = '';
+  for (const [group, items] of Object.entries(lGroups)) {
+    lHtml += `<div class="area-group"><div class="area-group-name">${group}</div>`;
+    items.forEach(a => {
+      lHtml += `<div class="area-item"><div class="area-left"><span class="area-emoji">${a.emoji}</span><span class="area-name">${a.name}</span></div><div class="area-desc">${a.desc}</div></div>`;
+    });
+    lHtml += '</div>';
+  }
+  leaderEl.innerHTML = lHtml;
 })();
+
+initRadar('personal');
 
 // ── IMPORT CSV ──
 function handleImport(event) {
