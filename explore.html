@@ -145,6 +145,28 @@
 
   .page-intro p:last-child { margin-bottom: 0; }
 
+  .intro-collapsed {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .page-photo-small {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .intro-expand {
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .intro-expand:hover { color: var(--white); }
+
   /* ── SEARCH + FILTERS ── */
   .controls {
     max-width: 900px;
@@ -474,9 +496,10 @@
     min-height: 16px;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     .engage-inline { grid-template-columns: 1fr; gap: 24px; }
     .card-expanded { padding: 28px 22px; }
+    .expanded-title { font-size: clamp(20px, 5vw, 30px); }
   }
 
   /* ── EMPTY STATE ── */
@@ -514,11 +537,18 @@
     color: var(--dimmer);
   }
 
-  @media (max-width: 600px) {
-    nav { padding: 18px 22px; }
-    .page-header { padding: 40px 22px 0; }
-    .controls { padding: 0 22px 36px; }
-    .content-grid { grid-template-columns: 1fr; padding: 0 22px 80px; }
+  @media (max-width: 768px) {
+    nav { padding: 14px 22px; }
+    .nav-cta { font-size: 10px; padding: 6px 0; }
+    .page-header { padding: 50px 22px 0; }
+    .page-title { font-size: clamp(28px, 8vw, 48px); }
+    .page-intro { padding: 0 22px 20px; }
+    .page-photo { width: 140px; height: 140px; margin: 0 0 16px 16px; }
+    .controls { padding: 0 22px 28px; }
+    .filter-row { gap: 6px; }
+    .filter-tag { padding: 5px 10px; font-size: 10px; }
+    .content-grid { grid-template-columns: 1fr; padding: 0 22px 60px; gap: 14px; }
+    .footer-title { font-size: clamp(32px, 8vw, 44px); }
   }
 </style>
 <script async src="https://plausible.io/js/pa-ueYEguemb1yoTmQce6Gad.js"></script>
@@ -540,12 +570,18 @@
 </div>
 
 <div class="page-intro">
-  <p>This is where I share my perspectives. They are just that — my perspectives. They have been forged through my life experience, everything I have listened to, read, feelt and thought of, interacted with. I'm not claiming they are right or true, they are just what it seems like to me.</p>
-  <p>My experience has taught me that I have everything to win by articulating what I see and understand as clearly as I can — both for my own clarity, but also to enable more qualitative alignment with others.</p>
-  <p>Another thing I've learned is that my perspectives are dynamic, constantly evolving. The biggest treasure in my self development has been learning to not defend but be curious about different perspectives — especially when my body wants to defend. The more I treat my perspectives as fixed truths that define me, the more trapped I become by them. When I can hold them lightly, as working hypotheses rather than identity, I stay free to grow.</p>
-  <img src="Me.png" alt="Aleksander" class="page-photo">
-  <p>I invite you to engage with these perspectives as starting points for your own exploration. What resonates, what challenges, what sparks curiosity about your own experience? <span style="color:var(--white);">How do you navigate the experience of being you?</span></p>
-  <p style="color:var(--white); text-align:right;">👋 /Olek</p>
+  <div class="intro-collapsed" id="introCollapsed">
+    <img src="Me.png" alt="Aleksander" class="page-photo-small">
+    <p>This is where I share my perspectives... <span class="intro-expand" onclick="toggleIntro()">Read more ↓</span></p>
+  </div>
+  <div id="introFull" style="display:none;">
+    <p>This is where I share my perspectives. They are just that — my perspectives. They have been forged through my life experience, everything I have listened to, read, feelt and thought of, interacted with. I'm not claiming they are right or true, they are just what it seems like to me.</p>
+    <p>My experience has taught me that I have everything to win by articulating what I see and understand as clearly as I can — both for my own clarity, but also to enable more qualitative alignment with others.</p>
+    <p>Another thing I've learned is that my perspectives are dynamic, constantly evolving. The biggest treasure in my self development has been learning to not defend but be curious about different perspectives — especially when my body wants to defend. The more I treat my perspectives as fixed truths that define me, the more trapped I become by them. When I can hold them lightly, as working hypotheses rather than identity, I stay free to grow.</p>
+    <img src="Me.png" alt="Aleksander" class="page-photo">
+    <p>I invite you to engage with these perspectives as starting points for your own exploration. What resonates, what challenges, what sparks curiosity about your own experience? <span style="color:var(--white);">How do you navigate the experience of being you?</span></p>
+    <p style="color:var(--white); text-align:right;">👋 /Olek <span class="intro-expand" onclick="toggleIntro()">Read less ↑</span></p>
+  </div>
 </div>
 
 <div class="controls">
@@ -794,6 +830,13 @@ async function sendToSheet(type, val) {
 
 renderContent();
 
+function toggleIntro() {
+  const full = document.getElementById('introFull');
+  const collapsed = document.getElementById('introCollapsed');
+  const isOpen = full.style.display !== 'none';
+  full.style.display = isOpen ? 'none' : 'block';
+  collapsed.style.display = isOpen ? '' : 'none';
+}
 </script>
 </body>
 </html>

@@ -76,28 +76,51 @@
     font-style: italic;
   }
 
-  /* ── RECOGNITION HERO ── */
-  .recognition-hero {
-    min-height: 20vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    overflow: hidden;
-    max-width: 680px;
-    margin: -110px auto 0;
+  /* ── NARRATIVE COLLAPSE ── */
+  .narrative-more-toggle {
+    display: inline;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
   }
 
-  .recognition-single {
+  .narrative-more-content { display: none; }
+  .narrative-more-content.open { display: block; }
+
+  /* ── RECOGNITION LIST ── */
+  .recognition-list {
+    margin: 8px 0 0;
+  }
+
+  .recognition-line {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(28px, 5vw, 52px);
+    font-size: clamp(15px, 2vw, 19px);
     font-weight: 300;
     font-style: italic;
-    line-height: 1.25;
-    color: var(--white);
-    text-align: center;
-    max-width: 680px;
+    line-height: 1.5;
+    color: var(--dim);
+    padding: 3px 0;
+  }
+
+  .recognition-gap {
+    height: 16px;
+  }
+
+  .recognition-expand {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .recognition-expand:hover { color: var(--white); }
+
+  .recognition-line i {
+    color: var(--accent);
+    font-style: italic;
   }
 
   .scroll-hint {
@@ -206,33 +229,51 @@
   /* ── ASSESSMENT TOGGLE ── */
   .assessment-toggle {
     display: flex;
-    gap: 0;
+    align-items: center;
     margin-bottom: 24px;
+    position: relative;
+    width: fit-content;
   }
 
-  .toggle-btn {
+  .toggle-track {
+    display: flex;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 24px;
+    position: relative;
+    padding: 3px;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    top: 3px;
+    height: calc(100% - 6px);
+    border-radius: 20px;
+    opacity: 0.15;
+    transition: all 0.3s ease;
+  }
+
+  .toggle-option {
     background: none;
-    border: 1px solid rgba(255,255,255,0.1);
-    color: var(--dimmer);
+    border: none;
     font-family: 'DM Sans', sans-serif;
     font-size: 12px;
-    letter-spacing: 0.08em;
-    padding: 10px 20px;
+    letter-spacing: 0.06em;
+    padding: 8px 20px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: color 0.3s;
+    position: relative;
+    z-index: 1;
+    border-radius: 20px;
+    color: rgba(255,255,255,0.55);
   }
 
-  .toggle-btn.active { border-color: var(--accent-border); }
-
-  .toggle-btn.active {
-    border-color: var(--accent-border);
+  .toggle-option.active-personal {
     color: var(--accent);
-    background: var(--accent-bg);
   }
 
-  .toggle-btn:hover:not(.active) {
-    border-color: rgba(255,255,255,0.2);
-    color: var(--dim);
+  .toggle-option.active-leader {
+    color: rgb(168,130,255);
   }
 
   /* ── EXPLORE AREAS ── */
@@ -344,9 +385,6 @@
     padding: 80px 36px 120px;
   }
 
-  .narrative-continued {
-    padding-top: 20px;
-  }
 
   .narrative-hero {
     min-height: 100vh;
@@ -457,9 +495,6 @@
     padding: 64px 0 0;
   }
 
-  @media (max-width: 580px) {
-    .narrative { padding: 0 22px 80px; }
-  }
 
   /* ── EXPLORE LIBRARY ── */
   .library {
@@ -608,15 +643,72 @@
     color: var(--dimmer);
   }
 
-  @media (max-width: 680px) {
-    .hero { padding: 80px 22px 32px; }
-    .section { padding: 60px 22px 80px; }
-    .section-inner { grid-template-columns: 1fr; gap: 32px; }
-    .radar-wrap { order: -1; }
-    #demoRadar { max-width: 380px; }
-    .area-item { grid-template-columns: 1fr; gap: 6px; }
-    .library { padding: 60px 22px 80px; }
+  @media (max-width: 768px) {
+    .hero { padding: 60px 22px 32px; }
+    .hero-statement { font-size: clamp(24px, 7vw, 40px); }
+    .hero-statement .no-wrap { white-space: normal; }
+    .section { padding: 0 22px 60px; }
+    .section-inner { grid-template-columns: 1fr; gap: 0; }
+    #demoRadar svg { padding: 16px !important; }
+    .section-title { white-space: normal !important; font-size: clamp(28px, 7vw, 42px) !important; }
+    .radar-wrap { order: 1; }
+    #demoRadar { max-width: 340px; margin: 0 auto; }
+    .assessment-toggle { justify-content: center; }
+    .toggle-option { padding: 7px 16px !important; font-size: 11px; }
+    .explore-areas {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      max-width: 100vw;
+      margin: 0 -22px;
+      padding: 0 22px;
+    }
+    .explore-areas::-webkit-scrollbar { display: none; }
+    .area-group { margin-bottom: 24px; }
+    .area-group-name { margin-bottom: 8px; position: sticky; left: 0; }
+    .area-items-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 8px;
+    }
+    .area-items-scroll::-webkit-scrollbar { display: none; }
+    .area-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 260px;
+      max-width: 280px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 16px;
+      grid-template-columns: unset;
+    }
+    .area-left { margin-bottom: 4px; }
+    .area-desc { font-size: 12px; line-height: 1.6; }
+    .recognition-list { padding: 0; }
+    .recognition-line { font-size: 15px; white-space: normal; }
+    .narrative { padding: 48px 22px 24px; }
+    .narrative-statement { font-size: clamp(28px, 7vw, 52px); }
+    .narrative-hero { min-height: auto; padding: 40px 0; }
+    .library { padding: 48px 22px 60px; }
     .library-grid { grid-template-columns: 1fr; }
+    .library-photo {
+      position: static !important;
+      display: block;
+      margin: 20px auto 24px;
+      width: 100px;
+      height: 100px;
+      transform: none !important;
+    }
+    .library-header { flex-direction: column; text-align: center; }
+    .library-eyebrow { justify-content: center; }
+    .library-desc { margin: 0 auto; }
+    .footer-title { font-size: clamp(32px, 8vw, 44px); }
+    .review-text { font-size: 16px; }
+    .section-more { padding: 16px 0 0; }
   }
 </style>
 <script async src="https://plausible.io/js/pa-ueYEguemb1yoTmQce6Gad.js"></script>
@@ -644,6 +736,8 @@
     <div class="reveal">
       <p class="prose">Yet I spent most of my life knowing surprisingly little about what was actually happening inside me.</p>
     </div>
+    <span class="narrative-more-toggle" id="narrativeMoreToggle" onclick="toggleNarrativeMore()">more...</span>
+    <div id="narrativeMore" class="narrative-more-content">
     <div class="sp"></div>
     <div class="reveal">
       <p class="prose">I knew my opinions. My preferences. My desires. I was my identity.</p>
@@ -666,11 +760,10 @@
     <div class="reveal">
       <p class="prose">What I felt —</p>
     </div>
-  </div>
 
-  <div class="recognition-hero" id="recognitionCarousel"></div>
+    <div id="recognitionList"></div>
 
-  <div class="narrative narrative-continued">
+    <div class="sp"></div>
     <div class="reveal">
       <p class="prose">— wasn't because I was broken.</p>
     </div>
@@ -682,9 +775,7 @@
     <div class="reveal">
       <p class="prose"><b>Myself.</b></p>
     </div>
-    <div style="text-align:center; padding:40px 0 0;">
-      <div class="section-more">↓</div>
-    </div>
+    </div><!-- end narrative-more-content -->
   </div>
 
   <!-- ── ASSESSMENT SECTION ── -->
@@ -692,11 +783,14 @@
     <div class="section-inner">
 
       <div class="section-text">
-        <h2 class="section-title" style="font-size:clamp(32px, 4.5vw, 48px); margin-bottom:20px; white-space:nowrap;">Where are you <i style="color:var(--accent);font-style:italic;">now?</i></h2>
+        <h2 class="section-title" style="font-size:clamp(32px, 4.5vw, 48px); margin-bottom:20px;">Where are you <i style="color:var(--accent);font-style:italic;">now?</i></h2>
 
         <div class="assessment-toggle">
-          <button class="toggle-btn active" id="togglePersonal" onclick="switchAssessment('personal')">🪞 Personal</button>
-          <button class="toggle-btn" id="toggleLeader" onclick="switchAssessment('leader')">🚀 Leader</button>
+          <div class="toggle-track">
+            <div class="toggle-slider" id="toggleSlider"></div>
+            <button class="toggle-option active-personal" id="togglePersonal" onclick="switchAssessment('personal')">🪞 Personal</button>
+            <button class="toggle-option" id="toggleLeader" onclick="switchAssessment('leader')" style="padding:8px 32px;">🚀 Leader</button>
+          </div>
         </div>
 
         <!-- PERSONAL -->
@@ -707,12 +801,12 @@
           </div>
           <p class="section-desc">Without a map, you are lost. Map your needs as they are today — not as you think they should be. 22 areas of life, 5 reflective questions each.</p>
           <div class="section-note">
-            <div><span class="arrow">→</span> 15–45 minutes</div>
+            <div><span class="arrow">→</span> 5–45 minutes</div>
             <div><span class="arrow">→</span> Completely free</div>
             <div><span class="arrow">→</span> No email needed</div>
             <div><span class="arrow">→</span> Data is yours</div>
           </div>
-          <a href="assessment.html" class="section-cta">
+          <a href="/map/" class="section-cta">
             <span>Get Your Map</span>
             <span>→</span>
           </a>
@@ -725,20 +819,24 @@
         <!-- LEADER -->
         <div id="leaderContent" style="display:none;">
           <div class="section-eyebrow">
-            <span class="section-eyebrow-icon">🔑</span>
-            Startup assessment
+            <span class="section-eyebrow-icon">🧭</span>
+            Free assessment
           </div>
           <p class="section-desc">Map where your startup actually stands — not where you hope it does. 8 key perspectives, honest scoring.</p>
           <div class="section-note">
-            <div><span class="arrow">→</span> 10–20 minutes</div>
+            <div><span class="arrow">→</span> 5–20 minutes</div>
             <div><span class="arrow">→</span> Completely free</div>
             <div><span class="arrow">→</span> No email needed</div>
             <div><span class="arrow">→</span> Data is yours</div>
           </div>
-          <a href="#" class="section-cta" style="opacity:0.5; pointer-events:none;">
-            <span>Coming soon</span>
+          <a href="/map/?mode=leader" class="section-cta">
+            <span>Get Your Map</span>
             <span>→</span>
           </a>
+          <div class="section-import">
+            <label for="importCSVLeader">Already have a map? Import it →</label>
+            <input type="file" id="importCSVLeader" accept=".csv,.txt" style="display:none;" onchange="handleImport(event)">
+          </div>
         </div>
       </div>
 
@@ -853,7 +951,7 @@
     </div>
 
     <div class="narrative-cta-wrap reveal">
-      <a href="assessment.html" class="section-cta">
+      <a href="/map/" class="section-cta">
         <span>Get Your Map</span>
         <span>→</span>
       </a>
@@ -923,72 +1021,31 @@
     [lines[i], lines[j]] = [lines[j], lines[i]];
   }
 
-  const container = document.getElementById('recognitionCarousel');
-  const el = document.createElement('div');
-  el.className = 'recognition-single';
-  container.appendChild(el);
-
-  let idx = 0;
-
-  function show(i) {
-    el.style.transition = 'opacity 1s ease';
-    el.style.opacity = '0';
-
-    setTimeout(() => {
-      idx = i;
-      el.innerHTML = lines[idx];
-      el.style.opacity = '1';
-    }, 1000);
-  }
-
-  // Nav
-  const nav = document.createElement('div');
-  nav.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:16px;margin-top:20px;';
-
-  const prevBtn = document.createElement('button');
-  prevBtn.textContent = '‹';
-  prevBtn.style.cssText = 'background:none;border:none;color:rgba(255,255,255,0.25);font-size:16px;cursor:pointer;padding:2px 6px;transition:color 0.2s;';
-  prevBtn.onmouseover = () => prevBtn.style.color = 'rgba(255,255,255,0.5)';
-  prevBtn.onmouseout = () => prevBtn.style.color = 'rgba(255,255,255,0.25)';
-
-  const dotsWrap = document.createElement('div');
-  dotsWrap.style.cssText = 'display:flex;gap:5px;';
-  lines.forEach((_, i) => {
-    const d = document.createElement('div');
-    d.style.cssText = `width:4px;height:4px;border-radius:50%;background:${i === 0 ? '#00c9a7' : 'rgba(255,255,255,0.25)'};transition:background 0.3s;`;
-    dotsWrap.appendChild(d);
-  });
-
-  const nextBtn = document.createElement('button');
-  nextBtn.textContent = '›';
-  nextBtn.style.cssText = prevBtn.style.cssText;
-  nextBtn.onmouseover = () => nextBtn.style.color = 'rgba(255,255,255,0.5)';
-  nextBtn.onmouseout = () => nextBtn.style.color = 'rgba(255,255,255,0.25)';
-
-  nav.appendChild(prevBtn);
-  nav.appendChild(dotsWrap);
-  nav.appendChild(nextBtn);
-  container.appendChild(nav);
-
-  function updateDots() {
-    dotsWrap.querySelectorAll('div').forEach((d, i) => {
-      d.style.background = i === idx ? '#00c9a7' : 'rgba(255,255,255,0.25)';
-    });
-  }
-
-  let timer;
-  function showNav(i) {
-    show(i);
-    updateDots();
-  }
-
-  prevBtn.onclick = () => { clearInterval(timer); showNav((idx - 1 + lines.length) % lines.length); timer = setInterval(() => { show((idx + 1) % lines.length); updateDots(); }, 5000); };
-  nextBtn.onclick = () => { clearInterval(timer); showNav((idx + 1) % lines.length); timer = setInterval(() => { show((idx + 1) % lines.length); updateDots(); }, 5000); };
-
-  el.innerHTML = lines[0];
-  el.style.opacity = '1';
-  timer = setInterval(() => { show((idx + 1) % lines.length); updateDots(); }, 5000);
+  const list = document.getElementById('recognitionList');
+  const first3 = lines.slice(0, 3).map(l => `<div class="recognition-line">${l}</div>`).join('');
+  const rest = lines.slice(3).map((l, i) =>
+    `<div class="recognition-line">${l}</div>` + ((i + 1) % 3 === 0 && i < lines.length - 4 ? '<div class="recognition-gap"></div>' : '')
+  ).join('');
+  list.innerHTML = first3
+    + `<div id="recognitionMore" style="display:none;"><div class="recognition-gap"></div>${rest}</div>`
+    + `<div style="margin-top:10px;"><span class="recognition-expand" id="recognitionExpand" onclick="toggleRecognitions()">+ ${lines.length - 3} more</span></div>`;
 })();
+
+function toggleNarrativeMore() {
+  const el = document.getElementById('narrativeMore');
+  const btn = document.getElementById('narrativeMoreToggle');
+  const isOpen = el.classList.contains('open');
+  el.classList.toggle('open');
+  btn.style.display = isOpen ? 'inline' : 'none';
+}
+
+function toggleRecognitions() {
+  const more = document.getElementById('recognitionMore');
+  const btn = document.getElementById('recognitionExpand');
+  const isOpen = more.style.display !== 'none';
+  more.style.display = isOpen ? 'none' : 'block';
+  btn.textContent = isOpen ? '+ more' : '− show less';
+}
 
 // ── SCROLL REVEAL ──
 const io = new IntersectionObserver((entries) => {
@@ -1243,16 +1300,59 @@ function initRadar(mode) {
 }
 
 // ── ASSESSMENT TOGGLE ──
+function positionSlider(mode) {
+  const slider = document.getElementById('toggleSlider');
+  const btn = document.getElementById(mode === 'personal' ? 'togglePersonal' : 'toggleLeader');
+  const track = btn.parentElement;
+  const trackRect = track.getBoundingClientRect();
+  const btnRect = btn.getBoundingClientRect();
+  slider.style.left = (btnRect.left - trackRect.left) + 'px';
+  slider.style.width = btnRect.width + 'px';
+  slider.style.background = mode === 'personal' ? 'var(--accent)' : 'rgb(168,130,255)';
+}
+
 function switchAssessment(mode) {
   currentMode = mode;
-  document.getElementById('togglePersonal').classList.toggle('active', mode === 'personal');
-  document.getElementById('toggleLeader').classList.toggle('active', mode === 'leader');
+  const pBtn = document.getElementById('togglePersonal');
+  const lBtn = document.getElementById('toggleLeader');
+  const purple = 'rgb(168,130,255)';
+
+  pBtn.className = 'toggle-option' + (mode === 'personal' ? ' active-personal' : '');
+  lBtn.className = 'toggle-option' + (mode === 'leader' ? ' active-leader' : '');
+  positionSlider(mode);
+
+  // Switch accent colors in leader content
+  const leaderEl = document.getElementById('leaderContent');
+  if (leaderEl) {
+    leaderEl.querySelectorAll('.section-eyebrow').forEach(el => el.style.color = purple);
+    leaderEl.querySelectorAll('.arrow').forEach(el => el.style.color = purple);
+    leaderEl.querySelectorAll('.section-cta').forEach(el => {
+      el.style.color = purple;
+      el.style.borderColor = 'rgba(168,130,255,0.5)';
+    });
+    leaderEl.querySelectorAll('.section-import label').forEach(el => el.style.color = 'rgb(251,146,60)');
+  }
+
+  // Leader area group names purple
+  const leaderAreas = document.getElementById('exploreAreasLeader');
+  if (leaderAreas) {
+    leaderAreas.querySelectorAll('.area-group-name').forEach(el => el.style.color = purple);
+  }
+
   document.getElementById('personalContent').style.display = mode === 'personal' ? '' : 'none';
   document.getElementById('leaderContent').style.display = mode === 'leader' ? '' : 'none';
   document.getElementById('exploreAreas').style.display = mode === 'personal' ? '' : 'none';
   document.getElementById('exploreAreasLeader').style.display = mode === 'leader' ? '' : 'none';
+
+  // Title accent color
+  const titleI = document.querySelector('.section-title i');
+  if (titleI) titleI.style.color = mode === 'leader' ? purple : 'var(--accent)';
+
   initRadar(mode);
 }
+
+// Position slider on load
+requestAnimationFrame(() => positionSlider('personal'));
 
 // Pre-populate both explore areas
 (function() {
@@ -1260,29 +1360,22 @@ function switchAssessment(mode) {
   const personalEl = document.getElementById('exploreAreas');
   const groups = {};
   areaData.forEach(a => { if (!groups[a.parent]) groups[a.parent] = []; groups[a.parent].push(a); });
-  let html = '';
-  for (const [group, items] of Object.entries(groups)) {
-    html += `<div class="area-group"><div class="area-group-name">${group}</div>`;
-    items.forEach(a => {
-      html += `<div class="area-item"><div class="area-left"><span class="area-emoji">${a.emoji}</span><span class="area-name">${a.name}</span></div><div class="area-desc">${a.desc}</div></div>`;
-    });
-    html += '</div>';
+  function buildAreas(data) {
+    const g = {};
+    data.forEach(a => { if (!g[a.parent]) g[a.parent] = []; g[a.parent].push(a); });
+    let h = '';
+    for (const [group, items] of Object.entries(g)) {
+      h += `<div class="area-group"><div class="area-group-name">${group}</div><div class="area-items-scroll">`;
+      items.forEach(a => {
+        h += `<div class="area-item"><div class="area-left"><span class="area-emoji">${a.emoji}</span><span class="area-name">${a.name}</span></div><div class="area-desc">${a.desc}</div></div>`;
+      });
+      h += '</div></div>';
+    }
+    return h;
   }
-  personalEl.innerHTML = html;
 
-  // Leader areas
-  const leaderEl = document.getElementById('exploreAreasLeader');
-  const lGroups = {};
-  leaderAreaData.forEach(a => { if (!lGroups[a.parent]) lGroups[a.parent] = []; lGroups[a.parent].push(a); });
-  let lHtml = '';
-  for (const [group, items] of Object.entries(lGroups)) {
-    lHtml += `<div class="area-group"><div class="area-group-name">${group}</div>`;
-    items.forEach(a => {
-      lHtml += `<div class="area-item"><div class="area-left"><span class="area-emoji">${a.emoji}</span><span class="area-name">${a.name}</span></div><div class="area-desc">${a.desc}</div></div>`;
-    });
-    lHtml += '</div>';
-  }
-  leaderEl.innerHTML = lHtml;
+  document.getElementById('exploreAreas').innerHTML = buildAreas(areaData);
+  document.getElementById('exploreAreasLeader').innerHTML = buildAreas(leaderAreaData);
 })();
 
 initRadar('personal');
@@ -1294,7 +1387,7 @@ function handleImport(event) {
   const reader = new FileReader();
   reader.onload = function(e) {
     localStorage.setItem('myspiral_import', e.target.result);
-    window.location = 'assessment.html';
+    window.location = '/map/';
   };
   reader.readAsText(file);
 }
