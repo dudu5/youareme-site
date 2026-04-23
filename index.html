@@ -644,10 +644,12 @@
   }
 
   @media (max-width: 768px) {
-    .hero { padding: 60px 22px 32px; }
+    .hero { padding: 0 22px 80px; }
     .hero-statement { font-size: clamp(24px, 7vw, 40px); }
     .hero-statement .no-wrap { white-space: normal; }
-    .section { padding: 0 22px 60px; }
+    .scroll-hint { bottom: 24px; }
+    .narrative { padding: 80px 22px 24px; }
+    .section { padding: 0 22px 60px; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
     .section-inner { grid-template-columns: 1fr; gap: 0; }
     #demoRadar svg { padding: 16px !important; }
     .section-title { white-space: normal !important; font-size: clamp(28px, 7vw, 42px) !important; }
@@ -690,7 +692,6 @@
     .area-desc { font-size: 12px; line-height: 1.6; }
     .recognition-list { padding: 0; }
     .recognition-line { font-size: 15px; white-space: normal; }
-    .narrative { padding: 48px 22px 24px; }
     .narrative-statement { font-size: clamp(28px, 7vw, 52px); }
     .narrative-hero { min-height: auto; padding: 40px 0; }
     .library { padding: 48px 22px 60px; }
