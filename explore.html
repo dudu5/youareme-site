@@ -829,13 +829,13 @@ function renderContent() {
       const bodyHtml = c.article || `<p>${c.descLong || c.desc}</p>`;
 
       html += `<div class="card-expanded" id="expanded-${slug}">
+        <div class="expanded-tags" style="margin-bottom:16px;">${c.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
         <div class="expanded-header">
           <div class="expanded-title">${c.title}</div>
           <button class="expanded-close" onclick="closeCard('${slug}')">&times;</button>
         </div>
         ${embedHtml}
         <div class="expanded-article">${bodyHtml}</div>
-        <div class="expanded-tags">${c.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
         <div class="expanded-divider"></div>
         <div class="engage-inline">
           <div class="engage-inline-block">
@@ -913,6 +913,15 @@ async function sendToSheet(type, val) {
 }
 
 renderContent();
+
+// Auto-open from URL param
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const openSlugParam = params.get('open');
+  if (openSlugParam) {
+    setTimeout(() => openCard(openSlugParam), 100);
+  }
+})();
 
 function toggleIntro() {
   const full = document.getElementById('introFull');
