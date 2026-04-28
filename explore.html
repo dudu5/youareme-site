@@ -839,7 +839,7 @@ function renderContent() {
           <div class="engage-inline-block">
             <p class="engage-inline-label">What question did this raise for you?</p>
             <textarea class="engage-textarea" id="q-${slug}" placeholder="Your question or thought..."></textarea>
-            <button class="engage-btn" onclick="submitInlineQuestion('${slug}', '${c.title.replace(/'/g, "\\'")}')">Submit</button>
+            <button class="engage-btn" onclick="submitInlineQuestion('${slug}')">Submit</button>
             <div class="engage-confirm" id="qc-${slug}"></div>
           </div>
           <div class="engage-inline-block">
@@ -879,12 +879,12 @@ function closeCard(slug) {
   if (openSlug === slug) openSlug = null;
 }
 
-function submitInlineQuestion(slug, title) {
+function submitInlineQuestion(slug) {
   const input = document.getElementById('q-' + slug);
   const confirm = document.getElementById('qc-' + slug);
   const text = input.value.trim();
   if (!text) return;
-  sendToSheet('explore-question-' + title, text);
+  sendToSheet('explore-question-' + slug, text);
   plausible('Question Submitted');
   input.value = '';
   confirm.textContent = 'Thank you. Your question is in.';
