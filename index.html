@@ -807,7 +807,7 @@
             <div><span class="arrow">→</span> No email needed</div>
             <div><span class="arrow">→</span> Data is yours</div>
           </div>
-          <a href="/map/" class="section-cta" onclick="plausible('CTA Click Personal')">
+          <a href="/map/" class="section-cta" onclick="event.preventDefault(); plausible('CTA Click Personal'); setTimeout(function(){ window.location='/map/'; }, 150);">
             <span>Get Your Map</span>
             <span>→</span>
           </a>
@@ -947,7 +947,7 @@
     </div>
 
     <div class="narrative-cta-wrap reveal">
-      <a href="/map/" class="section-cta" onclick="plausible('CTA Click Bottom')">
+      <a href="/map/" class="section-cta" onclick="event.preventDefault(); plausible('CTA Click Bottom'); setTimeout(function(){ window.location='/map/'; }, 150);">
         <span>Get Your Map</span>
         <span>→</span>
       </a>
@@ -970,7 +970,7 @@
     </div>
 
     <div class="library-cta-wrap">
-      <a href="explore.html" class="section-cta" onclick="plausible('Explore Click')">
+      <a href="explore.html" class="section-cta" onclick="event.preventDefault(); plausible('Explore Click'); setTimeout(function(){ window.location='explore.html'; }, 150);">
         <span>Explore all content</span>
         <span>→</span>
       </a>
