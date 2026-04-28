@@ -885,6 +885,7 @@ function submitInlineQuestion(slug, title) {
   const text = input.value.trim();
   if (!text) return;
   sendToSheet('explore-question-' + title, text);
+  plausible('Question Submitted');
   input.value = '';
   confirm.textContent = 'Thank you. Your question is in.';
 }
@@ -899,6 +900,7 @@ function submitInlineNotify(slug) {
     return;
   }
   sendToSheet('explore-notify', email);
+  plausible('Email Signup');
   input.value = '';
   confirm.textContent = "You're on the list.";
 }
