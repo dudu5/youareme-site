@@ -839,7 +839,7 @@ function renderContent() {
           <div class="engage-inline-block">
             <p class="engage-inline-label">What question did this raise for you?</p>
             <textarea class="engage-textarea" id="q-${slug}" placeholder="Your question or thought..."></textarea>
-            <button class="engage-btn" onclick="submitInlineQuestion('${slug}', '${c.title}')">Submit</button>
+            <button class="engage-btn" onclick="submitInlineQuestion('${slug}', '${c.title.replace(/'/g, "\\'")}')">Submit</button>
             <div class="engage-confirm" id="qc-${slug}"></div>
           </div>
           <div class="engage-inline-block">
