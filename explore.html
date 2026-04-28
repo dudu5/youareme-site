@@ -859,6 +859,7 @@ function renderContent() {
 let openSlug = null;
 
 function openCard(slug) {
+  plausible('Content Opened');
   if (openSlug) closeCard(openSlug);
   const card = document.querySelector(`.content-card[data-slug="${slug}"]`);
   const el = document.getElementById('expanded-' + slug);

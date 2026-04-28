@@ -807,12 +807,12 @@
             <div><span class="arrow">→</span> No email needed</div>
             <div><span class="arrow">→</span> Data is yours</div>
           </div>
-          <a href="/map/" class="section-cta">
+          <a href="/map/" class="section-cta" onclick="plausible('CTA Click Personal')">
             <span>Get Your Map</span>
             <span>→</span>
           </a>
           <div class="section-import">
-            <label for="importCSV">Already have a map? Import it →</label>
+            <label for="importCSV" onclick="plausible('Import Click')">Already have a map? Import it →</label>
             <input type="file" id="importCSV" accept=".csv,.txt" style="display:none;" onchange="handleImport(event)">
           </div>
         </div>
@@ -947,7 +947,7 @@
     </div>
 
     <div class="narrative-cta-wrap reveal">
-      <a href="/map/" class="section-cta">
+      <a href="/map/" class="section-cta" onclick="plausible('CTA Click Bottom')">
         <span>Get Your Map</span>
         <span>→</span>
       </a>
@@ -970,7 +970,7 @@
     </div>
 
     <div class="library-cta-wrap">
-      <a href="explore.html" class="section-cta">
+      <a href="explore.html" class="section-cta" onclick="plausible('Explore Click')">
         <span>Explore all content</span>
         <span>→</span>
       </a>
@@ -1031,6 +1031,7 @@ function toggleNarrativeMore() {
   const el = document.getElementById('narrativeMore');
   const btn = document.getElementById('narrativeMoreToggle');
   const isOpen = el.classList.contains('open');
+  if (!isOpen) plausible('Narrative Expanded');
   el.classList.toggle('open');
   btn.style.display = isOpen ? 'inline' : 'none';
 }
@@ -1053,6 +1054,7 @@ function toggleReviews() {
   const el = document.getElementById('reviewsHidden');
   const btn = document.getElementById('reviewsToggle');
   const isOpen = el.classList.contains('open');
+  if (!isOpen) plausible('Reviews Expanded');
   el.classList.toggle('open');
   btn.textContent = isOpen ? '+ 10 more' : '− show less';
 }
@@ -1308,6 +1310,7 @@ function positionSlider(mode) {
 }
 
 function switchAssessment(mode) {
+  plausible(mode === 'leader' ? 'Toggle Leader' : 'Toggle Personal');
   currentMode = mode;
   const pBtn = document.getElementById('togglePersonal');
   const lBtn = document.getElementById('toggleLeader');
@@ -1387,6 +1390,21 @@ function handleImport(event) {
   };
   reader.readAsText(file);
 }
+
+// ── SCROLL DEPTH TRACKING ──
+(function() {
+  const milestones = [25, 50, 75, 100];
+  const fired = new Set();
+  window.addEventListener('scroll', () => {
+    const pct = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+    milestones.forEach(m => {
+      if (pct >= m && !fired.has(m)) {
+        fired.add(m);
+        plausible('Scroll ' + m);
+      }
+    });
+  });
+})();
 </script>
 </body>
 </html>
