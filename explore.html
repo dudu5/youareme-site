@@ -1215,7 +1215,7 @@ function renderContent() {
       </div>` : '';
       const bodyHtml = c.article || `<p>${c.descLong || c.desc}</p>`;
 
-      html += `<div class="card-expanded" id="expanded-${slug}"
+      html += `<div class="card-expanded" id="expanded-${slug}">
         <div class="expanded-tags" style="margin-bottom:16px;">${c.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
         <div class="expanded-header">
           <div class="expanded-title">${c.title}</div>
