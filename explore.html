@@ -64,6 +64,7 @@
 
   .nav-logo span { color: var(--accent); }
 
+
   .nav-cta {
     font-family: 'DM Sans', sans-serif;
     font-size: 11px;
@@ -76,7 +77,7 @@
 
   .nav-cta:hover { opacity: 0.7; }
 
-  .page-header, .page-intro, .controls, .content-grid, footer {
+  .page-header, .page-intro, .subscribe-bar, .controls, .content-grid, footer {
     position: relative;
     z-index: 1;
   }
@@ -121,7 +122,7 @@
   .page-intro {
     max-width: 900px;
     margin: 0 auto;
-    padding: 0 36px 24px;
+    padding: 100px 36px 48px;
   }
 
   .page-photo {
@@ -147,8 +148,25 @@
 
   .intro-collapsed {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .intro-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 300;
+    line-height: 1.25;
+    color: var(--white);
+    margin: 0 0 36px;
+    text-align: center;
+  }
+
+  .intro-headline i {
+    color: var(--accent);
+    font-style: italic;
   }
 
   .page-photo-small {
@@ -171,21 +189,27 @@
   .controls {
     max-width: 900px;
     margin: 0 auto;
-    padding: 0 36px 48px;
+    padding: 0 36px 12px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
   }
 
   .search-wrap {
     position: relative;
-    margin-bottom: 20px;
+    flex: 1;
+    min-width: 180px;
   }
 
   .search-icon {
     position: absolute;
-    left: 16px;
+    left: 12px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--dimmer);
-    font-size: 14px;
+    font-size: 12px;
     pointer-events: none;
   }
 
@@ -195,9 +219,9 @@
     border: 1px solid rgba(255,255,255,0.1);
     color: var(--white);
     font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 300;
-    padding: 14px 16px 14px 40px;
+    padding: 6px 14px 6px 32px;
     outline: none;
     transition: border-color 0.2s;
     border-radius: 0;
@@ -248,7 +272,6 @@
   .sort-row {
     display: flex;
     gap: 16px;
-    margin-top: 16px;
   }
 
   .sort-btn {
@@ -272,8 +295,8 @@
     margin: 0 auto;
     padding: 0 36px 100px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .content-card {
@@ -293,6 +316,30 @@
 
   .content-card.placeholder { cursor: default; }
   .content-card.placeholder:hover { border-color: rgba(255,255,255,0.08); background: none; }
+
+  .card-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .expanded-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .card-date {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--dimmer);
+    margin-bottom: 6px;
+  }
 
   .card-title {
     font-family: 'Cormorant Garamond', serif;
@@ -386,6 +433,7 @@
     background: #000;
     border: 1px solid rgba(255,255,255,0.06);
     margin-bottom: 24px;
+    cursor: pointer;
   }
 
   .expanded-embed iframe {
@@ -394,6 +442,144 @@
     width: 100%;
     height: 100%;
     border: none;
+  }
+
+  .expanded-embed .video-poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .expanded-embed .video-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 68px;
+    height: 48px;
+    background: rgba(0,0,0,0.7);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  .expanded-embed:hover .video-play-btn {
+    background: rgba(255,0,0,0.85);
+  }
+
+  .video-play-btn::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 0 10px 18px;
+    border-color: transparent transparent transparent #fff;
+    margin-left: 3px;
+  }
+
+  /* ── AUDIO PLAYER ── */
+  .audio-player {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .audio-btn {
+    background: none;
+    border: none;
+    color: var(--dim);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .audio-btn:hover { color: var(--white); }
+
+  .audio-play {
+    color: var(--accent);
+    font-size: 20px;
+  }
+
+  .audio-play:hover { color: var(--white); }
+
+  .audio-progress-wrap {
+    flex: 1;
+    min-width: 120px;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    cursor: pointer;
+    position: relative;
+    border-radius: 2px;
+  }
+
+  .audio-progress {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  .audio-time {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--dimmer);
+    letter-spacing: 0.05em;
+    min-width: 70px;
+    text-align: center;
+  }
+
+  .audio-speed {
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    background: var(--accent-bg);
+    border: 1px solid rgba(0,201,167,0.2);
+    padding: 3px 8px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    border-radius: 0;
+    transition: all 0.2s;
+  }
+
+  .audio-speed:hover {
+    background: rgba(0,201,167,0.15);
+  }
+
+  .audio-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dimmer);
+  }
+
+  @media (max-width: 768px) {
+    .audio-player {
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 10px 12px;
+    }
+    .audio-progress-wrap {
+      order: -1;
+      width: 100%;
+      flex: none;
+      height: 6px;
+      margin-bottom: 4px;
+    }
+    .audio-time { min-width: 60px; font-size: 10px; }
   }
 
   .expanded-desc {
@@ -413,7 +599,7 @@
     font-size: clamp(16px, 2.2vw, 19px);
     font-weight: 300;
     line-height: 1.85;
-    color: var(--dim);
+    color: #d4d0c8;
     margin-bottom: 20px;
   }
 
@@ -544,6 +730,79 @@
     min-height: 16px;
   }
 
+  /* ── TOP SUBSCRIBE ── */
+  .subscribe-bar {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 36px 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    clear: both;
+  }
+
+  .subscribe-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--dimmer);
+    white-space: nowrap;
+  }
+
+  .subscribe-input {
+    width: 33%;
+    max-width: 200px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    padding: 6px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    border-radius: 0;
+  }
+
+  .subscribe-input::placeholder { color: var(--dimmer); }
+  .subscribe-input:focus { border-color: var(--accent-border); }
+
+  .subscribe-btn {
+    background: transparent;
+    border: 1px solid var(--accent-border);
+    color: var(--accent);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 0;
+    white-space: nowrap;
+  }
+
+  .subscribe-btn:hover { background: var(--accent-bg); }
+
+  .subscribe-confirm {
+    font-size: 12px;
+    color: var(--accent);
+    min-height: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .subscribe-bar {
+      flex-wrap: wrap;
+      padding: 0 22px 24px;
+      gap: 8px;
+    }
+    .subscribe-label { font-size: 14px; flex: 1; }
+    .subscribe-btn { order: 2; }
+    .subscribe-input { order: 3; width: 100%; }
+    .subscribe-confirm { order: 4; }
+  }
+
   @media (max-width: 768px) {
     .engage-inline { grid-template-columns: 1fr; gap: 24px; }
     .card-expanded { padding: 28px 22px; }
@@ -588,11 +847,9 @@
   @media (max-width: 768px) {
     nav { padding: 14px 22px; }
     .nav-cta { font-size: 10px; padding: 6px 0; }
-    .page-header { padding: 50px 22px 0; }
-    .page-title { font-size: clamp(28px, 8vw, 48px); }
-    .page-intro { padding: 0 22px 20px; }
+    .page-intro { padding: 60px 22px 20px; }
     .page-photo { width: 140px; height: 140px; margin: 0 0 16px 16px; }
-    .controls { padding: 0 22px 28px; }
+    .controls { padding: 0 22px 28px; flex-direction: column; align-items: stretch; }
     .filter-row { gap: 6px; }
     .filter-tag { padding: 5px 10px; font-size: 10px; }
     .content-grid { grid-template-columns: 1fr; padding: 0 22px 60px; gap: 14px; }
@@ -610,27 +867,25 @@
 <div class="bg-fixed"></div>
 <nav>
   <a href="index.html" class="nav-logo">You Are <span>Me</span></a>
-  <a href="/#assessmentSection" class="nav-cta">Map Your Needs →</a>
+  <a href="/#assessmentSection" class="nav-cta" style="text-transform:none;"><span style="color:var(--white);">Map</span> <span style="color:var(--accent);">Your Needs</span> →</a>
 </nav>
 
-<div class="page-header">
-  <h1 class="page-title"><span style="color:var(--accent);">My</span> Perspectives</h1>
-</div>
-
 <div class="page-intro">
+  <h2 class="intro-headline">How do you navigate the experience of being <i>you?</i></h2>
   <div class="intro-collapsed" id="introCollapsed">
-    <img src="Me.png" alt="Aleksander" class="page-photo-small">
-    <p>This is where I share my perspectives... <span class="intro-expand" onclick="toggleIntro()">Read more ↓</span></p>
+    <span class="intro-expand" onclick="toggleIntro()">Read more ↓</span>
   </div>
   <div id="introFull" style="display:none;">
     <p>This is where I share my perspectives. They are just that — my perspectives. They have been forged through my life experience, everything I have listened to, read, feelt and thought of, interacted with. I'm not claiming they are right or true, they are just what it seems like to me.</p>
     <p>My experience has taught me that I have everything to win by articulating what I see and understand as clearly as I can — both for my own clarity, but also to enable more qualitative alignment with others.</p>
     <p>Another thing I've learned is that my perspectives are dynamic, constantly evolving. The biggest treasure in my self development has been learning to not defend but be curious about different perspectives — especially when my body wants to defend. The more I treat my perspectives as fixed truths that define me, the more trapped I become by them. When I can hold them lightly, as working hypotheses rather than identity, I stay free to grow.</p>
     <img src="Me.png" alt="Aleksander" class="page-photo">
-    <p>I invite you to engage with these perspectives as starting points for your own exploration. What resonates, what challenges, what sparks curiosity about your own experience? <span style="color:var(--white);">How do you navigate the experience of being you?</span></p>
-    <p style="color:var(--white); text-align:right;">👋 /Olek <span class="intro-expand" onclick="toggleIntro()">Read less ↑</span></p>
+    <p>I invite you to engage with these perspectives as starting points for your own exploration. What resonates, what challenges, what sparks curiosity about your own experience?</p>
+    <p style="color:var(--white); text-align:right;">👋 /Olek</p>
+    <p><span class="intro-expand" onclick="toggleIntro()">Read less ↑</span></p>
   </div>
 </div>
+
 
 <div class="controls">
   <div class="search-wrap">
@@ -641,9 +896,15 @@
     <span class="filter-label">Filter</span>
   </div>
   <div class="sort-row">
-    <button class="sort-btn active" id="sortNewest" onclick="setSort('newest')">Newest</button>
-    <button class="sort-btn" id="sortAZ" onclick="setSort('az')">A → Z</button>
+    <button class="sort-btn active" id="sortToggle" onclick="toggleSort()">Oldest first</button>
   </div>
+</div>
+
+<div class="subscribe-bar">
+  <span class="subscribe-confirm" id="topSubscribeConfirm"></span>
+  <span class="subscribe-label">Get notified when I publish →</span>
+  <input type="email" class="subscribe-input" id="topSubscribeEmail" placeholder="your@email.com">
+  <button class="subscribe-btn" onclick="topSubscribe()">Subscribe</button>
 </div>
 
 <div class="content-grid" id="contentGrid"></div>
@@ -656,19 +917,125 @@
 <script>
 const content = [
   {
+    title: "You know exactly what you need to do. And you still can't do it.",
+    desc: "The gap between what you consciously want and what your automatic patterns keep doing — and the practice of moving anyway.",
+    date: "1 May 2026",
+    image: "images/i-know-exactly.png",
+    format: "essay",
+    formatIcon: "✍️",
+    formatType: "Essay",
+    tags: ["✍️ essay", "🎧 listen"],
+    meta: "Read · 10 min",
+    embed: null,
+    audio: "audio/you-know-exactly-what-you-need-to-do.mp3",
+    article: `<p>Here's what's actually happening: your conscious mind understands what matters. You've mapped it. You know the direction.</p>
+
+<p>But something deeper is still running the old patterns. The automatic responses that kept you safe for years are still predicting, still signaling, still pulling you toward what's familiar.</p>
+
+<p>The gap between what you're aware of wanting and what your body is automatically pulling toward — that's where you're stuck.</p>
+
+<p>It's not that you lack willpower. It's that what you consciously want and what your automatic patterns are doing aren't aligned.</p>
+
+<hr>
+
+<h3>What I Saw</h3>
+
+<p>I started noticing. Observing. Gradually understanding that the feeling of flow — being "in the zone," the excitement, the sense that I'm killing it — doesn't necessarily mean I'm going in the right direction.</p>
+
+<p>For years, I couldn't separate the patterns from myself. The evaluating, the resisting, the manic hyperfocus on building the perfect structure — I thought that was just who I am.</p>
+
+<p>Then I saw it differently. When I'm in deep flow, I'm least able to step back and observe. If that flow is taking me where I actually want to go — all good. But more often than not, my system was using flow to escape real change. The feeling of running fast gave me the illusion of moving forward, while my old patterns kept looping me back to the same place — just with a lot of energy spent.</p>
+
+<p>In my case, the loop was building structures, thinking holistically, constructing understanding — running on autopilot, not chosen deliberately. The cost was disconnection. From other people. From feedback. From the real world telling me whether any of this actually matters. My system was protecting itself by staying in my head, where it felt safe.</p>
+
+<hr>
+
+<h3>The Practice</h3>
+
+<p><strong>Notice when you're most automated</strong><br>
+That feeling of flow, of rightness, of pull — that's when the pattern is strongest. That's when you most need to pause.</p>
+
+<p>In my case it shows up as hyperfocus. Excitement. The sense that nothing else exists. I feel it in my body — the urgency, the intensity, the certainty that this is the thing.</p>
+
+<p>That feeling is the signal. Not to keep going. To stop and look at what's actually happening.</p>
+
+<p><strong>Name it to yourself</strong><br>
+Don't just hold the pattern internally. Acknowledge it.</p>
+
+<p>Say: this is what's happening. This might not be the thing that takes me where I want to go. There's a misalignment between my direction and what I'm automatically doing.</p>
+
+<p>This isn't criticism. It's observation. You're not saying you have to change. You're acknowledging that you see it.</p>
+
+<p>That acknowledgment alone shifts something.</p>
+
+<p><strong>Say it to someone</strong><br>
+Once you can name it for yourself, name it to someone you trust.</p>
+
+<p>Being seen with the misalignment matters more than you think. The act of speaking it to another person breaks the grip — you start to look at it instead of being consumed by it.</p>
+
+<p><strong>Narrow your scope radically</strong><br>
+Identify what matters most for moving in your actual direction. Then make that one thing small enough to actually complete.</p>
+
+<p>Too big and your autopilot wins. You don't succeed, and your system collects more evidence that this direction is unsafe.</p>
+
+<p>Start smaller than feels necessary. Let your system build from there.</p>
+
+<p><strong>Move anyway</strong><br>
+Here's what this looked like for me.</p>
+
+<p>I spent a full day working hard — but on the wrong thing. My patterns had taken over. Building, structuring, going deep into things that weren't the move. By the end of that day I felt incapable. Like I couldn't actually do this.</p>
+
+<p>But sitting with that, I saw it clearly: tomorrow, the only thing that matters is writing the post. Not the system around it. Not the perfect structure. Just the post. Narrow enough that there's no room for autopilot to drag me sideways.</p>
+
+<p>The next day, the patterns were still there. They didn't disappear. The pull to expand, to perfect, to build the surrounding structure — all of it. But within that narrow scope, I got the post done.</p>
+
+<p>What it gave me was bigger than the post itself. The day before, my evidence said: I can't. After moving within the smaller scope, the evidence said: I can. And the move forward gave me energy — the kind that only comes from actually doing the thing, not thinking about it.</p>
+
+<p><strong>Notice what shifts</strong><br>
+If you can't actually move, observe. If you don't have enough leverage to move at all, observe.</p>
+
+<p>Observation itself is movement. It builds the map. The map creates leverage.</p>
+
+<p>Once you've observed enough — or as soon as you start observing — small moves become possible. Each small move builds credibility. Your system learns this direction is safe.</p>
+
+<p>Over time the moves get bigger — not in absolute terms, but in relation to where you started. That's compounding.</p>
+
+<hr>
+
+<h3>Why I'm Sharing This</h3>
+
+<p>I'm posting this because staying stuck costs more than moving forward.</p>
+
+<p>Because I've reached the point where I understand that movement comes in phases. Observation is the first movement. If I can't move boldly, at least I'm observing — and that itself is already a change in direction.</p>
+
+<p>Because the only way through is to feel it and move anyway, in steps small enough that your system can metabolize the evidence and build trust.</p>
+
+<p>I'm sharing my perspective as I move through it. So you can see what it looks like from the inside.</p>
+
+<p>Not polished. Not solved. Just moving. Teaching my system one cycle at a time that this direction is safe.</p>
+
+<p><em>If this resonates, subscribe to follow along.</em></p>
+
+`,
+    order: 2,
+  },
+  {
     title: "I'm training myself not to trust myself",
     desc: "How automation, rationalization, and extraction kept me stuck — and how mapping became the way through.",
+    date: "24 Apr 2026",
+    image: "images/i-m-training-myself.png",
     format: "essay",
     formatIcon: "✍️",
     formatType: "Essay",
     tags: ["✍️ essay", "🎧 listen"],
     meta: "Read · 8 min",
     embed: null,
+    audio: "audio/i-m-training-myself.mp3",
     article: `<p>Here's how it happened.</p>
 
 <h3>The Automation Problem</h3>
 
-<p>I spent years operating on autopilot. My biology automated. My thinking automated. Scientists claim we're automated up to 95% of what we think and do — it just repeats from day to day. And within that automation, I developed a skill: rationalization. A voice that could make extracting more than I needed feel justified.</p>
+<p>I spent years operating on autopilot. My biology automated. My thinking automated. Scientists claim up to 95% of what we think and do just repeats from day to day. And within that automation, I developed a skill: rationalization. A voice that could make extracting more than I needed feel justified.</p>
 
 <blockquote>"You've earned it. It's not that bad. You deserve this."</blockquote>
 
@@ -690,31 +1057,29 @@ const content = [
 
 <p>I couldn't think my way out of this. I had to map my way through it.</p>
 
-<p>When I tried to change something through — willpower, discipline, self-criticism — I was fighting automation with willpower. My experience, it didn't work. Snapped back in my face like a stretched rubber band — every single time.</p>
+<p>When I tried to change something through — willpower, discipline, self-criticism — I was fighting automation with willpower. In my experience of it, it didn't work. I started, pushed for a while. But it always snapped back in my face like a stretched rubber band — every single time.</p>
 
-<p>When I tried to change something through sheer force — willpower, discipline, self-criticism — it didn't work. I started, pushed for a while — but then snapped back in my face like a stretched rubber band — every single time.</p>
-
-<p>What worked was continuous observation. The more I focused on something when it was happening, and after, and before — the more information I collected. The more I built a concrete map of what was actually going on.</p>
+<p>What I have learned worked better was continuous observation. The more I focused on something when it was happening, and after, and before — the more information I collected. The more I built a concrete map of what was actually going on.</p>
 
 <p>Not to change it. Not at first. Just to see it clearly. The change comes later — out of understanding, not effort.</p>
 
 <p>I can use weed as an example. For a decade, I was extracting — taking more than I needed because I could, because it felt good in the moment. And underneath: I was using it to regulate my system. I just didn't know that's what I was doing. But I wasn't ready to see the cost. Or maybe I wasn't ready to let go of what the extraction gave me.</p>
 
-<p>Here's what I learned: you can't move away from something without seeing an alternative. Your system can't perceive what it's paying unless it can imagine choosing differently. And if you can't see the cost, you have no choice but to continue.</p>
+<p>Here's what I learned: you can't move away from something without seeing an alternative. Your system can't perceive what it's paying unless it can imagine choosing differently. And if you can't see the cost and the alternative, you have no choice but to continue.</p>
 
 <p>What changed for me wasn't willpower. It was mapping.</p>
 
-<p>I started zooming in on my relationship with weed. Being present with it. Not judging. Not fixing. Just being there. What leads up to it? What happens after? How do I feel in my body before, during, the next day? How does it affect my ability to show up? How does it affect my choices?</p>
+<p>I started zooming in on my relationship with weed. Being present with it. Not judging. Not fixing. Just being there, observing. What leads up to it? What happens after? How do I feel in my body before, during, the next day? How does it affect my ability to show up? How does it affect my choices?</p>
 
-<p>Over time, the map got clearer.</p>
+<p>Over time, my map of it got clearer.</p>
 
-<p>A short resistance before the decision. Then — once I decided — a dopamine rush. Happiness on the way to get it. The smoking itself feels nice.</p>
+<p>A short resistance before the decision, the inner battle and the rationalization tilting the scale. Then — once I decided — a dopamine rush. Excitement, energy on the way to get it. The smoking itself was nice.</p>
 
 <p>Then it gets mixed. Slower in my head. Lower sex drive. Asocial — I want to be alone with my thinking. Lost in rabbit holes. Procrastinating basically everything except smoking more and doing whatever I felt like in the moment. Heart racing, beating hard and fast. Anxiety — more and more of it the longer I used. Hubristic thinking that was painful to come down from.</p>
 
-<p>And the craving doesn't close. The moment I finished a joint, I was already thinking about the next. The extraction has no natural endpoint.</p>
+<p>And the craving that doesn't end, it only got stronger. The moment I finished a joint, I was already thinking about the next. The extraction has no natural endpoint.</p>
 
-<p>Then 2–3 days of weed hangover. Slow. Unwilling.</p>
+<p>Then 2\u20133 days of weed hangover. Slow. Unwilling.</p>
 
 <p>The cost became concrete.</p>
 
@@ -728,7 +1093,7 @@ const content = [
 
 <hr>
 
-<h3>If you want to try this…</h3>
+<h3>If you want to try this\u2026</h3>
 
 <p>Pick something small. One pattern. Observe it before, during, after. Don't try to change it. Ask the critic to chill — tell him/her you have a plan, and the plan is just to look. Curiosity is the whole tool. Every time you catch yourself being present, every time you collect a real piece of information — celebrate it. Build on that. It's a spiral. Each pass goes deeper. The map gets clearer. The choice gets possible.</p>
 
@@ -742,26 +1107,28 @@ const content = [
 <p>It's not easy. But standing where I am, it's the most meaningful thing I can see.</p>
 
 <p>This path is individual. But we don't have to walk it alone. We can share perspectives from our journeys. We can build shared maps from our internal work — not as academics, but as practitioners discovering what's actually true for you and me individually — and out of that, what's true for us both.</p>`,
-    order: 0,
+    order: 1,
   },
   {
     title: "The Absolute Center",
     desc: "The first chapter of Ground. Where all the maps begin — with the realization that you are the center of your own reality.",
+    date: "27 Feb 2026",
+    image: "images/the-absolute-center.png",
     descLong: "Everything I have ever felt, feared, loved or lost — happened inside me. Which means the most important place I could ever learn to inhabit... is here. This is the first chapter of Ground — a map built from lived experience, refined over years.",
     format: "video",
     formatIcon: "🎬",
     formatType: "Video",
-    tags: ["🎬 video", "🎧 listen"],
+    tags: ["🎬 video"],
     meta: "Watch · 15 min",
     embed: "https://www.youtube.com/embed/SZco5EJncVc",
-    order: 1,
+    order: 0,
   },
 ];
 
 // Collect all tags
 const allTags = [...new Set(content.flatMap(c => c.tags))].sort();
 let activeTag = null;
-let currentSort = 'newest';
+let currentSort = 'oldest';
 
 // Build filter tags
 const filterRow = document.getElementById('filterRow');
@@ -777,10 +1144,10 @@ allTags.forEach(tag => {
   filterRow.appendChild(btn);
 });
 
-function setSort(type) {
-  currentSort = type;
-  document.getElementById('sortNewest').classList.toggle('active', type === 'newest');
-  document.getElementById('sortAZ').classList.toggle('active', type === 'az');
+function toggleSort() {
+  currentSort = currentSort === 'oldest' ? 'newest' : 'oldest';
+  const btn = document.getElementById('sortToggle');
+  btn.textContent = currentSort === 'oldest' ? 'Oldest first' : 'Newest first';
   renderContent();
 }
 
@@ -797,8 +1164,8 @@ function renderContent() {
     return matchesTag && matchesSearch;
   });
 
-  if (currentSort === 'az') {
-    items.sort((a, b) => a.title.localeCompare(b.title));
+  if (currentSort === 'newest') {
+    items.sort((a, b) => b.order - a.order);
   } else {
     items.sort((a, b) => a.order - b.order);
   }
@@ -809,12 +1176,16 @@ function renderContent() {
   }
 
   grid.innerHTML = items.map((c, i) => {
-    const isPlaceholder = !c.embed && c.meta === 'Coming soon';
+    const isPlaceholder = !c.embed && !c.article && c.meta === 'Coming soon';
     const cls = isPlaceholder ? 'content-card placeholder' : 'content-card';
     const metaCls = c.meta === 'Coming soon' ? 'card-meta muted' : 'card-meta';
     const slug = c.title.replace(/[^a-z0-9]/gi, '-').toLowerCase();
 
+    const cardImg = c.image ? `<img class="card-image" src="${c.image}" alt="${c.title}">` : '';
+
     let html = `<div class="${cls}" onclick="${isPlaceholder ? '' : `openCard('${slug}')`}" data-slug="${slug}">
+      ${cardImg}
+      ${c.date ? `<div class="card-date">${c.date}</div>` : ''}
       <div class="card-title">${c.title}</div>
       <p class="card-desc">${c.desc}</p>
       <div class="card-tags">${c.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
@@ -823,16 +1194,36 @@ function renderContent() {
 
     // Expanded detail view
     if (!isPlaceholder) {
-      const embedHtml = c.embed ? `<div class="expanded-embed"><iframe src="${c.embed}" title="${c.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>` : '';
+      const embedHtml = c.embed ? (c.image
+        ? `<div class="expanded-embed" onclick="this.innerHTML='<iframe src=\\'${c.embed}?autoplay=1\\' title=\\'${c.title}\\' allow=\\'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\' allowfullscreen style=\\'position:absolute;inset:0;width:100%;height:100%;border:none;\\'></iframe>';this.style.cursor='default';">
+            <img class="video-poster" src="${c.image}" alt="${c.title}">
+            <div class="video-play-btn"></div>
+          </div>`
+        : `<div class="expanded-embed"><iframe src="${c.embed}" title="${c.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`)
+      : '';
+      const audioHtml = c.audio ? `<div class="audio-player" id="ap-${slug}" data-slug="${slug}">
+        <span class="audio-label" style="color:rgb(251,146,60)">🎧</span>
+        <button class="audio-btn" data-action="skip" data-sec="-10">-10</button>
+        <button class="audio-btn audio-play" id="ap-play-${slug}" data-action="toggle">▶</button>
+        <button class="audio-btn" data-action="skip" data-sec="10">+10</button>
+        <div class="audio-progress-wrap" data-action="seek">
+          <div class="audio-progress" id="ap-bar-${slug}"></div>
+        </div>
+        <span class="audio-time" id="ap-time-${slug}">0:00 / 0:00</span>
+        <button class="audio-speed" id="ap-speed-${slug}" data-action="speed">1x</button>
+        <audio id="ap-audio-${slug}" src="${c.audio}" preload="metadata"></audio>
+      </div>` : '';
       const bodyHtml = c.article || `<p>${c.descLong || c.desc}</p>`;
 
-      html += `<div class="card-expanded" id="expanded-${slug}">
+      html += `<div class="card-expanded" id="expanded-${slug}"
         <div class="expanded-tags" style="margin-bottom:16px;">${c.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
         <div class="expanded-header">
           <div class="expanded-title">${c.title}</div>
           <button class="expanded-close" onclick="closeCard('${slug}')">&times;</button>
         </div>
+        ${c.image && !c.embed ? `<img class="expanded-image" src="${c.image}" alt="${c.title}">` : ''}
         ${embedHtml}
+        ${audioHtml}
         <div class="expanded-article">${bodyHtml}</div>
         <div class="expanded-divider"></div>
         <div class="engage-inline">
@@ -860,24 +1251,52 @@ let openSlug = null;
 
 function openCard(slug) {
   plausible('Content Opened');
-  if (openSlug) closeCard(openSlug);
+  if (openSlug) closeCard(openSlug, true);
   const card = document.querySelector(`.content-card[data-slug="${slug}"]`);
   const el = document.getElementById('expanded-' + slug);
   if (card) card.style.display = 'none';
   if (el) {
     el.classList.add('open');
     openSlug = slug;
+    history.pushState({ openSlug: slug }, '', `?open=${slug}`);
     setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
   }
 }
 
-function closeCard(slug) {
+function closeCard(slug, skipHistory) {
   const card = document.querySelector(`.content-card[data-slug="${slug}"]`);
   const el = document.getElementById('expanded-' + slug);
+  // Stop any playing video
+  if (el) {
+    const iframe = el.querySelector('iframe');
+    if (iframe) iframe.src = '';
+  }
+  // Stop any playing audio
+  const audio = document.getElementById('ap-audio-' + slug);
+  if (audio && !audio.paused) {
+    audio.pause();
+    const btn = document.getElementById('ap-play-' + slug);
+    if (btn) btn.textContent = '▶';
+  }
   if (el) el.classList.remove('open');
   if (card) card.style.display = '';
   if (openSlug === slug) openSlug = null;
+  if (!skipHistory) history.pushState({}, '', window.location.pathname);
 }
+
+// Escape closes post
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && openSlug) closeCard(openSlug);
+});
+
+// Back button closes post
+window.addEventListener('popstate', (e) => {
+  if (openSlug) {
+    closeCard(openSlug, true);
+  } else if (e.state && e.state.openSlug) {
+    openCard(e.state.openSlug);
+  }
+});
 
 function submitInlineQuestion(slug) {
   const input = document.getElementById('q-' + slug);
@@ -924,12 +1343,120 @@ renderContent();
   }
 })();
 
+// ── AUDIO PLAYER ──
+const audioSpeeds = [1, 1.25, 1.5, 1.75, 2, 0.75];
+const audioSpeedIdx = {};
+
+function fmtTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return m + ':' + String(sec).padStart(2, '0');
+}
+
+// Audio event delegation
+document.addEventListener('click', function(e) {
+  const player = e.target.closest('.audio-player');
+  if (!player) return;
+  e.stopPropagation();
+  const slug = player.dataset.slug;
+  const action = e.target.closest('[data-action]');
+  if (!action) return;
+  const act = action.dataset.action;
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  if (act === 'toggle') return audioToggle(slug);
+  if (act === 'skip') return audioSkip(slug, parseInt(action.dataset.sec));
+  if (act === 'seek') return audioSeek(e, slug);
+  if (act === 'speed') return audioCycleSpeed(slug);
+});
+
+function audioToggle(slug) {
+  const audio = document.getElementById('ap-audio-' + slug);
+  const btn = document.getElementById('ap-play-' + slug);
+  if (audio.paused) {
+    audio.play();
+    btn.textContent = '⏸';
+    audioTick(slug);
+  } else {
+    audio.pause();
+    btn.textContent = '▶';
+  }
+}
+
+function audioTick(slug) {
+  const audio = document.getElementById('ap-audio-' + slug);
+  const bar = document.getElementById('ap-bar-' + slug);
+  const time = document.getElementById('ap-time-' + slug);
+  if (!audio || audio.paused) return;
+  const pct = (audio.currentTime / audio.duration) * 100;
+  bar.style.width = pct + '%';
+  time.textContent = fmtTime(audio.currentTime) + ' / ' + fmtTime(audio.duration);
+  requestAnimationFrame(() => audioTick(slug));
+}
+
+function audioSkip(slug, sec) {
+  const audio = document.getElementById('ap-audio-' + slug);
+  if (!audio || !audio.duration || isNaN(audio.duration)) return;
+  const wasPlaying = !audio.paused;
+  if (wasPlaying) audio.pause();
+  const newTime = Math.max(0, Math.min(audio.duration - 0.1, audio.currentTime + sec));
+  audio.currentTime = newTime;
+  if (wasPlaying) audio.play();
+  const bar = document.getElementById('ap-bar-' + slug);
+  const time = document.getElementById('ap-time-' + slug);
+  bar.style.width = ((newTime / audio.duration) * 100) + '%';
+  time.textContent = fmtTime(newTime) + ' / ' + fmtTime(audio.duration);
+}
+
+function audioSeek(e, slug) {
+  const audio = document.getElementById('ap-audio-' + slug);
+  if (!audio || !audio.duration || isNaN(audio.duration)) return;
+  const wrap = document.querySelector(`#ap-${slug} [data-action="seek"]`);
+  const rect = wrap.getBoundingClientRect();
+  const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  const wasPlaying = !audio.paused;
+  if (wasPlaying) audio.pause();
+  audio.currentTime = pct * audio.duration;
+  if (wasPlaying) audio.play();
+  const bar = document.getElementById('ap-bar-' + slug);
+  const time = document.getElementById('ap-time-' + slug);
+  bar.style.width = (pct * 100) + '%';
+  time.textContent = fmtTime(audio.currentTime) + ' / ' + fmtTime(audio.duration);
+}
+
+function audioCycleSpeed(slug) {
+  const audio = document.getElementById('ap-audio-' + slug);
+  const btn = document.getElementById('ap-speed-' + slug);
+  if (!audioSpeedIdx[slug]) audioSpeedIdx[slug] = 0;
+  audioSpeedIdx[slug] = (audioSpeedIdx[slug] + 1) % audioSpeeds.length;
+  const speed = audioSpeeds[audioSpeedIdx[slug]];
+  audio.playbackRate = speed;
+  btn.textContent = speed + 'x';
+}
+
+function topSubscribe() {
+  const input = document.getElementById('topSubscribeEmail');
+  const confirm = document.getElementById('topSubscribeConfirm');
+  const email = input.value.trim();
+  if (!email || !email.includes('@')) {
+    input.style.borderColor = 'rgba(224,48,48,0.5)';
+    setTimeout(() => input.style.borderColor = '', 1500);
+    return;
+  }
+  sendToSheet('explore-subscribe', email);
+  plausible('Email Signup');
+  input.value = '';
+  confirm.textContent = "You're in.";
+}
+
 function toggleIntro() {
   const full = document.getElementById('introFull');
   const collapsed = document.getElementById('introCollapsed');
+  const sub = document.querySelector('.subscribe-bar');
   const isOpen = full.style.display !== 'none';
   full.style.display = isOpen ? 'none' : 'block';
   collapsed.style.display = isOpen ? '' : 'none';
+  if (sub) sub.classList.toggle('expanded', !isOpen);
 }
 </script>
 </body>

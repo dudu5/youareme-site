@@ -49,10 +49,9 @@
   .hero {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 120px 36px 80px;
+    padding: 35vh 36px 40px;
     min-height: 100vh;
     position: relative;
   }
@@ -64,7 +63,7 @@
     line-height: 1.25;
     color: var(--white);
     max-width: 900px;
-    margin-bottom: 48px;
+    margin-bottom: 0;
   }
 
   .hero-statement .no-wrap {
@@ -78,7 +77,8 @@
 
   /* ── NARRATIVE COLLAPSE ── */
   .narrative-more-toggle {
-    display: inline;
+    display: block;
+    text-align: center;
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     color: rgba(255,255,255,0.6);
@@ -149,8 +149,20 @@
   .section-inner {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
-    gap: 56px;
+    gap: 0 56px;
     align-items: center;
+  }
+
+  .section-left {
+    grid-column: 1;
+  }
+
+  .section-desc-wrap {
+    grid-column: 1;
+  }
+
+  .section-cta-wrap {
+    grid-column: 1;
   }
 
   .section-text {
@@ -193,7 +205,7 @@
     font-weight: 300;
     line-height: 1.8;
     color: var(--dim);
-    margin-bottom: 24px;
+    margin-bottom: 12px;
   }
 
   .section-note {
@@ -364,6 +376,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    grid-column: 2;
     opacity: 0;
     transform: translateY(16px);
     transition: opacity 0.6s ease 0.15s, transform 0.6s ease 0.15s;
@@ -380,9 +393,9 @@
 
   /* ── NARRATIVE ── */
   .narrative {
-    max-width: 680px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 80px 36px 120px;
+    padding: 0 36px 120px;
   }
 
 
@@ -451,6 +464,8 @@
   .review-item {
     padding: 20px 0;
     border-bottom: 1px solid rgba(255,255,255,0.06);
+    max-width: 680px;
+    margin: 0 auto;
   }
 
   .review-item:last-child { border-bottom: none; }
@@ -644,51 +659,39 @@
   }
 
   @media (max-width: 768px) {
-    .hero { padding: 0 22px 80px; }
+    .hero { padding: 35vh 22px 40px; }
     .hero-statement { font-size: clamp(24px, 7vw, 40px); }
     .hero-statement .no-wrap { white-space: normal; }
     .scroll-hint { bottom: 48px; }
-    .narrative { padding: 120px 22px 24px; }
-    .section { padding: 50vh 22px 60px; }
-    .section-inner { grid-template-columns: 1fr; gap: 0; }
+    .narrative { padding: 0 22px 24px; }
+    .section { padding: 40px 22px 60px; display: flex; flex-direction: column; }
+    .section-inner { display: flex; flex-direction: column; gap: 0; }
+    .section-left { display: contents; }
+    .section-text { order: 0; width: 100%; }
+    .section-eyebrow-wrap { order: 1; width: 100%; }
+    .radar-wrap { order: 2 !important; }
+    .section-desc-wrap { order: 3; padding-top: 16px; width: 100%; }
+    .section-cta-wrap { order: 4; padding-top: 12px; margin-bottom: 40px; width: 100%; }
     #demoRadar svg { padding: 16px !important; }
     .section-title { white-space: normal !important; font-size: clamp(28px, 7vw, 42px) !important; }
     .radar-wrap { order: 1; }
+    .section-bottom { order: 2; padding: 0; margin: -20px 0 40px 0; width: 100%; }
     #demoRadar { max-width: 340px; margin: 0 auto; }
-    .assessment-toggle { justify-content: center; }
+    .assessment-toggle { justify-content: flex-start; }
     .toggle-option { padding: 7px 16px !important; font-size: 11px; }
-    .explore-areas {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      max-width: 100vw;
-      margin: 0 -22px;
-      padding: 0 22px;
-    }
-    .explore-areas::-webkit-scrollbar { display: none; }
-    .area-group { margin-bottom: 24px; }
-    .area-group-name { margin-bottom: 8px; position: sticky; left: 0; }
+    .explore-areas { order: 3; }
+    .area-group { margin-bottom: 20px; }
+    .area-group-name { margin-bottom: 8px; }
     .area-items-scroll {
       display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding-bottom: 8px;
-    }
-    .area-items-scroll::-webkit-scrollbar { display: none; }
-    .area-item {
-      display: flex;
       flex-direction: column;
-      gap: 8px;
-      min-width: 260px;
-      max-width: 280px;
-      flex-shrink: 0;
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 16px;
-      grid-template-columns: unset;
+      gap: 0;
     }
-    .area-left { margin-bottom: 4px; }
+    .area-item {
+      grid-template-columns: 1fr;
+      gap: 4px;
+      padding: 10px 0;
+    }
     .area-desc { font-size: 12px; line-height: 1.6; }
     .recognition-list { padding: 0; }
     .recognition-line { font-size: 15px; white-space: normal; }
@@ -729,60 +732,47 @@
       <span class="no-wrap">I am the only person</span><br>
       <span class="no-wrap">I will <i>never stop</i> living with.</span>
     </p>
-    <div class="scroll-hint">↓</div>
-  </div>
-
-  <!-- ── NARRATIVE ── -->
-  <div class="narrative">
-    <div class="reveal">
-      <p class="prose">Yet I spent most of my life knowing surprisingly little about what was actually happening inside me.</p>
+    <div class="reveal" style="max-width:1000px;">
+      <p class="prose" style="margin-bottom:8px;">Yet I spent most of my life knowing surprisingly little about what was actually happening inside me.</p>
     </div>
     <span class="narrative-more-toggle" id="narrativeMoreToggle" onclick="toggleNarrativeMore()">more...</span>
-    <div id="narrativeMore" class="narrative-more-content">
-    <div class="sp"></div>
-    <div class="reveal">
-      <p class="prose">I knew my opinions. My preferences. My desires. I was my identity.</p>
-    </div>
-    <div class="sp"></div>
-    <div class="reveal">
-      <p class="prose">But the deeper currents — <b>what I actually needed</b>, what drove my reactions, what I was really feeling beneath the performance — that remained largely unexamined.</p>
-    </div>
+    <div id="narrativeMore" class="narrative-more-content" style="max-width:1000px; width:100%; text-align:center;">
+      <div class="reveal">
+        <p class="prose">I knew my opinions. My preferences. My desires. I was my identity.</p>
+      </div>
+      <div class="reveal">
+        <p class="prose">But the deeper currents — <b>what I actually needed</b>, what drove my reactions, what I was really feeling beneath the performance — that remained largely unexamined.</p>
+      </div>
+      <div class="reveal">
+        <p class="prose">I never mapped that territory. Not because I didn't care. Because no one showed me how.</p>
+      </div>
+      <div class="reveal">
+        <p class="prose">And because looking honestly took more courage than staying busy.</p>
+      </div>
+      <div class="reveal">
+        <p class="prose">What I felt —</p>
+      </div>
 
-    <div class="rule reveal"></div>
+      <div id="recognitionList"></div>
 
-    <div class="reveal">
-      <p class="prose">I never mapped that territory. Not because I didn't care. Because no one showed me how.</p>
+      <div class="reveal">
+        <p class="prose">— wasn't because I was broken.</p>
+      </div>
+      <div class="reveal">
+        <p class="prose">It was because I was living with someone I didn't actually know.</p>
+      </div>
+      <div class="reveal">
+        <p class="prose"><b>Myself.</b></p>
+      </div>
     </div>
-    <div class="sp"></div>
-    <div class="reveal">
-      <p class="prose">And because looking honestly took more courage than staying busy.</p>
-    </div>
-    <div class="sp"></div>
-    <div class="reveal">
-      <p class="prose">What I felt —</p>
-    </div>
-
-    <div id="recognitionList"></div>
-
-    <div class="sp"></div>
-    <div class="reveal">
-      <p class="prose">— wasn't because I was broken.</p>
-    </div>
-    <div class="sp"></div>
-    <div class="reveal">
-      <p class="prose">It was because I was living with someone I didn't actually know.</p>
-    </div>
-    <div class="sp"></div>
-    <div class="reveal">
-      <p class="prose"><b>Myself.</b></p>
-    </div>
-    </div><!-- end narrative-more-content -->
+    <div class="scroll-hint">↓</div>
   </div>
 
   <!-- ── ASSESSMENT SECTION ── -->
   <div class="section">
     <div class="section-inner">
 
+      <div class="section-left">
       <div class="section-text">
         <h2 class="section-title" id="assessmentSection" style="font-size:clamp(32px, 4.5vw, 48px); margin-bottom:20px;">Where are you <i style="color:var(--accent);font-style:italic;">now?</i></h2>
 
@@ -795,46 +785,58 @@
         </div>
 
         <!-- PERSONAL -->
-        <div id="personalContent">
+        <div id="personalContent" class="section-eyebrow-wrap">
           <div class="section-eyebrow">
             <span class="section-eyebrow-icon">🧭</span>
             Free assessment
           </div>
-          <p class="section-desc">Without a map, you are lost. Map your needs as they are today — not as you think they should be. 22 areas of life, 5 reflective questions each.</p>
           <div class="section-note">
             <div><span class="arrow">→</span> 5–45 minutes</div>
             <div><span class="arrow">→</span> Completely free</div>
             <div><span class="arrow">→</span> No email needed</div>
             <div><span class="arrow">→</span> Data is yours</div>
           </div>
-          <a href="/map/" class="section-cta" onclick="event.preventDefault(); plausible('CTA Click Personal'); setTimeout(function(){ window.location='/map/'; }, 150);">
-            <span>Get Your Map</span>
-            <span>→</span>
-          </a>
-          <div class="section-import">
-            <label for="importCSV" onclick="plausible('Import Click')">Already have a map? Import it →</label>
-            <input type="file" id="importCSV" accept=".csv,.txt" style="display:none;" onchange="handleImport(event)">
-          </div>
         </div>
 
         <!-- LEADER -->
-        <div id="leaderContent" style="display:none;">
+        <div id="leaderContent" class="section-eyebrow-wrap" style="display:none;">
           <div class="section-eyebrow">
             <span class="section-eyebrow-icon">🧭</span>
             Free assessment
           </div>
-          <p class="section-desc">Map where your startup actually stands — not where you hope it does. 8 key perspectives, honest scoring.</p>
           <div class="section-note">
             <div><span class="arrow">→</span> 5–20 minutes</div>
             <div><span class="arrow">→</span> Completely free</div>
             <div><span class="arrow">→</span> No email needed</div>
             <div><span class="arrow">→</span> Data is yours</div>
           </div>
-          <span class="section-cta" style="opacity:0.4; cursor:default;">
-            <span>Coming soon</span>
-          </span>
         </div>
       </div>
+
+      <div class="section-desc-wrap" id="personalDesc">
+        <p class="section-desc">Without a map, you are lost. Map your needs as they are today — not as you think they should be. 22 areas of life, 5 reflective questions each.</p>
+      </div>
+      <div class="section-desc-wrap" id="leaderDesc" style="display:none;">
+        <p class="section-desc">Map where your startup actually stands — not where you hope it does. 8 key perspectives, honest scoring.</p>
+      </div>
+
+      <div class="section-cta-wrap" id="personalBottom">
+        <a href="/map/" class="section-cta" onclick="event.preventDefault(); plausible('CTA Click Personal'); setTimeout(function(){ window.location='/map/'; }, 150);">
+          <span>Get Your Map</span>
+          <span>→</span>
+        </a>
+        <div class="section-import">
+          <label for="importCSV" onclick="plausible('Import Click')">Already have a map? Import it →</label>
+          <input type="file" id="importCSV" accept=".csv,.txt" style="display:none;" onchange="handleImport(event)">
+        </div>
+      </div>
+
+      <div class="section-cta-wrap" id="leaderBottom" style="display:none;">
+        <span class="section-cta" style="opacity:0.4; cursor:default;">
+          <span>Coming soon</span>
+        </span>
+      </div>
+      </div><!-- end section-left -->
 
       <div class="radar-wrap" id="radarWrap">
         <div id="demoRadar"></div>
@@ -847,10 +849,8 @@
 
   </div>
 
-  <div class="section-more">↓</div>
-
   <!-- ── REVIEWS ── -->
-  <div class="narrative">
+  <div class="narrative" style="text-align:center;">
 
     <div class="narrative-hero" style="min-height:auto; padding:20px 0 60px;">
       <p class="narrative-statement" style="font-size:clamp(28px, 4vw, 48px);">
@@ -882,68 +882,39 @@
       </div>
 
       <div class="review-item">
-        <p class="review-text">"The problems that felt so heavy before suddenly looked tiny from that bigger perspective — it was incredibly freeing."</p>
-        <div class="review-author">Özgun</div>
+        <p class="review-text">"It brought things from the unconscious to conscious, making me more thankful for the positives in my life while gently highlighting areas for growth."</p>
+        <div class="review-author">Pauline</div>
       </div>
 
       <div class="review-item">
-        <p class="review-text">"There's still spark in there — the mapping just handed me the map to start finding it again."</p>
-        <div class="review-author">Lou</div>
+        <p class="review-text">"The mapping gave me a clear snapshot of my current situation — highlighting both what's working and what's holding me back — without feeling overwhelming."</p>
+        <div class="review-author">Mark</div>
       </div>
 
-      <div class="reviews-hidden" id="reviewsHidden">
-        <div class="review-item">
-          <p class="review-text">"In that moment all the daily noise and urgency melted away. I saw my life as one long, wavy journey instead of just the current dip, and the anxiety that usually spins in my head suddenly lost its grip."</p>
-          <div class="review-author">Özgun</div>
-        </div>
-
-        <div class="review-item">
-          <p class="review-text">"Once I wrote them down, the things I usually overestimate as huge problems didn't seem so bad anymore, and the areas that are already working well finally became visible and made me feel grateful."</p>
-          <div class="review-author">Özgun</div>
-        </div>
-
-        <div class="review-item">
-          <p class="review-text">"It brought things from the unconscious to conscious, making me more thankful for the positives in my life while gently highlighting areas for growth."</p>
-          <div class="review-author">Pauline</div>
-        </div>
-
-        <div class="review-item">
-          <p class="review-text">"The mapping gave me a clear snapshot of my current situation — highlighting both what's working and what's holding me back — without feeling overwhelming."</p>
-          <div class="review-author">Mark</div>
-        </div>
-
-        <div class="review-item">
-          <p class="review-text">"Observation is a win — even with zero change. That reframed how I see progress. It's kind and actionable."</p>
-          <div class="review-author">Pontus</div>
-        </div>
-
-        <div class="review-item">
-          <p class="review-text">"The abstract mess — thoughts, emotions, the whole chaotic subjective reality — suddenly turned into something concrete and understandable."</p>
-          <div class="review-author">Reidar</div>
-        </div>
-
-        <div class="review-item">
-          <p class="review-text">"We map out where I am, where I want to go, and what small steps will take me closer. Those steps incrementally diffuse the fog of thoughts into an emergingly clear path."</p>
-          <div class="review-author">Alok</div>
-        </div>
-
-        <div class="review-item">
-          <p class="review-text">"Scoring life parameters was an eye-opener — giving perspective on what I take for granted, while highlighting gaps I hadn't named."</p>
-          <div class="review-author">Martin</div>
-        </div>
-
-        <div class="review-item">
-          <p class="review-text">"It's not about overhauling everything at once — observation and tiny actions are wins in themselves, reframing my approach to growth as compassionate rather than punishing."</p>
-          <div class="review-author">Eliza</div>
-        </div>
-
-        <div class="review-item">
-          <p class="review-text">"I walked away feeling more self-assured and balanced — it's a great way to pause, reflect, and move forward with intention."</p>
-          <div class="review-author">Pauline</div>
-        </div>
+      <div class="review-item">
+        <p class="review-text">"Observation is a win — even with zero change. That reframed how I see progress. It's kind and actionable."</p>
+        <div class="review-author">Pontus</div>
       </div>
 
-      <button class="reviews-toggle" id="reviewsToggle" onclick="toggleReviews()">+ 10 more</button>
+      <div class="review-item">
+        <p class="review-text">"We map out where I am, where I want to go, and what small steps will take me closer. Those steps incrementally diffuse the fog of thoughts into an emergingly clear path."</p>
+        <div class="review-author">Alok</div>
+      </div>
+
+      <div class="review-item">
+        <p class="review-text">"Scoring life parameters was an eye-opener — giving perspective on what I take for granted, while highlighting gaps I hadn't named."</p>
+        <div class="review-author">Martin</div>
+      </div>
+
+      <div class="review-item">
+        <p class="review-text">"It's not about overhauling everything at once — observation and tiny actions are wins in themselves, reframing my approach to growth as compassionate rather than punishing."</p>
+        <div class="review-author">Eliza</div>
+      </div>
+
+      <div class="review-item">
+        <p class="review-text">"Just noticing my habits is a win. It's supportive and makes self-work feel doable and inspiring."</p>
+        <div class="review-author">Calle</div>
+      </div>
     </div>
 
     <div class="narrative-cta-wrap reveal">
@@ -1024,16 +995,20 @@
   ).join('');
   list.innerHTML = first3
     + `<div id="recognitionMore" style="display:none;"><div class="recognition-gap"></div>${rest}</div>`
-    + `<div style="margin-top:10px;"><span class="recognition-expand" id="recognitionExpand" onclick="toggleRecognitions()">+ ${lines.length - 3} more</span></div>`;
+    + `<div style="margin-top:10px; margin-bottom:24px;"><span class="recognition-expand" id="recognitionExpand" onclick="toggleRecognitions()">+ ${lines.length - 3} more</span></div>`;
 })();
 
 function toggleNarrativeMore() {
   const el = document.getElementById('narrativeMore');
   const btn = document.getElementById('narrativeMoreToggle');
+  const hint = document.querySelector('.hero .scroll-hint');
+  const hero = document.querySelector('.hero');
   const isOpen = el.classList.contains('open');
   if (!isOpen) plausible('Narrative Expanded');
   el.classList.toggle('open');
-  btn.style.display = isOpen ? 'inline' : 'none';
+  btn.style.display = isOpen ? 'block' : 'none';
+  if (hint) hint.style.display = isOpen ? '' : 'none';
+  // No hero manipulation — content expands in place
 }
 
 function toggleRecognitions() {
@@ -1340,6 +1315,10 @@ function switchAssessment(mode) {
 
   document.getElementById('personalContent').style.display = mode === 'personal' ? '' : 'none';
   document.getElementById('leaderContent').style.display = mode === 'leader' ? '' : 'none';
+  document.getElementById('personalBottom').style.display = mode === 'personal' ? '' : 'none';
+  document.getElementById('leaderBottom').style.display = mode === 'leader' ? '' : 'none';
+  document.getElementById('personalDesc').style.display = mode === 'personal' ? '' : 'none';
+  document.getElementById('leaderDesc').style.display = mode === 'leader' ? '' : 'none';
   document.getElementById('exploreAreas').style.display = mode === 'personal' ? '' : 'none';
   document.getElementById('exploreAreasLeader').style.display = mode === 'leader' ? '' : 'none';
 

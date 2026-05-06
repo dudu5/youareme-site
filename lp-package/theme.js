@@ -1,0 +1,18 @@
+export const C = {
+  bg:         "#0a0a0c",
+  bgCard:     "#111114",
+  border:     "rgba(255,255,255,0.08)",
+  textHi:     "#f5f5f7",
+  textMid:    "#b0b4c0",
+  textLow:    "#5a5f72",
+  teal:       "#2dd4bf",
+  tealDim:    "rgba(45,212,191,0.15)",
+  tealFaint:  "rgba(45,212,191,0.10)",
+  tealBorder: "rgba(45,212,191,0.4)",
+  edit:       "#e0a866",
+  editDim:    "rgba(224,168,102,0.15)",
+  editBorder: "rgba(224,168,102,0.4)",
+  orange:     "rgb(251,146,60)",
+  orangeDim:  "rgba(251,146,60,0.08)",
+  orangeBorder: "rgba(251,146,60,0.5)",
+};
