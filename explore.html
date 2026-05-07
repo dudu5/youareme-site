@@ -241,14 +241,14 @@
     font-size: 10px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--dimmer);
+    color: rgba(255,255,255,0.5);
     margin-right: 4px;
   }
 
   .filter-tag {
     background: none;
-    border: 1px solid rgba(255,255,255,0.1);
-    color: var(--dim);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.6);
     font-family: 'DM Sans', sans-serif;
     font-size: 11px;
     letter-spacing: 0.06em;
@@ -327,8 +327,7 @@
 
   .expanded-image {
     width: 100%;
-    max-height: 400px;
-    object-fit: cover;
+    height: auto;
     margin-bottom: 24px;
     border: 1px solid rgba(255,255,255,0.06);
   }
@@ -737,7 +736,7 @@
     padding: 0 36px 52px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 12px;
     clear: both;
   }
@@ -746,7 +745,7 @@
     font-family: 'DM Sans', sans-serif;
     font-size: 11px;
     font-weight: 300;
-    color: var(--dimmer);
+    color: var(--dim);
     white-space: nowrap;
   }
 
