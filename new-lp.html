@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You Are Me</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --accent: #00c9a7;
+    --accent-50: rgba(0,201,167,0.5);
+    --accent-08: rgba(0,201,167,0.08);
+    --bg: #000000;
+    --bg-overlay: rgba(0,0,0,0.96);
+    --white: #f0f0f0;
+    --text-hi: rgba(255,255,255,0.9);
+    --text-mid: rgba(255,255,255,0.55);
+    --dim: rgba(255,255,255,0.55);
+    --text-low: rgba(255,255,255,0.3);
+    --dimmer: rgba(255,255,255,0.2);
+    --line: rgba(255,255,255,0.5);
+    --line-subtle: rgba(255,255,255,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--white);
+    background: var(--bg);
+  }
+
+  .bg-fixed {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--bg-overlay), var(--bg-overlay)),
+      url('ground_background.webp');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 35vh 36px 40px;
+    min-height: 100vh;
+  }
+
+  .hero-statement {
+    font-family: var(--font-display);
+    font-weight: 300;
+    line-height: 1.25;
+    color: var(--white);
+    max-width: 900px;
+    width: 100%;
+  }
+
+  .hero-statement i {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .hero-prose {
+    font-family: var(--font-display);
+    font-size: clamp(17px, 2.4vw, 22px);
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--dim);
+    max-width: 1000px;
+    margin-top: 12px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .dice-hint {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text-mid);
+    text-align: center;
+    max-width: 500px;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+
+  .dice-hint.visible {
+    opacity: 1;
+  }
+
+  .dice {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 48px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  .dice:hover {
+    opacity: 0.9;
+  }
+
+  .dice:active {
+    transform: translateX(-50%) rotate(180deg);
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
+    50% { transform: translateX(-50%) translateY(8px); opacity: 1; }
+  }
+
+  /* ── SECOND SCREEN ── */
+  .screen2 {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    padding: 120px 36px 60px;
+  }
+
+  .screen2-inner {
+    display: flex;
+    justify-content: center;
+    max-width: 860px;
+    width: 100%;
+  }
+
+  /* ── MY PERSPECTIVES ── */
+  .perspectives {
+    text-align: center;
+    padding-top: 46px;
+  }
+
+  .perspectives-desc {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--white);
+    margin-bottom: 0;
+  }
+
+  .join-input {
+    display: inline-block;
+    border-bottom: 2px solid var(--line);
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text-hi);
+    padding: 10px 0;
+    cursor: pointer;
+    margin-top: 12px;
+  }
+
+  .perspectives-links {
+    display: flex;
+    border-top: 2px solid var(--line);
+    margin-top: 8px;
+    gap: 16px;
+  }
+
+  .perspectives-link {
+    text-decoration: none;
+    padding: 10px 0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: var(--text-mid);
+  }
+
+  /* ── SIGNAL ONBOARDING ── */
+  .onboarding-col {
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .onboarding-title {
+    font-family: var(--font-body);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+
+  .onboarding-steps {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-hi);
+    letter-spacing: 0.04em;
+    line-height: 2.2;
+    margin-top: 8px;
+  }
+
+  .onboarding-steps a {
+    color: var(--text-hi);
+    text-decoration: underline;
+    text-decoration-color: var(--line-subtle);
+    transition: text-decoration-color 0.2s;
+  }
+
+  .onboarding-steps a:hover {
+    text-decoration-color: var(--text-hi);
+  }
+
+  .onboarding-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--line);
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text-hi);
+    padding: 10px 0;
+    outline: none;
+    text-align: left;
+  }
+
+  .onboarding-input::placeholder {
+    color: var(--text-low);
+  }
+
+  .onboarding-tagline {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-mid);
+    letter-spacing: 0.04em;
+    margin-top: 8px;
+  }
+
+  .onboarding-free {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-mid);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── FOOTER ── */
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+    cursor: pointer;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-url {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--dimmer);
+  }
+
+  @media (max-width: 768px) {
+    .hero { padding: 35vh 22px 40px; }
+    .hero-statement { font-size: clamp(24px, 7vw, 40px); }
+    .screen2 { padding: 60px 22px; }
+    .screen2-inner { grid-template-columns: 1fr; gap: 60px; }
+    .perspectives { text-align: center; padding-top: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-fixed"></div>
+
+<div class="hero">
+  <p class="hero-statement">
+    I am the only person I will <i>never stop</i> living with.
+  </p>
+  <p class="hero-prose">Yet I spent most of my life knowing surprisingly little about what was actually happening inside me.</p>
+  <div class="dice-hint" id="diceHint">Find something you feel home with this very moment.<br>And scroll down.</div>
+  <div class="scroll-hint" onclick="document.getElementById('onboarding').scrollIntoView({behavior:'smooth'})">↓</div>
+  <div class="dice" onclick="rollDice()">🎲</div>
+</div>
+
+<div class="screen2" id="onboarding">
+  <div class="screen2-inner">
+  <div class="onboarding-col">
+    <div class="onboarding-title">signal</div>
+    <div class="onboarding-tagline">Fewer words. More you. Real connection.</div>
+    <div class="onboarding-free">Free · Open source · Data is all yours · By design</div>
+    <div class="onboarding-steps">
+      1 <a href="https://console.anthropic.com" target="_blank">Go to Anthropic</a> 🔗<br>
+      2 Create account<br>
+      3 Settings → API Keys<br>
+      4 Create key
+    </div>
+    <input type="password" class="onboarding-input" id="apiKeyInput" placeholder="Paste API key">
+  </div>
+  </div>
+
+  <div style="text-align:center; margin-top:auto; padding-top:40px;">
+    <div class="footer-logo" onclick="cycleTheme()">You Are <span>Me</span></div>
+    <div class="footer-url">youareme.one</div>
+  </div>
+</div>
+
+<script src="theme.js"></script>
+<script>
+// Hide arrow on scroll
+const scrollHint = document.querySelector('.scroll-hint');
+window.addEventListener('scroll', () => {
+  scrollHint.style.opacity = window.scrollY > 100 ? '0' : '';
+  scrollHint.style.pointerEvents = window.scrollY > 100 ? 'none' : '';
+});
+
+// Auto-size hero text to always render as 2 lines
+function fitHeroText() {
+  const el = document.querySelector('.hero-statement');
+  if (!el) return;
+  const container = el.parentElement.clientWidth - 72; // padding
+  el.style.width = Math.min(container, 900) + 'px';
+
+  // Binary search for the largest font size that keeps text to 2 lines
+  let lo = 20, hi = 90, best = 20;
+  while (lo <= hi) {
+    const mid = Math.floor((lo + hi) / 2);
+    el.style.fontSize = mid + 'px';
+    const lineH = mid * 1.25;
+    const lines = Math.round(el.scrollHeight / lineH);
+    if (lines <= 2) {
+      best = mid;
+      lo = mid + 1;
+    } else {
+      hi = mid - 1;
+    }
+  }
+  el.style.fontSize = best + 'px';
+}
+
+// Refit on theme change
+const origCycle = cycleTheme;
+cycleTheme = function() { origCycle(); requestAnimationFrame(fitHeroText); };
+const origRandom = randomTheme;
+randomTheme = function() { origRandom(); requestAnimationFrame(fitHeroText); };
+
+let diceClicks = 0;
+function rollDice() {
+  randomTheme();
+  diceClicks++;
+  const hint = document.getElementById('diceHint');
+  if (diceClicks >= 5 && diceClicks < 10) {
+    hint.classList.add('visible');
+  } else if (diceClicks >= 10) {
+    hint.classList.remove('visible');
+  }
+}
+
+fitHeroText();
+window.addEventListener('resize', fitHeroText);
+
+document.getElementById('apiKeyInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    const key = this.value.trim();
+    if (key) {
+      localStorage.setItem('signal_api_key', key);
+      window.location.href = '/map/';
+    }
+  }
+});
+</script>
+
+</body>
+</html>

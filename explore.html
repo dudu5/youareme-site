@@ -45,7 +45,7 @@
     right: 0;
     padding: 16px 36px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     background: rgba(10,10,10,0.92);
     backdrop-filter: blur(8px);
@@ -866,7 +866,12 @@
 <div class="bg-fixed"></div>
 <nav>
   <a href="index.html" class="nav-logo">You Are <span>Me</span></a>
-  <a href="/#assessmentSection" class="nav-cta" style="text-transform:none;"><span style="color:var(--white);">Map</span> <span style="color:var(--accent);">Your Needs</span> →</a>
+  <div style="display:flex; align-items:center; gap:16px;">
+    <div style="display:flex; flex-direction:column; align-items:flex-end; pointer-events:none;">
+      <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:12px; font-weight:400; color:rgba(255,255,255,0.35); letter-spacing:0.06em;">Fewer words. More you. Real connection.</span>
+      <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:28px; font-weight:600; color:#00c9a7; letter-spacing:0.08em;">signal</span>
+    </div>
+  </div>
 </nav>
 
 <div class="page-intro">
@@ -1333,12 +1338,19 @@ async function sendToSheet(type, val) {
 
 renderContent();
 
-// Auto-open from URL param
+// Auto-open or filter from URL param
 (function() {
   const params = new URLSearchParams(window.location.search);
   const openSlugParam = params.get('open');
+  const filterParam = params.get('filter');
   if (openSlugParam) {
     setTimeout(() => openCard(openSlugParam), 100);
+  }
+  if (filterParam) {
+    const decoded = decodeURIComponent(filterParam);
+    activeTag = decoded;
+    document.querySelectorAll('.filter-tag').forEach(b => b.classList.toggle('active', b.textContent === decoded));
+    renderContent();
   }
 })();
 
