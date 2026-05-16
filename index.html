@@ -416,7 +416,7 @@
       <div class="onboarding-tagline">Fewer words. More you. Real connection.</div>
       <div class="onboarding-free">Free · Open source · Data is all yours · By design</div>
     </div>
-    <a href="/map/" class="door-curious-btn" onclick="event.preventDefault(); var accent=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim(); var hex=accent.startsWith('#')?accent.slice(1):rgbToHex(accent); window.location.href='https://signalforge.youareme.one/?p='+hex;">
+    <a href="/map/" class="door-curious-btn" onclick="event.preventDefault(); var accent=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim(); var bg=getComputedStyle(document.documentElement).getPropertyValue('--bg').trim(); var hexA=accent.startsWith('#')?accent.slice(1):rgbToHex(accent); var hexB=bg.startsWith('#')?bg.slice(1):rgbToHex(bg); window.location.href='https://signalforge.youareme.one/?p='+hexA+'&bg='+hexB;">
       <span class="door-emoji">🚪</span>
       <span class="door-curious">Curious?</span>
     </a>
