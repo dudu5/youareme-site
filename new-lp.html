@@ -113,11 +113,12 @@
   }
 
   .dice {
-    position: fixed;
-    bottom: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 50;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 10;
     font-size: 48px;
     cursor: pointer;
     transition: transform 0.3s;
@@ -130,7 +131,7 @@
   }
 
   .dice:active {
-    transform: translateX(-50%) rotate(180deg);
+    transform: rotate(180deg);
   }
 
   @keyframes pulse {
@@ -144,7 +145,7 @@
     z-index: 1;
     max-width: 680px;
     margin: 0 auto;
-    padding: 0 36px 120px;
+    padding: 100px 36px 120px;
   }
 
   .narrative p {
@@ -173,13 +174,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 80px 36px 40vh;
+    padding: 80px 36px 20px;
   }
 
   .screen2-inner {
     display: flex;
     flex-direction: column;
-    gap: 80px;
+    gap: 40px;
     max-width: 620px;
     width: 100%;
     align-items: stretch;
@@ -187,16 +188,16 @@
 
   /* ── MY PERSPECTIVES ── */
   .perspectives {
-    text-align: center;
+    text-align: left;
     padding: 24px 32px 5px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
   }
 
   .perspectives-desc {
     font-family: var(--font-display);
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 300;
     line-height: 1.8;
     color: var(--white);
@@ -232,11 +233,12 @@
     font-weight: 400;
     letter-spacing: 0.08em;
     color: var(--white);
-    transition: color 0.2s;
+    transition: font-size 0.15s ease, color 0.2s;
   }
 
   .perspectives-link:hover {
     color: var(--white);
+    font-size: 18px;
   }
 
   /* ── SIGNAL ONBOARDING ── */
@@ -298,18 +300,36 @@
     color: var(--text-low);
   }
 
-  .door-btn {
-    display: block;
+  .door-curious-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-decoration: none;
-    font-size: 80px;
-    text-align: center;
-    margin-top: 16px;
     cursor: pointer;
+  }
+
+  .door-emoji {
+    font-size: 110px;
     transition: transform 0.2s;
   }
 
-  .door-btn:hover {
+  .door-curious {
+    font-family: var(--font-display);
+    font-size: 14px;
+    color: var(--text-mid);
+    letter-spacing: 0.04em;
+    margin-top: -12px;
+    height: 24px;
+    transition: font-size 0.15s ease, color 0.2s;
+  }
+
+  .door-curious-btn:hover .door-emoji {
     transform: scale(1.1);
+  }
+
+  .door-curious-btn:hover .door-curious {
+    font-size: 18px;
+    color: var(--white);
   }
 
   .onboarding-tagline {
@@ -370,9 +390,9 @@
   <p class="hero-prose">Yet I spent most of my life knowing surprisingly little about what was actually happening inside me.</p>
   <div class="dice-hint" id="diceHint">Find what you like. Scroll down.</div>
   <div class="scroll-hint" onclick="document.getElementById('onboarding').scrollIntoView({behavior:'smooth'})">↓</div>
+  <div class="dice" onclick="rollDice()">🎲</div>
 
 </div>
-<div class="dice" onclick="rollDice()">🎲</div>
 
 <div class="narrative">
   <p><b>I was lost in myself.</b></p>
@@ -390,26 +410,32 @@
 
 <div class="screen2" id="onboarding">
   <div class="screen2-inner">
-  <div class="onboarding-col">
-    <div class="onboarding-title">signalforge</div>
-    <div class="onboarding-tagline">Fewer words. More you. Real connection.</div>
-    <div class="onboarding-free">Free · Open source · Data is all yours · By design</div>
-    <a href="/map/" class="door-btn" onclick="event.preventDefault(); var accent=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim(); var hex=accent.startsWith('#')?accent.slice(1):rgbToHex(accent); window.location.href='/map/?p='+hex;">🚪</a>
-    <div style="font-family:var(--font-display); font-size:14px; color:var(--text-mid); letter-spacing:0.04em; margin-top:-12px;">Curious?</div>
+  <div class="onboarding-col" style="flex-direction:row; align-items:center; justify-content:space-between;">
+    <div style="text-align:left;">
+      <div class="onboarding-title">signalforge</div>
+      <div class="onboarding-tagline">Fewer words. More you. Real connection.</div>
+      <div class="onboarding-free">Free · Open source · Data is all yours · By design</div>
+    </div>
+    <a href="/map/" class="door-curious-btn" onclick="event.preventDefault(); var accent=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim(); var hex=accent.startsWith('#')?accent.slice(1):rgbToHex(accent); window.location.href='https://signalforge.youareme.one/?p='+hex;">
+      <span class="door-emoji">🚪</span>
+      <span class="door-curious">Curious?</span>
+    </a>
   </div>
   <div class="perspectives">
     <div style="display:flex; align-items:center; justify-content:flex-start; margin:0 0 12px;">
       <img src="Me.png" alt="Aleksander" style="width:160px; height:160px; max-width:100%; max-height:100%; border-radius:50%; object-fit:cover;">
     </div>
-    <p class="perspectives-desc" id="perspectiveIntro" style="text-align:center;">Hi, I'm Olek 👋<br>Builder of youareme and signalforge.<br>Learning how to navigate the experience of being me.</p>
+    <p class="perspectives-desc" id="perspectiveIntro" style="text-align:left;">Hi, I'm Olek 👋<br>Builder of youareme and signalforge.<br>Learning how to navigate the experience of being me.</p>
     <div style="padding:0; margin-top:auto; width:80%;">
       <div style="border-bottom:2px solid var(--line); margin:4px 0;"></div>
-      <div style="display:flex; justify-content:space-between;">
-        <a href="explore.html" class="perspectives-link">📖 My Perspectives</a>
-        <a href="collaborate.html" class="perspectives-link">Collaborate 🤝</a>
-      </div>
+      <a href="explore.html" class="perspectives-link" style="display:block;">→ 📖 My Perspectives</a>
+      <a href="collaborate.html" class="perspectives-link" style="display:block;">→ 🤝 Collaborate</a>
     </div>
   </div>
+  </div>
+
+  <div style="text-align:center; padding:100px 0 0;">
+    <span onclick="randomTheme()" style="cursor:pointer; font-family:'Cormorant Garamond',Georgia,serif; font-size:28px; font-weight:300; letter-spacing:0.04em; color:var(--white);">You Are <span style="color:var(--accent);">Me</span></span>
   </div>
 
 </div>
