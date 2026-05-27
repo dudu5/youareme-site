@@ -75,53 +75,6 @@
     font-style: italic;
   }
 
-  /* ── NARRATIVE COLLAPSE ── */
-  .narrative-more-toggle {
-    display: block;
-    text-align: center;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    color: rgba(255,255,255,0.6);
-    cursor: pointer;
-  }
-
-  .narrative-more-content { display: none; }
-  .narrative-more-content.open { display: block; }
-
-  /* ── RECOGNITION LIST ── */
-  .recognition-list {
-    margin: 8px 0 0;
-  }
-
-  .recognition-line {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(15px, 2vw, 19px);
-    font-weight: 300;
-    font-style: italic;
-    line-height: 1.5;
-    color: var(--dim);
-    padding: 3px 0;
-  }
-
-  .recognition-gap {
-    height: 16px;
-  }
-
-  .recognition-expand {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.7);
-    cursor: pointer;
-    transition: color 0.2s;
-  }
-
-  .recognition-expand:hover { color: var(--white); }
-
-  .recognition-line i {
-    color: var(--accent);
-    font-style: italic;
-  }
 
   .scroll-hint {
     position: absolute;
@@ -512,127 +465,51 @@
 
 
   /* ── EXPLORE LIBRARY ── */
-  .library {
+  /* ── OLEK SECTION ── */
+  .olek-section {
     max-width: 1100px;
     margin: 0 auto;
     padding: 80px 36px 100px;
     width: 100%;
-  }
-
-  .library-header {
-    position: relative;
-    text-align: center;
-    margin-bottom: 48px;
-  }
-
-  .library-photo {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .library-eyebrow {
-    font-size: 9px;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 16px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    text-align: center;
   }
 
-  .library-eyebrow-icon { font-size: 18px; }
-
-  .library-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(28px, 4vw, 42px);
-    font-weight: 300;
-    line-height: 1.2;
-    color: var(--white);
-    margin-bottom: 12px;
-  }
-
-  .library-desc {
+  .olek-intro {
+    font-family: 'DM Sans', sans-serif;
     font-size: 15px;
     font-weight: 300;
     line-height: 1.8;
     color: var(--dim);
-    max-width: 560px;
-    margin: 0 auto;
   }
 
-  /* Card grid */
-  .library-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+  .olek-links {
+    margin-top: 24px;
+    width: 320px;
   }
 
-  .library-card {
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 28px 24px;
-    text-decoration: none;
-    transition: border-color 0.3s, background 0.3s;
-    display: flex;
-    flex-direction: column;
+  .olek-divider {
+    border: none;
+    border-top: 1px solid var(--dim);
+    margin: 0 0 4px;
   }
 
-  .library-card:hover {
-    border-color: var(--accent-border);
-    background: var(--accent-bg);
-  }
-
-  .library-card-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
+  .olek-link {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
     font-weight: 300;
-    line-height: 1.25;
     color: var(--white);
-    margin-bottom: 10px;
+    text-decoration: none;
+    padding: 10px 0;
+    transition: color 0.2s;
   }
 
-  .library-card-desc {
-    font-size: 13px;
-    font-weight: 300;
-    line-height: 1.7;
-    color: var(--dim);
-    flex: 1;
+  .olek-link:hover {
+    color: var(--accent);
   }
-
-  .library-card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 16px;
-  }
-
-  .library-card-tag {
-    font-size: 10px;
-    letter-spacing: 0.05em;
-    color: rgb(251,146,60);
-    border: 1px solid rgba(251,146,60,0.25);
-    padding: 3px 8px;
-  }
-
-  .library-card-tag.muted {
-    color: var(--dimmer);
-    border-color: rgba(255,255,255,0.07);
-  }
-
-  .library-cta-wrap {
-    text-align: center;
-    margin-top: 48px;
-  }
-
-  .library-card.placeholder { cursor: default; }
-  .library-card.placeholder:hover { border-color: rgba(255,255,255,0.08); background: none; }
 
   /* ── FOOTER ── */
   footer {
@@ -697,19 +574,7 @@
     .recognition-line { font-size: 15px; white-space: normal; }
     .narrative-statement { font-size: clamp(28px, 7vw, 52px); }
     .narrative-hero { min-height: auto; padding: 40px 0; }
-    .library { padding: 48px 22px 60px; }
-    .library-grid { grid-template-columns: 1fr; }
-    .library-photo {
-      position: static !important;
-      display: block;
-      margin: 20px auto 24px;
-      width: 100px;
-      height: 100px;
-      transform: none !important;
-    }
-    .library-header { flex-direction: column; text-align: center; }
-    .library-eyebrow { justify-content: center; }
-    .library-desc { margin: 0 auto; }
+    .olek-section { padding: 48px 22px 60px; }
     .footer-title { font-size: clamp(32px, 8vw, 44px); }
     .review-text { font-size: 16px; }
     .section-more { padding: 16px 0 0; }
@@ -734,36 +599,6 @@
     </p>
     <div class="reveal" style="max-width:1000px;">
       <p class="prose" style="margin-bottom:8px;">Yet I spent most of my life knowing surprisingly little about what was actually happening inside me.</p>
-    </div>
-    <span class="narrative-more-toggle" id="narrativeMoreToggle" onclick="toggleNarrativeMore()">more...</span>
-    <div id="narrativeMore" class="narrative-more-content" style="max-width:1000px; width:100%; text-align:center;">
-      <div class="reveal">
-        <p class="prose">I knew my opinions. My preferences. My desires. I was my identity.</p>
-      </div>
-      <div class="reveal">
-        <p class="prose">But the deeper currents — <b>what I actually needed</b>, what drove my reactions, what I was really feeling beneath the performance — that remained largely unexamined.</p>
-      </div>
-      <div class="reveal">
-        <p class="prose">I never mapped that territory. Not because I didn't care. Because no one showed me how.</p>
-      </div>
-      <div class="reveal">
-        <p class="prose">And because looking honestly took more courage than staying busy.</p>
-      </div>
-      <div class="reveal">
-        <p class="prose">What I felt —</p>
-      </div>
-
-      <div id="recognitionList"></div>
-
-      <div class="reveal">
-        <p class="prose">— wasn't because I was broken.</p>
-      </div>
-      <div class="reveal">
-        <p class="prose">It was because I was living with someone I didn't actually know.</p>
-      </div>
-      <div class="reveal">
-        <p class="prose"><b>Myself.</b></p>
-      </div>
     </div>
     <div class="scroll-hint">↓</div>
   </div>
@@ -832,9 +667,10 @@
       </div>
 
       <div class="section-cta-wrap" id="leaderBottom" style="display:none;">
-        <span class="section-cta" style="opacity:0.4; cursor:default;">
-          <span>Coming soon</span>
-        </span>
+        <a href="map/?mode=leader" class="section-cta" onclick="event.preventDefault(); plausible('Leader Map Click'); setTimeout(function(){ window.location='map/?mode=leader'; }, 150);">
+          <span>Get Your Map</span>
+          <span>→</span>
+        </a>
       </div>
       </div><!-- end section-left -->
 
@@ -926,25 +762,16 @@
 
   </div>
 
-  <!-- ── EXPLORE: VERSION A — structured (same style as assessment section) ── -->
-  <div class="library">
-    <div class="library-header">
-      <div class="library-header-text">
-        <div class="library-eyebrow">
-          <span class="library-eyebrow-icon">📖</span>
-          Explore
-        </div>
-        <h2 class="library-title"><span style="color:var(--accent);">My</span> Perspectives</h2>
-        <p class="library-desc">Frameworks, conversations, and thinking behind YouAreMe.one. Different formats, one question: <span style="color:var(--white);">How do you navigate the experience of being you?</span></p>
-      </div>
-      <img src="Me.png" alt="Aleksander" class="library-photo">
+  <!-- ── OLEK SECTION ── -->
+  <div class="olek-section">
+    <div style="display:flex; align-items:center; justify-content:flex-start; margin:0 0 12px;">
+      <img src="Me.png" alt="Aleksander" style="width:160px; height:160px; max-width:100%; max-height:100%; border-radius:50%; object-fit:cover;">
     </div>
-
-    <div class="library-cta-wrap">
-      <a href="explore.html" class="section-cta" onclick="event.preventDefault(); plausible('Explore Click'); setTimeout(function(){ window.location='explore.html'; }, 150);">
-        <span>Explore all content</span>
-        <span>→</span>
-      </a>
+    <p class="olek-intro">Hi, I'm Olek 👋<br>Builder of youareme and signalforge.<br>Learning how to navigate the experience of being me.</p>
+    <div class="olek-links">
+      <hr class="olek-divider">
+      <a href="explore.html" class="olek-link" onclick="event.preventDefault(); plausible('Explore Click'); setTimeout(function(){ window.location='explore.html'; }, 150);">→ 📖 My Perspectives</a>
+      <a href="collaborate.html" class="olek-link">→ 🤝 Collaborate</a>
     </div>
   </div>
 
@@ -957,67 +784,6 @@
 </div>
 
 <script>
-// ── RECOGNITION CAROUSEL ──
-(function() {
-  const T = '#00c9a7';
-  const t = (w) => `<i style="color:${T};font-style:italic;">${w}</i>`;
-  const lines = [
-    `I accomplished everything I set out to — and felt ${t('nothing')}`,
-    `I checked all the boxes but still felt ${t('lost')}`,
-    `I got what I wanted and it ${t("wasn't enough")}`,
-    `I felt ${t('stretched too thin')}, constantly`,
-    `I applied the ${t('brakes')} while pressing the ${t('gas')}`,
-    `I felt ${t('guilty')} for resting instead of recharged by it`,
-    `I operated on ${t('autopilot')} most of the time`,
-    `I couldn't tell what I ${t('wanted')} from what I thought I ${t('should')} want`,
-    `I followed scripts that worked for others but felt ${t('hollow')} to me`,
-    `I had ${t('no time')} for what actually mattered to me`,
-    `I felt ${t('anxious')} but couldn't name what about`,
-    `I carried a background sense of ${t('wrongness')} I couldn't locate`,
-    `I was always slightly on ${t('high alert')}`,
-    `I went through motions but didn't feel ${t('present')}`,
-    `I was surrounded by people but felt fundamentally ${t('alone')}`,
-    `I ${t('performed')} my life instead of ${t('living')} it`,
-    `I knew something was ${t('off')} but couldn't access what`,
-    `I achieved and immediately needed the ${t('next thing')}`,
-    `I wondered if something was ${t('broken')} about me`,
-  ];
-
-  for (let i = lines.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [lines[i], lines[j]] = [lines[j], lines[i]];
-  }
-
-  const list = document.getElementById('recognitionList');
-  const first3 = lines.slice(0, 3).map(l => `<div class="recognition-line">${l}</div>`).join('');
-  const rest = lines.slice(3).map((l, i) =>
-    `<div class="recognition-line">${l}</div>` + ((i + 1) % 3 === 0 && i < lines.length - 4 ? '<div class="recognition-gap"></div>' : '')
-  ).join('');
-  list.innerHTML = first3
-    + `<div id="recognitionMore" style="display:none;"><div class="recognition-gap"></div>${rest}</div>`
-    + `<div style="margin-top:10px; margin-bottom:24px;"><span class="recognition-expand" id="recognitionExpand" onclick="toggleRecognitions()">+ ${lines.length - 3} more</span></div>`;
-})();
-
-function toggleNarrativeMore() {
-  const el = document.getElementById('narrativeMore');
-  const btn = document.getElementById('narrativeMoreToggle');
-  const hint = document.querySelector('.hero .scroll-hint');
-  const hero = document.querySelector('.hero');
-  const isOpen = el.classList.contains('open');
-  if (!isOpen) plausible('Narrative Expanded');
-  el.classList.toggle('open');
-  btn.style.display = isOpen ? 'block' : 'none';
-  if (hint) hint.style.display = isOpen ? '' : 'none';
-  // No hero manipulation — content expands in place
-}
-
-function toggleRecognitions() {
-  const more = document.getElementById('recognitionMore');
-  const btn = document.getElementById('recognitionExpand');
-  const isOpen = more.style.display !== 'none';
-  more.style.display = isOpen ? 'none' : 'block';
-  btn.textContent = isOpen ? '+ more' : '− show less';
-}
 
 // ── SCROLL REVEAL ──
 const io = new IntersectionObserver((entries) => {

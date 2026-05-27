@@ -33,7 +33,7 @@
     color: var(--white);
     background: var(--bg);
     overflow-x: hidden;
-    padding-bottom: 160px;
+    padding-bottom: 60px;
   }
 
   .bg-fixed {
@@ -64,7 +64,7 @@
 
   .nav-logo {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 300;
     letter-spacing: 0.04em;
     color: var(--white);
@@ -882,17 +882,10 @@
 <body>
 
 <div class="bg-fixed"></div>
-<nav style="justify-content:center;">
+<nav>
   <a href="index.html" class="nav-logo">You Are <span>Me</span></a>
+  <a href="index.html#assessmentSection" class="nav-cta">Get your map →</a>
 </nav>
-<div style="position:fixed; bottom:0; left:0; right:0; z-index:100; pointer-events:none; padding:8px 36px; background:linear-gradient(transparent 0%, var(--bg) 100%); max-height:80px;">
-  <div style="text-align:center;">
-    <span class="bottom-logo" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:20px; font-weight:600; color:var(--accent); letter-spacing:0.08em;">signalforge</span><br>
-    <span class="bottom-tagline" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:12px; font-weight:400; color:var(--text-low); letter-spacing:0.06em;">Fewer words. More you. Real connection.</span>
-  </div>
-  <span class="bottom-dice" onclick="randomTheme()" style="pointer-events:auto; position:absolute; left:36px; bottom:20px; font-size:32px; cursor:pointer; user-select:none; -webkit-user-select:none; transition:transform 0.3s;" onmousedown="this.style.transform='rotate(180deg)'" onmouseup="this.style.transform=''">🎲</span>
-  <a class="bottom-tryit" href="https://signalforge.youareme.one/" style="pointer-events:auto; position:absolute; right:36px; bottom:20px; font-size:32px; text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">🚪</a>
-</div>
 
 <div class="page-intro">
   <h2 class="intro-headline">How do you navigate the experience of being <i>you?</i></h2>
