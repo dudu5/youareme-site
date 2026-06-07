@@ -45,9 +45,9 @@
   </div>
 
   <div style="display:flex; gap:8px; margin-bottom:24px;">
-    <button class="tree-filter active" onclick="filterTree('family',this)">Family</button>
+    <button class="tree-filter active" onclick="filterTree('available',this)" id="filterAvailable">Available</button>
     <button class="tree-filter" onclick="filterTree('toplist',this)">Toplist</button>
-    <button class="tree-filter" onclick="filterTree('available',this)">Available</button>
+    <button class="tree-filter" onclick="filterTree('family',this)">Family</button>
   </div>
 
   <!-- AWARENESS -->
@@ -452,6 +452,9 @@ function getVotes() {
 setupDoneWidgets();
 setupVoteWidgets();
 setupRecordButtons();
+
+// Default to Available view
+filterTree('available', document.getElementById('filterAvailable'));
 
 var SHEET_URL = 'https://script.google.com/macros/s/AKfycbwTBZo1v4e1qdirDN7CI78Pz38IQx8vt2uav0zIAF8QI9BrCThn8CLAm54cnN_t0BO7/exec';
 function mapSubscribe() {
