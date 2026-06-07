@@ -283,7 +283,8 @@ body {
 @media (max-width: 768px) {
   .side-menu { display: none; }
 
-  .hamburger { display: none; }
+  .hamburger { display: none !important; }
+  .hamburger-inline { display: none !important; }
   .hamburger-inline {
     display: inline-block;
     font-size: 24px;

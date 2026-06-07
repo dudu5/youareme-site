@@ -21,36 +21,70 @@ var scoreColor, getVotes;
       document.body.classList.add('loaded');
     }, 150);
 
-    // Bottom-left controls
+    // Bottom controls
     var btnStyle = 'width:48px; height:48px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:22px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center;';
+    var isMobile = window.innerWidth <= 768;
 
-    // Bottom-right group: theme + reset
-    var themeWrap = document.createElement('div');
-    themeWrap.style.cssText = 'position:fixed; bottom:24px; left:84px; z-index:100; display:flex; gap:12px; align-items:center;';
+    if (isMobile) {
+      // Mobile: fixed bottom tab bar
+      var mobileBar = document.createElement('div');
+      mobileBar.style.cssText = 'position:fixed; bottom:0; left:0; right:0; z-index:100; display:flex; justify-content:space-between; align-items:center; padding:12px 24px; background:var(--bg); border-top:1px solid var(--dimmer);';
 
-    var themeBtn = document.createElement('button');
-    themeBtn.textContent = '◐';
-    themeBtn.title = 'Change theme';
-    themeBtn.style.cssText = btnStyle;
-    themeBtn.onmouseenter = function() { this.style.transform = 'scale(1.1)'; };
-    themeBtn.onmouseleave = function() { this.style.transform = 'scale(1)'; };
-    themeBtn.onclick = randomizeTheme;
-    themeWrap.appendChild(themeBtn);
+      var mobMenuBtn = document.createElement('button');
+      mobMenuBtn.textContent = '☰';
+      mobMenuBtn.style.cssText = 'width:44px; height:44px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:20px; cursor:pointer;';
+      mobMenuBtn.onclick = function() {
+        document.getElementById('mobileMenu').classList.toggle('open');
+        document.getElementById('mobileOverlay').classList.toggle('open');
+      };
 
-    var resetBtn = document.createElement('button');
-    resetBtn.textContent = '↺';
-    resetBtn.title = 'Reset to default';
-    resetBtn.style.cssText = btnStyle.replace('var(--accent)', 'var(--dim)');
-    resetBtn.onmouseenter = function() { this.style.borderColor = 'var(--accent)'; this.style.color = 'var(--accent)'; };
-    resetBtn.onmouseleave = function() { this.style.borderColor = 'var(--dim)'; this.style.color = 'var(--dim)'; };
-    resetBtn.onclick = function() {
-      currentTheme = 0;
-      localStorage.setItem('yam_theme', '0');
-      applyTheme(themes[0]);
-    };
-    themeWrap.appendChild(resetBtn);
+      var mobThemeBtn = document.createElement('button');
+      mobThemeBtn.textContent = '◐';
+      mobThemeBtn.style.cssText = 'width:44px; height:44px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:20px; cursor:pointer;';
+      mobThemeBtn.onclick = randomizeTheme;
 
-    document.body.appendChild(themeWrap);
+      var mobResetBtn = document.createElement('button');
+      mobResetBtn.textContent = '↺';
+      mobResetBtn.style.cssText = 'width:44px; height:44px; border-radius:50%; border:1px solid var(--dim); background:none; color:var(--dim); font-size:20px; cursor:pointer;';
+      mobResetBtn.onclick = function() {
+        currentTheme = 0;
+        localStorage.setItem('yam_theme', '0');
+        applyTheme(themes[0]);
+      };
+
+      mobileBar.appendChild(mobMenuBtn);
+      mobileBar.appendChild(mobThemeBtn);
+      mobileBar.appendChild(mobResetBtn);
+      document.body.appendChild(mobileBar);
+    } else {
+      // Desktop: bottom-left theme + reset
+      var themeWrap = document.createElement('div');
+      themeWrap.style.cssText = 'position:fixed; bottom:24px; left:84px; z-index:100; display:flex; gap:12px; align-items:center;';
+
+      var themeBtn = document.createElement('button');
+      themeBtn.textContent = '◐';
+      themeBtn.title = 'Change theme';
+      themeBtn.style.cssText = btnStyle;
+      themeBtn.onmouseenter = function() { this.style.transform = 'scale(1.1)'; };
+      themeBtn.onmouseleave = function() { this.style.transform = 'scale(1)'; };
+      themeBtn.onclick = randomizeTheme;
+      themeWrap.appendChild(themeBtn);
+
+      var resetBtn = document.createElement('button');
+      resetBtn.textContent = '↺';
+      resetBtn.title = 'Reset to default';
+      resetBtn.style.cssText = btnStyle.replace('var(--accent)', 'var(--dim)');
+      resetBtn.onmouseenter = function() { this.style.borderColor = 'var(--accent)'; this.style.color = 'var(--accent)'; };
+      resetBtn.onmouseleave = function() { this.style.borderColor = 'var(--dim)'; this.style.color = 'var(--dim)'; };
+      resetBtn.onclick = function() {
+        currentTheme = 0;
+        localStorage.setItem('yam_theme', '0');
+        applyTheme(themes[0]);
+      };
+      themeWrap.appendChild(resetBtn);
+
+      document.body.appendChild(themeWrap);
+    }
 
     // Bottom-left: save button with +/- stacked above
     var leftWrap = document.createElement('div');
