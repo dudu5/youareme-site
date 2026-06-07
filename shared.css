@@ -344,7 +344,7 @@ body {
     inset: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.15;
+    opacity: 0.08;
     -webkit-mask-image: radial-gradient(circle, black 30%, transparent 70%);
     mask-image: radial-gradient(circle, black 30%, transparent 70%);
   }
