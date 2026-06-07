@@ -299,7 +299,7 @@ body {
 
   .mobile-menu {
     position: fixed;
-    bottom: 68px;
+    bottom: 56px;
     left: 0;
     width: auto;
     max-width: 80vw;
