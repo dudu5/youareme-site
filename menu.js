@@ -4,8 +4,8 @@
  */
 
 var MENU_CONFIG = [
-  { label: 'Router', href: 'lp-new.html', level: 0 },
-  { label: 'Your Map', href: 'map-tree.html', level: 1 },
+  { label: 'Router', href: 'router.html', level: 0 },
+  { label: 'Your Map', href: 'yourmap.html', level: 1 },
   { label: 'Presence & Intention', href: 'awareness.html', level: 2 },
   { label: 'Meta-Observation', href: 'test-meta.html', level: 3, scoreKey: 'yam_test_meta_done' },
   { label: 'You Are Me', href: 'explore.html', level: 1 },
@@ -15,7 +15,7 @@ var MENU_CONFIG = [
 (function() {
   var currentPath = window.location.pathname;
   var currentPage = currentPath.split('/').pop() || 'index.html';
-  // Handle cases like /map-tree vs /map-tree.html
+  // Handle cases like /map-tree vs /yourmap.html
   if (currentPage.indexOf('.') === -1) currentPage += '.html';
 
   // ── DESKTOP SIDE MENU ──

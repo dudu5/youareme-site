@@ -6,6 +6,7 @@
 <title>You Are Me</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
 <style>
   :root {
     --accent: #00c9a7;
@@ -17,6 +18,12 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  body.loaded { opacity: 1; }
   html { scroll-behavior: smooth; }
 
   body {
@@ -30,7 +37,7 @@
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)),
+      linear-gradient(rgba(0,0,0,0.95), rgba(0,0,0,0.95)),
       url('ground_background.webp');
     background-size: cover;
     background-position: center;
@@ -50,17 +57,103 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 35vh 36px 40px;
-    min-height: 100vh;
+    padding: 40px 36px 80px;
+    height: 100vh;
     position: relative;
+    overflow: hidden;
+  }
+
+  /* ── COLLABORATE SECTIONS ── */
+  .collab-section {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .collab-image {
+    position: sticky;
+    top: 10vh;
+    width: 45%;
+    height: 80vh;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: right center;
+    margin-left: auto;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%);
+    mask-image: linear-gradient(to right, transparent 0%, black 40%);
+  }
+
+  .collab-overlay {
+    flex: 1;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 22vh 40px 20vh 40px;
+  }
+
+  .collab-text { max-width: 580px; }
+
+  .collab-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 32px;
+  }
+
+  .collab-text p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 16px;
+  }
+
+  .collab-text p b { color: var(--white); }
+
+  .collab-text .indent {
+    padding-left: 0;
+    margin: 16px 0;
+  }
+
+  .collab-text .indent p { margin-bottom: 8px; padding-left: 1.5em; text-indent: -1.5em; }
+  .collab-text .indent p::before { content: '→ '; color: var(--accent); }
+
+  .collab-text p.pull-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 2.5vw, 32px);
+    font-weight: 300;
+    line-height: 1.3;
+    color: var(--white);
+    margin: 40px 0;
+  }
+
+  .collab-text p.sub-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(17px, 2vw, 22px);
+    font-weight: 300;
+    color: var(--accent);
+    margin: 32px 0 12px;
+  }
+
+  .section-break {
+    width: 40px;
+    border: none;
+    border-top: 1px solid var(--accent);
+    margin: 40px 0;
+    opacity: 0.5;
   }
 
   .hero-statement {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(28px, 5.5vw, 68px);
     font-weight: 300;
-    line-height: 1.25;
+    line-height: 1.1;
     color: var(--white);
     max-width: 900px;
     margin-bottom: 0;
@@ -79,16 +172,16 @@
   .scroll-hint {
     position: absolute;
     bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 14px;
+    font-size: 18px;
     color: var(--accent);
+    cursor: pointer;
+    z-index: 45;
     animation: pulse 2s ease-in-out infinite;
   }
 
   @keyframes pulse {
-    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
-    50% { transform: translateX(-50%) translateY(8px); opacity: 1; }
+    0%, 100% { transform: translateY(0); opacity: 0.4; }
+    50% { transform: translateY(8px); opacity: 1; }
   }
 
   /* ── SECTION ── */
@@ -535,8 +628,199 @@
     color: var(--dimmer);
   }
 
+  /* ── HUB ── */
+  .hub-headlines {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .hub-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 300;
+    color: var(--white);
+    cursor: pointer;
+    transition: color 0.2s;
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 4px;
+  }
+
+  .hub-headline:hover { color: var(--accent); }
+  .hub-headline:hover span { color: var(--accent); }
+  .hub-headline.active { color: var(--accent); }
+
+  .hub-arrow {
+    font-size: 14px;
+    color: var(--dim);
+  }
+
+
+  .hub-box {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--white);
+    text-decoration: none;
+    padding: 20px 24px;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: border-color 0.3s, background 0.3s;
+    white-space: nowrap;
+  }
+
+  .hub-box:hover {
+    border-color: var(--accent-border);
+    background: var(--accent-bg);
+  }
+
+  #sectionHubV2 .hub-box {
+    border: none;
+  }
+
+  #sectionHubV2 .hub-box:hover {
+    border-color: transparent;
+    background: none;
+  }
+
+  /* ── SIDE MENUS ── */
+  .side-menu {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .side-menu.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .side-menu--left { left: 28px; }
+  .side-menu--right { right: 28px; align-items: flex-end; }
+
+  .side-menu a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .side-menu a:hover { color: var(--white); }
+  .side-menu--left a.active { color: var(--white); }
+  .side-menu--right a { color: var(--white); }
+  .side-menu--right a > span:not(.hex-wrap) { text-decoration: underline; text-decoration-thickness: 0.5px; text-underline-offset: 4px; }
+  .hex-wrap, .hex-wrap * { text-decoration: none !important; }
+  .side-menu--right a.active { color: var(--accent); text-decoration: none; }
+  .side-menu--right a.active > span:not(.hex-wrap) { text-decoration: none; }
+  .hex-wrap { position: relative; display: inline-block; width: 1em; }
+  .hex-wrap .hex-outline { color: var(--white) !important; }
+  .hex-wrap .hex-fill { position: absolute; left: 0; color: var(--accent); opacity: 0; transition: opacity 0.2s; }
+  .side-menu--right a.active .hex-fill,
+  .side-menu--right a:hover .hex-fill { opacity: 1; }
+  .side-menu--right a:hover { color: var(--accent); }
+
+  .hub-link { transition: color 0.2s, opacity 0.2s; text-decoration: none; }
+  .hub-link span:not([style]) { text-decoration: underline; text-decoration-thickness: 0.5px; text-underline-offset: 4px; }
+  .hub-link:hover { color: var(--white) !important; }
+
+  /* ── CONTACT POPUP ── */
+  .contact-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .contact-popup.open { opacity: 1; pointer-events: auto; }
+
+  .contact-popup-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+  }
+
+  .contact-popup-content {
+    position: relative;
+    text-align: center;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(10,10,10,0.6);
+  }
+
+  .contact-popup-close {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 16px;
+    color: var(--dim);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .contact-popup-close:hover { color: var(--white); }
+  .side-menu--left a .teal { color: inherit; transition: color 0.2s; }
+  .side-menu--left a.active .teal { color: var(--accent); }
+
+  .router-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 32px 24px;
+    border-radius: 32px;
+    border: none;
+    text-decoration: none;
+    overflow: hidden;
+    flex: 1;
+    white-space: nowrap;
+    transition: transform 0.3s;
+  }
+
+  .router-card:hover { transform: scale(1.03) translateY(-4px); box-shadow: 0 12px 40px var(--accent-bg); }
+
+
   @media (max-width: 768px) {
-    .hero { padding: 35vh 22px 40px; }
+    .collab-section { flex-direction: column; }
+    .collab-image { position: relative; top: 0; width: 100%; height: 40vh; }
+    .collab-text { margin: 0 24px; }
+    .collab-overlay { padding: 40px 0 20vh; }
+    .hub-headlines { gap: 8px; }
+    .hub-arrow { display: none; }
+    .hub-box { white-space: normal; }
+    #sectionHub > div > div:last-child, #sectionHub2 > div > div:last-child { grid-template-columns: 1fr !important; }
+    .side-menu { display: none; }
+    .hero { padding: 40px 22px 80px; }
+    #router { padding: 20px 0 !important; height: auto !important; min-height: 100vh; }
+    .router-cards { max-width: 100% !important; padding: 0; flex-direction: column !important; gap: 16px !important; }
+    .router-cards a { padding: 16px 20px !important; }
+    .router-cards a img { width: 60vw !important; max-width: 260px !important; height: auto !important; }
     .hero-statement { font-size: clamp(24px, 7vw, 40px); }
     .hero-statement .no-wrap { white-space: normal; }
     .scroll-hint { bottom: 48px; }
@@ -589,567 +873,125 @@
 <body>
 
 <div class="bg-fixed"></div>
+
+<button class="hamburger-inline" style="position:fixed; top:16px; left:16px; z-index:200;" onclick="event.stopPropagation(); document.getElementById('mobileMenu').classList.toggle('open'); document.getElementById('mobileOverlay').classList.toggle('open'); this.textContent = this.textContent === '☰' ? '✕' : '☰'">☰</button>
+<div class="mobile-overlay" id="mobileOverlay" onclick="document.getElementById('mobileMenu').classList.remove('open'); document.getElementById('mobileOverlay').classList.remove('open'); var h=document.querySelector('.hamburger-inline'); if(h) h.textContent='☰';"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <button style="position:absolute; top:16px; left:16px; font-size:24px; color:var(--white); background:none; border:none; cursor:pointer;" onclick="document.getElementById('mobileMenu').classList.remove('open'); document.getElementById('mobileOverlay').classList.remove('open'); var h=document.querySelector('.hamburger-inline'); if(h) h.textContent='☰';">&#10005;</button>
+  <a href="router.html" class="mob-active"><span class="hex-active">⬢</span> Router</a>
+  <a href="yourmap.html" class="mob-child"><span class="hex-outline">⬡</span> Your Map</a>
+  <a href="explore.html" class="mob-child"><span class="hex-outline">⬡</span> You Are Me</a>
+  <a href="collaborate.html" class="mob-child"><span class="hex-outline">⬡</span> Collaborate</a>
+</div>
+
+<!-- Fade overlays -->
+<div id="topFade" style="position:fixed; top:0; left:0; right:0; height:22vh; background:linear-gradient(var(--bg) 40%, transparent); z-index:40; pointer-events:none;"></div>
+<div id="bottomFade" style="position:fixed; bottom:0; left:0; right:0; height:240px; background:linear-gradient(transparent, var(--bg)); z-index:40; pointer-events:none;"></div>
+
+
+<!-- ══════════════════════════════════════ -->
+<!-- ── HEROES (moved to top) ── -->
 <div class="site-wrap">
 
-  <!-- ── HERO ── -->
-  <div class="hero">
+  <!-- ── HERO 1 ── -->
+  <div class="hero" id="section2">
+    <p class="hero-statement">
+      <span class="no-wrap">Do you believe your life</span><br>
+      <span class="no-wrap">could be <i>better?</i></span>
+    </p>
+    <div class="scroll-hint">↓</div>
+  </div>
+
+  <!-- ── HERO LIST ── -->
+  <div class="hero" id="section4">
+    <div style="max-width:600px; text-align:center;">
+      <p class="prose" style="margin-bottom:12px; color:rgba(255,255,255,0.75);">"I am anxious and worry"</p>
+      <p class="prose" style="margin-bottom:12px; color:rgba(255,255,255,0.75);">"I don't have enough time"</p>
+      <p class="prose" style="margin-bottom:12px; color:rgba(255,255,255,0.75);">"I'm stuck in repeating cycles"</p>
+      <p class="prose" style="margin-bottom:12px; color:rgba(255,255,255,0.75);">"I'm grinding but going nowhere"</p>
+      <p class="prose" style="color:rgba(255,255,255,0.75);">"I don't know what I need"</p>
+    </div>
+    <div class="scroll-hint">↓</div>
+  </div>
+
+  <!-- ── HERO 2 ── -->
+  <div class="hero" id="section5">
+    <p class="hero-statement">
+      <span class="no-wrap">I spent most of my life</span><br>
+      <span class="no-wrap">trapped in those patterns.</span>
+    </p>
+    <div class="reveal" style="max-width:1000px;">
+      <p class="prose" style="margin-bottom:8px; color:var(--dim);">I know it because <span style="color:var(--accent);">I mapped it</span>.</p>
+    </div>
+    <div class="scroll-hint">↓</div>
+  </div>
+
+  <!-- ── HERO 3 + ROUTER ── -->
+  <div class="hero" id="heroLast" style="height:auto; min-height:100vh; padding:10vh 36px 80px;">
     <p class="hero-statement">
       <span class="no-wrap">I am the only person</span><br>
       <span class="no-wrap">I will <i>never stop</i> living with.</span>
     </p>
     <div class="reveal" style="max-width:1000px;">
-      <p class="prose" style="margin-bottom:8px;">Yet I spent most of my life knowing surprisingly little about what was actually happening inside me.</p>
+      <p class="prose" style="margin-bottom:40px;">Yet I spent most of my life knowing surprisingly little about what was actually happening inside me.</p>
     </div>
-    <div class="scroll-hint">↓</div>
-  </div>
-
-  <!-- ── ASSESSMENT SECTION ── -->
-  <div class="section">
-    <div class="section-inner">
-
-      <div class="section-left">
-      <div class="section-text">
-        <h2 class="section-title" id="assessmentSection" style="font-size:clamp(32px, 4.5vw, 48px); margin-bottom:20px;">Where are you <i style="color:var(--accent);font-style:italic;">now?</i></h2>
-
-        <div class="assessment-toggle">
-          <div class="toggle-track">
-            <div class="toggle-slider" id="toggleSlider"></div>
-            <button class="toggle-option active-personal" id="togglePersonal" onclick="switchAssessment('personal')">🪞 Personal</button>
-            <button class="toggle-option" id="toggleLeader" onclick="switchAssessment('leader')" style="padding:8px 32px;">🚀 Leader</button>
-          </div>
+    <div id="router" class="router-cards" style="display:flex; flex-direction:row; gap:40px; max-width:1100px; width:100%;">
+      <a href="yourmap.html" class="router-card">
+        <img src="images/LP/map-where-you-are.png" style="width:100%; max-width:320px; aspect-ratio:1; border-radius:50%; object-fit:cover; -webkit-mask-image:radial-gradient(circle, black 40%, transparent 70%); mask-image:radial-gradient(circle, black 40%, transparent 70%);">
+        <div style="text-align:center;">
+          <p style="font-size:19px; color:var(--white); margin-bottom:8px;">I <span style="color:var(--accent);">Need</span> to see where I am</p>
+          <p style="font-size:13px; color:var(--white);">→ Get your map (free)</p>
         </div>
-
-        <!-- PERSONAL -->
-        <div id="personalContent" class="section-eyebrow-wrap">
-          <div class="section-eyebrow">
-            <span class="section-eyebrow-icon">🧭</span>
-            Free assessment
-          </div>
-          <div class="section-note">
-            <div><span class="arrow">→</span> 5–45 minutes</div>
-            <div><span class="arrow">→</span> Completely free</div>
-            <div><span class="arrow">→</span> No email needed</div>
-            <div><span class="arrow">→</span> Data is yours</div>
-          </div>
+      </a>
+      <a href="explore.html" class="router-card">
+        <img src="images/LP/you-are-me.png" style="width:100%; max-width:320px; aspect-ratio:1; border-radius:50%; object-fit:cover; -webkit-mask-image:radial-gradient(circle, black 40%, transparent 70%); mask-image:radial-gradient(circle, black 40%, transparent 70%);">
+        <div style="text-align:center;">
+          <p style="font-size:19px; color:var(--white); margin-bottom:8px;">Curious of new perspectives</p>
+          <p style="font-size:13px; color:var(--white);">→ You Are <b style="color:var(--accent);">Me</b> (free)</p>
         </div>
-
-        <!-- LEADER -->
-        <div id="leaderContent" class="section-eyebrow-wrap" style="display:none;">
-          <div class="section-eyebrow">
-            <span class="section-eyebrow-icon">🧭</span>
-            Free assessment
-          </div>
-          <div class="section-note">
-            <div><span class="arrow">→</span> 5–20 minutes</div>
-            <div><span class="arrow">→</span> Completely free</div>
-            <div><span class="arrow">→</span> No email needed</div>
-            <div><span class="arrow">→</span> Data is yours</div>
-          </div>
+      </a>
+      <a href="collaborate.html" class="router-card">
+        <img src="images/LP/collaborate.png" style="width:100%; max-width:320px; aspect-ratio:1; border-radius:50%; object-fit:cover; -webkit-mask-image:radial-gradient(circle, black 40%, transparent 70%); mask-image:radial-gradient(circle, black 40%, transparent 70%);">
+        <div style="text-align:center;">
+          <p style="font-size:19px; color:var(--white); margin-bottom:8px;">Ready to <span style="color:var(--accent);">Meet</span></p>
+          <p style="font-size:13px; color:var(--white);">→ This is <b style="color:var(--white);">Me</b></p>
         </div>
-      </div>
-
-      <div class="section-desc-wrap" id="personalDesc">
-        <p class="section-desc">Without a map, you are lost. Map your needs as they are today — not as you think they should be. 22 areas of life, 5 reflective questions each.</p>
-      </div>
-      <div class="section-desc-wrap" id="leaderDesc" style="display:none;">
-        <p class="section-desc">Map where your startup actually stands — not where you hope it does. 8 key perspectives, honest scoring.</p>
-      </div>
-
-      <div class="section-cta-wrap" id="personalBottom">
-        <a href="/map/" class="section-cta" onclick="event.preventDefault(); plausible('CTA Click Personal'); setTimeout(function(){ window.location='/map/'; }, 150);">
-          <span>Get Your Map</span>
-          <span>→</span>
-        </a>
-        <div class="section-import">
-          <label for="importCSV" onclick="plausible('Import Click')">Already have a map? Import it →</label>
-          <input type="file" id="importCSV" accept=".csv,.txt" style="display:none;" onchange="handleImport(event)">
-        </div>
-      </div>
-
-      <div class="section-cta-wrap" id="leaderBottom" style="display:none;">
-        <a href="map/?mode=leader" class="section-cta" onclick="event.preventDefault(); plausible('Leader Map Click'); setTimeout(function(){ window.location='map/?mode=leader'; }, 150);">
-          <span>Get Your Map</span>
-          <span>→</span>
-        </a>
-      </div>
-      </div><!-- end section-left -->
-
-      <div class="radar-wrap" id="radarWrap">
-        <div id="demoRadar"></div>
-      </div>
-
-    </div>
-
-    <div class="explore-areas" id="exploreAreas"></div>
-    <div class="explore-areas" id="exploreAreasLeader" style="display:none;"></div>
-
-  </div>
-
-  <!-- ── REVIEWS ── -->
-  <div class="narrative" style="text-align:center;">
-
-    <div class="narrative-hero" style="min-height:auto; padding:20px 0 60px;">
-      <p class="narrative-statement" style="font-size:clamp(28px, 4vw, 48px);">
-        The map doesn't change<br>
-        what's there. It just makes<br>
-        it <i>possible to see.</i>
-      </p>
-    </div>
-
-    <!-- REVIEWS -->
-    <div class="reveal">
-      <div class="reviews-eyebrow">💬 What people say</div>
-    </div>
-
-    <div class="reveal">
-      <div class="review-item">
-        <p class="review-text">"Suddenly the overwhelming 'now what?' feeling had a clear, visual structure. Seeing my life spread across those areas — and then choosing only a handful of focus areas — made everything feel doable instead of paralyzing."</p>
-        <div class="review-author">Lou</div>
-      </div>
-
-      <div class="review-item">
-        <p class="review-text">"It stimulated something inside — a quiet certainty that there is a path that belongs only to me, and that I can choose it."</p>
-        <div class="review-author">Özgun</div>
-      </div>
-
-      <div class="review-item">
-        <p class="review-text">"Life felt like going full speed while sitting on the roof of the car. Now there are far fewer extreme highs and lows, and day-to-day life holds together much better."</p>
-        <div class="review-author">Reidar</div>
-      </div>
-
-      <div class="review-item">
-        <p class="review-text">"It brought things from the unconscious to conscious, making me more thankful for the positives in my life while gently highlighting areas for growth."</p>
-        <div class="review-author">Pauline</div>
-      </div>
-
-      <div class="review-item">
-        <p class="review-text">"The mapping gave me a clear snapshot of my current situation — highlighting both what's working and what's holding me back — without feeling overwhelming."</p>
-        <div class="review-author">Mark</div>
-      </div>
-
-      <div class="review-item">
-        <p class="review-text">"Observation is a win — even with zero change. That reframed how I see progress. It's kind and actionable."</p>
-        <div class="review-author">Pontus</div>
-      </div>
-
-      <div class="review-item">
-        <p class="review-text">"We map out where I am, where I want to go, and what small steps will take me closer. Those steps incrementally diffuse the fog of thoughts into an emergingly clear path."</p>
-        <div class="review-author">Alok</div>
-      </div>
-
-      <div class="review-item">
-        <p class="review-text">"Scoring life parameters was an eye-opener — giving perspective on what I take for granted, while highlighting gaps I hadn't named."</p>
-        <div class="review-author">Martin</div>
-      </div>
-
-      <div class="review-item">
-        <p class="review-text">"It's not about overhauling everything at once — observation and tiny actions are wins in themselves, reframing my approach to growth as compassionate rather than punishing."</p>
-        <div class="review-author">Eliza</div>
-      </div>
-
-      <div class="review-item">
-        <p class="review-text">"Just noticing my habits is a win. It's supportive and makes self-work feel doable and inspiring."</p>
-        <div class="review-author">Calle</div>
-      </div>
-    </div>
-
-    <div class="narrative-cta-wrap reveal">
-      <a href="/map/" class="section-cta" onclick="event.preventDefault(); plausible('CTA Click Bottom'); setTimeout(function(){ window.location='/map/'; }, 150);">
-        <span>Get Your Map</span>
-        <span>→</span>
       </a>
     </div>
-
   </div>
-
-  <!-- ── OLEK SECTION ── -->
-  <div class="olek-section">
-    <div style="display:flex; align-items:center; justify-content:flex-start; margin:0 0 12px;">
-      <img src="Me.png" alt="Aleksander" style="width:160px; height:160px; max-width:100%; max-height:100%; border-radius:50%; object-fit:cover;">
-    </div>
-    <p class="olek-intro">Hi, I'm Olek 👋<br>Builder of youareme and signalforge.<br>Learning how to navigate the experience of being me.</p>
-    <div class="olek-links">
-      <hr class="olek-divider">
-      <a href="explore.html" class="olek-link" onclick="event.preventDefault(); plausible('Explore Click'); setTimeout(function(){ window.location='explore.html'; }, 150);">→ 📖 My Perspectives</a>
-      <a href="collaborate.html" class="olek-link">→ 🤝 Collaborate</a>
-    </div>
-  </div>
-
-  <!-- ── FOOTER ── -->
-  <footer>
-    <div class="footer-title">You Are <span>Me</span></div>
-    <div class="footer-url">youareme.one</div>
-  </footer>
-
 </div>
 
 <script>
-
 // ── SCROLL REVEAL ──
 const io = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1 });
-document.querySelectorAll('.section-text, .radar-wrap, .reveal').forEach(el => io.observe(el));
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-function toggleReviews() {
-  const el = document.getElementById('reviewsHidden');
-  const btn = document.getElementById('reviewsToggle');
-  const isOpen = el.classList.contains('open');
-  if (!isOpen) plausible('Reviews Expanded');
-  el.classList.toggle('open');
-  btn.textContent = isOpen ? '+ 10 more' : '− show less';
-}
-
-// ── EXPLORE AREAS ──
-const areaData = [
-  { parent: "Health & Vitality", emoji: "🩺", name: "Physical Health & Energy",
-    desc: "The body keeps the score of everything else. When this is low, it often means you've been borrowing energy from tomorrow to get through today." },
-  { parent: "Health & Vitality", emoji: "🔥", name: "Sexual Expression & Vitality",
-    desc: "Life force and creative energy move through this channel. When it's low, there's often disconnection from the body's aliveness, from desire, or a dimension of self wrapped in shame." },
-  { parent: "Rest & Recovery", emoji: "🛌", name: "Sleep & Physical Restoration",
-    desc: "Rest is the foundation everything else runs on. When this scores low, tiredness has usually become background noise — so familiar it no longer registers as a problem." },
-  { parent: "Rest & Recovery", emoji: "🛋️", name: "Relaxation & Downtime",
-    desc: "When stimulation becomes the default, stillness starts to feel uncomfortable. The nervous system forgets how to land." },
-  { parent: "Rest & Recovery", emoji: "🎲", name: "Play & Spontaneous Joy",
-    desc: "Play rarely disappears in a single decision. It drifts away gradually — traded for responsibility, efficiency, seriousness. Until lightness feels like something other people have." },
-  { parent: "Safety & Security", emoji: "💰", name: "Financial & Material Security",
-    desc: "When the baseline feels unstable, a significant portion of mental bandwidth gets quietly occupied by survival calculation. Fear starts making decisions for you." },
-  { parent: "Safety & Security", emoji: "🏰", name: "Physical Safety",
-    desc: "Safety is the ground floor. When some part of the nervous system is still on guard — scanning, bracing — everything built above it is on unstable ground." },
-  { parent: "Safety & Security", emoji: "🧘", name: "Emotional Predictability & Stability",
-    desc: "When relationships carry an undercurrent of unpredictability, the nervous system learns to stay ready rather than rest. You're never quite sure what you'll walk into." },
-  { parent: "Social Connection", emoji: "🏡", name: "Belonging & Acceptance",
-    desc: "When belonging is low, there's often a performance running in the background. Belonging isn't about being liked. It's about being known." },
-  { parent: "Social Connection", emoji: "❤️", name: "Affection & Intimacy",
-    desc: "A specific kind of loneliness — not necessarily being alone, but being unseen. Closeness may be present in form but not in depth." },
-  { parent: "Social Connection", emoji: "🤲", name: "Empathy & Balanced Space",
-    desc: "This often tips in one of two directions — giving so much that the self disappears, or protecting so fiercely that real contact becomes rare." },
-  { parent: "Autonomy & Freedom", emoji: "🚪", name: "Personal Space & Privacy",
-    desc: "Without space that belongs only to you — physically, psychologically, or in time — the self starts to blur at the edges." },
-  { parent: "Autonomy & Freedom", emoji: "🎯", name: "Self-Determination",
-    desc: "When this is low, life can feel like something happening to you rather than something you're building. Resentment often lives quietly nearby." },
-  { parent: "Autonomy & Freedom", emoji: "🛑", name: "Boundary Setting",
-    desc: "Uncertainty about what you actually need, and fear of what happens if you ask for it. So you absorb, agree, stay quiet. The gap quietly widens." },
-  { parent: "Identity & Esteem", emoji: "🏆", name: "Recognition & Status",
-    desc: "Not receiving enough genuine acknowledgment, or receiving it but being unable to let it land. Both leave the same gap: a hunger for being seen." },
-  { parent: "Identity & Esteem", emoji: "🌟", name: "Self-Worth & Respect",
-    desc: "A quiet but persistent sense that your needs, feelings, or presence require justification. Taking up space feels presumptuous. Shame operates just below the surface." },
-  { parent: "Cognitive & Intellectual Fulfillment", emoji: "🧠", name: "Understanding & Learning",
-    desc: "When this is low, the inner world can feel opaque — patterns repeat without becoming clear, reactions arrive without explanation." },
-  { parent: "Cognitive & Intellectual Fulfillment", emoji: "💡", name: "Creativity & Problem-Solving",
-    desc: "Challenges tend to feel fixed. Imagination gets crowded out by pressure, routine, or the weight of how things have always been done." },
-  { parent: "Meaning", emoji: "🛠️", name: "Mastery & Competence",
-    desc: "When this is low there's often a flatness — effort without growth, activity without development. Energy spent in areas that don't genuinely matter." },
-  { parent: "Meaning", emoji: "🤝", name: "Contribution & Impact",
-    desc: "A specific kind of emptiness — being busy, doing things, but without a sense that any of it actually matters beyond the immediate." },
-  { parent: "Meaning", emoji: "🚀", name: "Self-Actualization & Growth",
-    desc: "A gap between who you are today and who you sense you could be — and that gap feels static rather than closing." },
-  { parent: "Meaning", emoji: "✨", name: "Transcendence & Spiritual Connection",
-    desc: "Life experienced primarily at the personal level. Something can feel missing: a sense of being part of something larger." },
-];
-
-// ── DEMO RADAR (Signal-style) ──
-const radarConfig = {
-  personal: {
-    cats: [
-      {emoji:"🩺",name:"Physical Health & Energy"},{emoji:"🛌",name:"Sleep & Restoration"},
-      {emoji:"🛋️",name:"Relaxation & Downtime"},{emoji:"🎲",name:"Play & Joy"},
-      {emoji:"💰",name:"Financial Security"},{emoji:"🏰",name:"Physical Safety"},
-      {emoji:"🧘",name:"Emotional Stability"},{emoji:"🏡",name:"Belonging"},
-      {emoji:"❤️",name:"Intimacy"},{emoji:"🤲",name:"Empathy"},
-      {emoji:"🚪",name:"Personal Space"},{emoji:"🎯",name:"Self-Determination"},
-      {emoji:"🛑",name:"Boundaries"},{emoji:"🏆",name:"Recognition"},
-      {emoji:"🌟",name:"Self-Worth"},{emoji:"🧠",name:"Understanding"},
-      {emoji:"💡",name:"Creativity"},{emoji:"🔥",name:"Vitality"},
-      {emoji:"🛠️",name:"Mastery"},{emoji:"🤝",name:"Contribution"},
-      {emoji:"🚀",name:"Growth"},{emoji:"✨",name:"Transcendence"}
-    ],
-    profiles: [
-      [2,1,2,1,5,6,3,3,2,2,4,5,4,6,4,5,6,2,7,6,7,5],
-      [5,7,6,5,6,7,6,7,4,5,6,3,3,3,4,2,2,3,2,2,1,2],
-      [4,3,4,6,3,5,5,7,7,6,2,2,1,5,4,6,5,4,3,5,6,7],
-      [5,4,5,2,6,6,3,1,1,2,7,7,6,3,5,7,6,4,6,3,4,3],
-      [2,1,1,1,3,5,2,5,4,7,2,3,1,2,1,4,3,2,4,7,3,4],
-    ]
-  },
-  leader: {
-    cats: [
-      {emoji:"🧩",name:"Core Assumptions"},{emoji:"🔄",name:"Market Interaction"},
-      {emoji:"👥",name:"Customer Reality"},{emoji:"⚔️",name:"Differentiation"},
-      {emoji:"🤝",name:"Team Alignment"},{emoji:"⚖️",name:"Decision Making"},
-      {emoji:"⚡",name:"Experimentation Speed"},{emoji:"🛡️",name:"Plan B"}
-    ],
-    profiles: [
-      [7,4,3,5,6,4,2,3],
-      [3,7,6,4,3,5,7,2],
-      [5,3,7,6,5,3,4,6],
-      [4,6,5,3,7,6,5,4],
-      [2,5,4,7,4,7,6,5],
-    ]
-  }
-};
-
-const leaderAreaData = [
-  {parent:"Strategy",emoji:"🧩",name:"Clear Core Assumptions",
-   desc:"Your core assumptions are clearly articulated — who is your target client, what their problem comes down to, that it's worth solving, how your solution differs, and how you'll make profit."},
-  {parent:"Strategy",emoji:"🔄",name:"Market Interaction",
-   desc:"You engage frequently, qualitatively and strategically with the market. You know how to facilitate interactions without biasing outcomes."},
-  {parent:"Strategy",emoji:"👥",name:"Understanding of Customer Reality",
-   desc:"You deeply understand the reality of your target market without your solution in it — where they struggle, how challenges are solved without you, and whether you experience genuine pull."},
-  {parent:"Strategy",emoji:"⚔️",name:"Clear and Specific Differentiation",
-   desc:"You know your direct and indirect competitors. How your solution is different and better is clearly defined, and your team's strengths are leveraged to stand out."},
-  {parent:"Execution",emoji:"🤝",name:"Team Alignment",
-   desc:"Your team is well aligned on direction, priority and goals. You continuously share perspectives and resolve misalignments effectively."},
-  {parent:"Execution",emoji:"⚖️",name:"Decision Making Principles",
-   desc:"You have clear decision-making principles. Making decisions feels smooth — you don't waste time stuck in discussions without clear ways to land."},
-  {parent:"Execution",emoji:"⚡",name:"Speed of Experimentation",
-   desc:"You prioritize designing and launching experiments quickly. You seek to uncover where assumptions might be wrong and quickly adapt based on results."},
-  {parent:"Execution",emoji:"🛡️",name:"Plan B",
-   desc:"You have a clearly defined backup plan ready. Shifting to Plan B is seen as strategic, not failure, and it aligns with your long-term goals."},
-];
-
-let currentMode = 'personal';
-let radarTimer = null;
-
-function initRadar(mode) {
-  const container = document.getElementById('demoRadar');
-  container.innerHTML = '';
-  if (radarTimer) { clearInterval(radarTimer); radarTimer = null; }
-
-  const cfg = radarConfig[mode];
-  const cats = cfg.cats;
-  const constellations = cfg.profiles.map(p => {
-    const paired = p.map((score, i) => ({score, catIdx: i}));
-    paired.sort((a, b) => b.score - a.score);
-    return {scores: paired.map(x => x.score), catOrder: paired.map(x => x.catIdx)};
+// ── SCROLL HINTS ──
+document.querySelectorAll('.scroll-hint').forEach(hint => {
+  hint.addEventListener('click', () => {
+    const section = hint.closest('.hero');
+    const next = section.nextElementSibling;
+    if (next) next.scrollIntoView({ behavior: 'smooth' });
   });
+});
 
-  const RED = 'rgb(239,68,68)', ORANGE = 'rgb(251,146,60)', TEAL = 'rgb(45,212,191)';
-  function scoreColor(s) { return s <= 3 ? RED : s <= 5 ? ORANGE : TEAL; }
-
-  const vb = 400, cx = 200, cy = 200, R = 150;
-  const n = cats.length, angleStep = (2 * Math.PI) / n, startAngle = -Math.PI / 2, levels = 7;
-
-  function midAngle(i) { return startAngle + i * angleStep + angleStep / 2; }
-  function spokeAngle(i) { return startAngle + i * angleStep; }
-  function pol(r, a) { return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
-
-  let grid = '';
-  for (let l = 1; l <= levels; l++) {
-    const r = (l / levels) * R;
-    grid += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="${l === levels ? 1.5 : 0.5}"/>`;
+// ── HIDE BOTTOM FADE ON ROUTER ──
+var bottomFade = document.getElementById('bottomFade');
+var router = document.getElementById('router');
+window.addEventListener('scroll', function() {
+  var rect = router.getBoundingClientRect();
+  if (rect.top < window.innerHeight && rect.bottom > 0) {
+    bottomFade.style.opacity = '0';
+  } else {
+    bottomFade.style.opacity = '1';
   }
-  for (let i = 0; i < n; i++) {
-    const [x, y] = pol(R, spokeAngle(i));
-    grid += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>`;
-  }
+});
+bottomFade.style.transition = 'opacity 0.3s';
 
-  function buildLabels(scores, catOrder) {
-    let html = '';
-    for (let i = 0; i < n; i++) {
-      const ma = midAngle(i), s = Math.round(scores[i]), cat = cats[catOrder[i]];
-      const color = scoreColor(s), cosA = Math.cos(ma);
-      const anchor = cosA < -0.15 ? 'end' : cosA > 0.15 ? 'start' : 'middle';
-      const [ex, ey] = pol(R + 16, ma);
-      html += `<text x="${ex}" y="${ey + 5}" text-anchor="middle" font-size="14">${cat.emoji}</text>`;
-      const [sx, sy] = pol(R + 32, ma);
-      html += `<text x="${sx}" y="${sy + 4}" text-anchor="${anchor}" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="${color}">${s}</text>`;
-    }
-    return html;
-  }
 
-  function buildSlices(scores) {
-    let html = '';
-    for (let i = 0; i < n; i++) {
-      const s = scores[i], color = scoreColor(s), r = (s / levels) * R;
-      const a1 = spokeAngle(i), a2 = a1 + angleStep;
-      const [x1, y1] = pol(r, a1), [x2, y2] = pol(r, a2);
-      html += `<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${angleStep > Math.PI ? 1 : 0} 1 ${x2},${y2} Z" fill="${color}" opacity="0.08"/>`;
-    }
-    return html;
-  }
-
-  function buildData(scores) {
-    const pts = scores.map((s, i) => pol((s / levels) * R, midAngle(i)).join(',')).join(' ');
-    let html = `<polygon points="${pts}" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linejoin="round"/>`;
-    scores.forEach((s, i) => {
-      const [x, y] = pol((s / levels) * R, midAngle(i));
-      html += `<circle cx="${x}" cy="${y}" r="3" fill="${scoreColor(s)}"/>`;
-    });
-    return html;
-  }
-
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('viewBox', `0 0 ${vb} ${vb}`);
-  svg.style.width = '100%';
-  svg.style.padding = '40px';
-
-  const gridG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  gridG.innerHTML = grid; svg.appendChild(gridG);
-  const slicesG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  svg.appendChild(slicesG);
-  const dataG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  svg.appendChild(dataG);
-  const labelsG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  svg.appendChild(labelsG);
-
-  container.appendChild(svg);
-
-  let current = 0;
-
-  function renderScores(scores, catOrder) {
-    slicesG.innerHTML = buildSlices(scores);
-    dataG.innerHTML = buildData(scores);
-    labelsG.innerHTML = buildLabels(scores, catOrder);
-  }
-
-  function lerp(a, b, t) { return a + (b - a) * t; }
-
-  function animateTo(idx) {
-    const from = constellations[current].scores, to = constellations[idx].scores;
-    const toCats = constellations[idx].catOrder;
-    const duration = 1200, startT = performance.now();
-    let swapped = false;
-    labelsG.style.transition = 'opacity 0.4s ease';
-    labelsG.style.opacity = '0';
-
-    function tick(now) {
-      const t = Math.min((now - startT) / duration, 1);
-      const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      const interp = from.map((v, i) => lerp(v, to[i], eased));
-      slicesG.innerHTML = buildSlices(interp);
-      dataG.innerHTML = buildData(interp);
-      if (t >= 0.35 && !swapped) {
-        swapped = true;
-        labelsG.innerHTML = buildLabels(interp, toCats);
-        labelsG.style.opacity = '1';
-      }
-      if (t < 1) requestAnimationFrame(tick);
-      else { renderScores(to, toCats); labelsG.style.opacity = '1'; }
-    }
-    requestAnimationFrame(tick);
-    current = idx;
-  }
-
-  renderScores(constellations[0].scores, constellations[0].catOrder);
-  radarTimer = setInterval(() => {
-    const next = (current + 1) % constellations.length;
-    animateTo(next);
-  }, 4000);
-}
-
-// ── ASSESSMENT TOGGLE ──
-function positionSlider(mode) {
-  const slider = document.getElementById('toggleSlider');
-  const btn = document.getElementById(mode === 'personal' ? 'togglePersonal' : 'toggleLeader');
-  const track = btn.parentElement;
-  const trackRect = track.getBoundingClientRect();
-  const btnRect = btn.getBoundingClientRect();
-  slider.style.left = (btnRect.left - trackRect.left) + 'px';
-  slider.style.width = btnRect.width + 'px';
-  slider.style.background = mode === 'personal' ? 'var(--accent)' : 'rgb(168,130,255)';
-}
-
-function switchAssessment(mode) {
-  plausible(mode === 'leader' ? 'Toggle Leader' : 'Toggle Personal');
-  currentMode = mode;
-  const pBtn = document.getElementById('togglePersonal');
-  const lBtn = document.getElementById('toggleLeader');
-  const purple = 'rgb(168,130,255)';
-
-  pBtn.className = 'toggle-option' + (mode === 'personal' ? ' active-personal' : '');
-  lBtn.className = 'toggle-option' + (mode === 'leader' ? ' active-leader' : '');
-  positionSlider(mode);
-
-  // Switch accent colors in leader content
-  const leaderEl = document.getElementById('leaderContent');
-  if (leaderEl) {
-    leaderEl.querySelectorAll('.section-eyebrow').forEach(el => el.style.color = purple);
-    leaderEl.querySelectorAll('.arrow').forEach(el => el.style.color = purple);
-    leaderEl.querySelectorAll('.section-cta').forEach(el => {
-      el.style.color = purple;
-      el.style.borderColor = 'rgba(168,130,255,0.5)';
-    });
-    leaderEl.querySelectorAll('.section-import label').forEach(el => el.style.color = 'rgb(251,146,60)');
-  }
-
-  // Leader area group names purple
-  const leaderAreas = document.getElementById('exploreAreasLeader');
-  if (leaderAreas) {
-    leaderAreas.querySelectorAll('.area-group-name').forEach(el => el.style.color = purple);
-  }
-
-  document.getElementById('personalContent').style.display = mode === 'personal' ? '' : 'none';
-  document.getElementById('leaderContent').style.display = mode === 'leader' ? '' : 'none';
-  document.getElementById('personalBottom').style.display = mode === 'personal' ? '' : 'none';
-  document.getElementById('leaderBottom').style.display = mode === 'leader' ? '' : 'none';
-  document.getElementById('personalDesc').style.display = mode === 'personal' ? '' : 'none';
-  document.getElementById('leaderDesc').style.display = mode === 'leader' ? '' : 'none';
-  document.getElementById('exploreAreas').style.display = mode === 'personal' ? '' : 'none';
-  document.getElementById('exploreAreasLeader').style.display = mode === 'leader' ? '' : 'none';
-
-  // Title accent color
-  const titleI = document.querySelector('.section-title i');
-  if (titleI) titleI.style.color = mode === 'leader' ? purple : 'var(--accent)';
-
-  initRadar(mode);
-}
-
-// Position slider on load
-requestAnimationFrame(() => positionSlider('personal'));
-
-// Pre-populate both explore areas
-(function() {
-  // Personal areas
-  const personalEl = document.getElementById('exploreAreas');
-  const groups = {};
-  areaData.forEach(a => { if (!groups[a.parent]) groups[a.parent] = []; groups[a.parent].push(a); });
-  function buildAreas(data) {
-    const g = {};
-    data.forEach(a => { if (!g[a.parent]) g[a.parent] = []; g[a.parent].push(a); });
-    let h = '';
-    for (const [group, items] of Object.entries(g)) {
-      h += `<div class="area-group"><div class="area-group-name">${group}</div><div class="area-items-scroll">`;
-      items.forEach(a => {
-        h += `<div class="area-item"><div class="area-left"><span class="area-emoji">${a.emoji}</span><span class="area-name">${a.name}</span></div><div class="area-desc">${a.desc}</div></div>`;
-      });
-      h += '</div></div>';
-    }
-    return h;
-  }
-
-  document.getElementById('exploreAreas').innerHTML = buildAreas(areaData);
-  document.getElementById('exploreAreasLeader').innerHTML = buildAreas(leaderAreaData);
-})();
-
-initRadar('personal');
-
-// ── IMPORT CSV ──
-function handleImport(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    localStorage.setItem('myspiral_import', e.target.result);
-    window.location = '/map/';
-  };
-  reader.readAsText(file);
-}
-
-// ── SCROLL DEPTH TRACKING ──
-(function() {
-  const milestones = [25, 50, 75, 100];
-  const fired = new Set();
-  window.addEventListener('scroll', () => {
-    const pct = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-    milestones.forEach(m => {
-      if (pct >= m && !fired.has(m)) {
-        fired.add(m);
-        plausible('Scroll ' + m);
-      }
-    });
-  });
-})();
 </script>
+<script src="shared.js"></script>
 </body>
 </html>
