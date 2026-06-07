@@ -14,9 +14,9 @@ var MENU_CONFIG = [
 
 (function() {
   var currentPath = window.location.pathname;
-  var currentPage = currentPath.split('/').pop() || 'index.html';
-  // Handle cases like /map-tree vs /yourmap
-  if (currentPage.indexOf('.') === -1) currentPage += '.html';
+  var currentPage = currentPath.split('/').pop().replace('.html', '') || 'index';
+  // Map index to explore (homepage is You Are Me)
+  if (currentPage === 'index' || currentPage === '') currentPage = 'explore';
 
   // ── DESKTOP SIDE MENU ──
   var sideMenu = document.getElementById('sideMenu');
