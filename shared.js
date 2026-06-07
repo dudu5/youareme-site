@@ -52,9 +52,21 @@ var scoreColor, getVotes;
         applyTheme(themes[0]);
       };
 
+      var mobFullBtn = document.createElement('button');
+      mobFullBtn.textContent = '⛶';
+      mobFullBtn.style.cssText = 'width:44px; height:44px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:20px; cursor:pointer;';
+      mobFullBtn.onclick = function() {
+        if (!document.fullscreenElement) {
+          (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen || function(){}).call(document.documentElement);
+        } else {
+          (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document);
+        }
+      };
+
       mobileBar.appendChild(mobMenuBtn);
       mobileBar.appendChild(mobThemeBtn);
       mobileBar.appendChild(mobResetBtn);
+      mobileBar.appendChild(mobFullBtn);
       document.body.appendChild(mobileBar);
     } else {
       // Desktop: bottom-left theme + reset
