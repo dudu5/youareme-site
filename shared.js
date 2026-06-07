@@ -15,6 +15,35 @@ var scoreColor, getVotes;
   // 1. PAGE FADE TRANSITIONS
   // ─────────────────────────────────────────────
 
+  // Register PWA service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(function() {});
+  }
+
+  // Add manifest link if not present
+  if (!document.querySelector('link[rel="manifest"]')) {
+    var manifestLink = document.createElement('link');
+    manifestLink.rel = 'manifest';
+    manifestLink.href = '/manifest.json';
+    document.head.appendChild(manifestLink);
+  }
+
+  // Add PWA meta tags
+  var metaTheme = document.createElement('meta');
+  metaTheme.name = 'theme-color';
+  metaTheme.content = '#00c9a7';
+  document.head.appendChild(metaTheme);
+
+  var metaApple = document.createElement('meta');
+  metaApple.name = 'apple-mobile-web-app-capable';
+  metaApple.content = 'yes';
+  document.head.appendChild(metaApple);
+
+  var metaAppleStatus = document.createElement('meta');
+  metaAppleStatus.name = 'apple-mobile-web-app-status-bar-style';
+  metaAppleStatus.content = 'black-translucent';
+  document.head.appendChild(metaAppleStatus);
+
   document.addEventListener('DOMContentLoaded', function () {
     // Fade in after a brief delay so the CSS transition is visible
     setTimeout(function () {
@@ -52,21 +81,9 @@ var scoreColor, getVotes;
         applyTheme(themes[0]);
       };
 
-      var mobFullBtn = document.createElement('button');
-      mobFullBtn.textContent = '⛶';
-      mobFullBtn.style.cssText = 'width:44px; height:44px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:20px; cursor:pointer;';
-      mobFullBtn.onclick = function() {
-        if (!document.fullscreenElement) {
-          (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen || function(){}).call(document.documentElement);
-        } else {
-          (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document);
-        }
-      };
-
       mobileBar.appendChild(mobMenuBtn);
       mobileBar.appendChild(mobThemeBtn);
       mobileBar.appendChild(mobResetBtn);
-      mobileBar.appendChild(mobFullBtn);
       document.body.appendChild(mobileBar);
     } else {
       // Desktop: bottom-left theme + reset
