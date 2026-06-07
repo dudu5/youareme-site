@@ -91,7 +91,26 @@ var scoreColor, getVotes;
         applyTheme(themes[0]);
       };
 
+      var mobSaveBtn = document.createElement('button');
+      mobSaveBtn.textContent = '💾';
+      mobSaveBtn.style.cssText = mobBtnStyle + (hasMapData() ? '' : ' display:none;');
+      mobSaveBtn.onclick = function() {
+        var data = {};
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (k.startsWith('yam_')) {
+            try { data[k] = JSON.parse(localStorage.getItem(k)); } catch(e) { data[k] = localStorage.getItem(k); }
+          }
+        }
+        var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'youareme-map-' + new Date().toISOString().slice(0,10) + '.json';
+        a.click();
+      };
+
       mobileBar.appendChild(mobMenuBtn);
+      mobileBar.appendChild(mobSaveBtn);
       mobileBar.appendChild(mobThemeBtn);
       mobileBar.appendChild(mobResetBtn);
       document.body.appendChild(mobileBar);
