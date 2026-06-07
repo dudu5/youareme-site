@@ -15,6 +15,15 @@ var scoreColor, getVotes;
   // 1. PAGE FADE TRANSITIONS
   // ─────────────────────────────────────────────
 
+  // Redirect to /router on first PWA launch
+  var isStandalonePWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  if (isStandalonePWA && !sessionStorage.getItem('yam_pwa_launched')) {
+    sessionStorage.setItem('yam_pwa_launched', '1');
+    if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+      window.location.href = '/router';
+    }
+  }
+
   // Register PWA service worker
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(function() {});
