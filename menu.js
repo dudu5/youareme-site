@@ -8,15 +8,15 @@ var MENU_CONFIG = [
   { label: 'Your Map', href: 'yourmap', level: 1 },
   { label: 'Presence & Intention', href: 'awareness', level: 2 },
   { label: 'Meta-Observation', href: 'test-meta', level: 3, scoreKey: 'yam_test_meta_done' },
-  { label: 'You Are Me', href: 'explore', level: 1 },
+  { label: 'You Are Me', href: '/', level: 1 },
   { label: 'Collaborate', href: 'collaborate', level: 1 }
 ];
 
 (function() {
   var currentPath = window.location.pathname;
   var currentPage = currentPath.split('/').pop().replace('.html', '') || 'index';
-  // Map index to explore (homepage is You Are Me)
-  if (currentPage === 'index' || currentPage === '') currentPage = 'explore';
+  // Map index to / (homepage is You Are Me)
+  if (currentPage === 'index' || currentPage === '' || currentPage === 'explore') currentPage = '/';
 
   // ── DESKTOP SIDE MENU ──
   var sideMenu = document.getElementById('sideMenu');
