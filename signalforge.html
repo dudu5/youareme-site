@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signalforge — You Are Me</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<script async src="https://plausible.io/js/pa-ueYEguemb1yoTmQce6Gad.js"></script>
+<style>
+  :root {
+    --accent: #00c9a7;
+    --accent-border: rgba(0,201,167,0.5);
+    --accent-bg: rgba(0,201,167,0.08);
+    --bg: #0a0a0a;
+    --bg-overlay: rgba(0,0,0,0.95);
+    --white: #f0f0f0;
+    --dim: rgba(255,255,255,0.55);
+    --dimmer: rgba(255,255,255,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--white);
+    background: var(--bg);
+  }
+
+  .bg-fixed {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--bg-overlay), var(--bg-overlay)),
+      url('ground_background.webp');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  .page-wrap {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .page-image {
+    position: sticky;
+    top: 10vh;
+    width: 45%;
+    height: 80vh;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: left center;
+    -webkit-mask-image: linear-gradient(to left, transparent 0%, black 40%);
+    mask-image: linear-gradient(to left, transparent 0%, black 40%);
+  }
+
+  .page-content {
+    flex: 1;
+    max-width: 580px;
+    margin: 0;
+    padding: 15vh 40px 10vh 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 40px;
+  }
+
+  .page-content p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 16px;
+  }
+
+  .page-content p b { color: var(--white); }
+
+  .page-content p.pull-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 2.5vw, 32px);
+    font-weight: 300;
+    line-height: 1.3;
+    color: var(--white);
+    margin: 40px 0;
+  }
+
+  .page-content p.sub-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(17px, 2vw, 22px);
+    font-weight: 300;
+    color: var(--accent);
+    margin: 32px 0 12px;
+  }
+
+  .section-break {
+    width: 40px;
+    border: none;
+    border-top: 1px solid var(--accent);
+    margin: 40px 0;
+    opacity: 0.5;
+  }
+
+  /* ── TOP NAV ── */
+  .top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 16px 28px;
+    background: linear-gradient(rgba(10,10,10,0.9), transparent);
+  }
+
+  .top-nav a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .top-nav a span { color: var(--accent); }
+
+  /* ── SIDE MENUS ── */
+  .side-menu {
+    position: fixed;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: opacity 0.4s ease;
+  }
+
+  .side-menu--left { left: 28px; bottom: 40vh; align-items: flex-start; }
+
+  .side-menu a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .side-menu a > span:not(.hex-wrap) { text-decoration: underline; text-decoration-thickness: 0.5px; text-underline-offset: 4px; }
+  .side-menu a.active { color: var(--accent); text-decoration: none; }
+  .side-menu a.active > span:not(.hex-wrap) { text-decoration: none; }
+  .hex-wrap { position: relative; display: inline-block; width: 1em; }
+  .hex-wrap .hex-outline { color: var(--white) !important; }
+  .hex-wrap .hex-fill { position: absolute; left: 0; color: var(--accent); opacity: 0; transition: opacity 0.2s; }
+  .side-menu a.active .hex-fill,
+  .side-menu a:hover .hex-fill { opacity: 1; }
+  .hex-wrap, .hex-wrap * { text-decoration: none !important; }
+
+  .side-menu a:hover { color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .side-menu { display: none; }
+    .page-wrap { flex-direction: column; }
+    .page-image { position: relative; top: 0; width: 100%; height: 40vh; }
+    .page-content { padding: 40px 24px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-fixed"></div>
+
+<!-- Fade overlays -->
+<div style="position:fixed; top:0; left:0; right:0; height:22vh; background:linear-gradient(#0a0a0a 40%, transparent); z-index:40; pointer-events:none;"></div>
+<div style="position:fixed; bottom:0; left:0; right:0; height:240px; background:linear-gradient(transparent, #0a0a0a); z-index:40; pointer-events:none;"></div>
+
+
+<div class="side-menu side-menu--left" id="sideMenu">
+  <a href="map-tree.html"><span class="hex-wrap"><span class="hex-outline">⬡</span><span class="hex-fill">⬢</span></span> <span>Your Map</span></a>
+  <a href="explore.html"><span class="hex-wrap"><span class="hex-outline">⬡</span><span class="hex-fill">⬢</span></span> <span>You Are Me</span></a>
+  <a href="collaborate.html"><span class="hex-wrap"><span class="hex-outline">⬡</span><span class="hex-fill">⬢</span></span> <span>Collaborate</span></a>
+</div>
+
+<div class="page-wrap">
+  <div class="page-image" style="background-image:url('images/collaborate/signalforge.png');"></div>
+  <div class="page-content">
+  <h1 class="page-title">Signal <span style="color:var(--accent);">Forge</span></h1>
+
+  <p>You've just read how this works: observation and reflection, repeated over time, until your system gets reprogrammed.</p>
+
+  <p class="pull-quote">The bottleneck isn't understanding. The bottleneck is practice.</p>
+
+  <p>Most people try to practice alone. They journal. They meditate. They reflect in the shower. And then they return to their day, to their autopilot, to the patterns they're trying to change.</p>
+  <p>The reflection gets lost. The insights don't compound. The practice becomes another thing you're "supposed to do."</p>
+
+  <p>So you try AI. And it hallucinates details you never said.</p>
+  <p>It bombards you with suggestions you didn't ask for.</p>
+  <p>Mid-conversation you realize it's not actually following your thinking.</p>
+  <p>You're drowning in output instead of gaining clarity.</p>
+  <p style="color:var(--white); border-left:2px solid var(--accent); padding-left:16px;">The tool is getting in the way instead of helping.</p>
+
+  <hr class="section-break">
+
+  <p>What if the opposite happened?</p>
+
+  <p class="pull-quote">Signal Forge is different.</p>
+
+  <p>It's a structured conversation with an AI that's been designed to do one thing: help you externalize what's happening inside you, so you can actually see it clearly.</p>
+
+  <p style="color:var(--white); border-left:2px solid var(--accent); padding-left:16px;">But here's what matters: you're not practicing alone.</p>
+
+  <p>You're using the same tool I'm using to map my own work. Every conversation you have becomes part of a living dataset — data that informs how the framework evolves. Your practice isn't isolated. It's woven into something larger.</p>
+  <p>You bring your raw thinking — the messy internal state, the contradictions, the patterns you're noticing. Signal Forge reflects it back. Not interpreted. Not judged. Not drowned in suggestions. Just clear.</p>
+  <p style="color:var(--white); border-left:2px solid var(--accent); padding-left:16px;">Then you can actually work with it.</p>
+  <p>Over time, this becomes your laboratory. Your mirror. The space where observation and reflection happen in real time — not lost in AI tangents, not buried in output you didn't need.</p>
+  <p><b>It's not therapy. It's not a coach. It's infrastructure for your own clarity.</b></p>
+
+  <hr class="section-break">
+
+  <p class="sub-heading">What actually happens</p>
+
+  <p><b>It's always available.</b> When you notice something, you explore it immediately — while it's alive. Not waiting for it to finish talking. Not filtering through noise.</p>
+  <p><b>It follows your thinking.</b> Not the other way around. You lead. It reflects. The conversation stays yours.</p>
+  <p><b>Clarity compounds.</b> Every conversation is recorded. Patterns emerge across sessions. You watch your own understanding evolve — not scattered across tools, but in one place.</p>
+  <p>If you're working with me 1:1, Signal Forge becomes where you practice between sessions. Where you deepen what we explore together.</p>
+  <p>If you're not ready for coaching yet, Signal Forge gives you the infrastructure to practice on your own terms.</p>
+
+  <hr class="section-break">
+
+  <p class="pull-quote">The waiting list isn't a queue to get access. It's an invitation to shape what comes next.</p>
+
+  <p>Signal Forge is being continuously evolved. When you use it, you're not using a finished product — you're using something alive and changing.</p>
+  <p>If you want to be part of that evolution, if you want to share what you're discovering and help us see where the tool could work better, you're invited to.</p>
+  <p style="color:var(--white); font-size:16px;">We're building this together. Not as researchers. As people who care about clarity and want the tool to actually work.</p>
+
+  <hr class="section-break">
+
+  <p>The access requires setting up your own API key — because this filters for people who are serious, and it keeps your data entirely in your control.</p>
+
+  <p class="pull-quote">We're opening the beta when it's ready.</p>
+  <p>If you are interested in the beta — <a style="color:inherit; text-decoration:underline; text-decoration-thickness:0.5px; text-underline-offset:4px; cursor:pointer; transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='inherit'" onclick="navigator.clipboard.writeText('a.gassowski@gmail.com'); this.textContent='email copied ✓'; var self=this; setTimeout(function(){self.textContent='reach out'; self.style.color='inherit';},2000)">reach out</a>.</p>
+
+  <div style="text-align:center; padding:60px 0 40px;">
+    <a href="lp-new.html#sectionHubV2" style="font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; letter-spacing:0.04em; color:var(--white); text-decoration:none;">You Are <span style="color:var(--accent);">Me</span></a>
+  </div>
+  </div>
+</div>
+
+<script>
+var scrollTimer = null;
+var sideMenu = document.getElementById('sideMenu');
+window.addEventListener('scroll', function() {
+  sideMenu.style.opacity = '0';
+  sideMenu.style.pointerEvents = 'none';
+  clearTimeout(scrollTimer);
+  scrollTimer = setTimeout(function() {
+    sideMenu.style.opacity = '1';
+    sideMenu.style.pointerEvents = 'auto';
+  }, 300);
+});
+</script>
+</body>
+</html>

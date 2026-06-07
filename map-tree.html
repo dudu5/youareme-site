@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Map — You Are Me</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<script async src="https://plausible.io/js/pa-ueYEguemb1yoTmQce6Gad.js"></script>
+<style>
+  /* Page-specific overrides (shared.css has opacity:0.5 and 20%/80% mask) */
+  .tree-image {
+    opacity: 0.3;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%, black 70%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 30%, black 70%, transparent 100%);
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-fixed"></div>
+
+<button class="hamburger-inline" onclick="event.stopPropagation(); document.getElementById('mobileMenu').classList.toggle('open'); document.getElementById('mobileOverlay').classList.toggle('open'); this.textContent = this.textContent === '☰' ? '✕' : '☰'">☰</button>
+<div class="mobile-overlay" id="mobileOverlay" onclick="document.getElementById('mobileMenu').classList.remove('open'); document.getElementById('mobileOverlay').classList.remove('open'); var h=document.querySelector('.hamburger-inline'); if(h) h.textContent='☰';"></div>
+<div class="mobile-menu" id="mobileMenu"></div>
+<div class="side-menu" id="sideMenu"></div>
+
+<div class="tree-page">
+  <div class="tree-image" style="background-image:url('images/map/needs_landscape.png');"></div>
+
+<div class="tree-wrap">
+  <div class="tree-header">
+    <div style="display:flex; align-items:baseline;">
+      <button class="hamburger-inline" onclick="event.stopPropagation(); document.getElementById('mobileMenu').classList.toggle('open'); document.getElementById('mobileOverlay').classList.toggle('open'); this.textContent = this.textContent === '☰' ? '✕' : '☰'">☰</button>
+      <h1>Your <span style="color:var(--accent);">Map</span></h1>
+    </div>
+    <p style="font-family:'Cormorant Garamond',serif; font-size:clamp(18px, 2.5vw, 24px); font-weight:300; color:var(--dim); margin-top:16px;">Vote <span style="color:var(--accent);">&#9650;</span> on what you want opened next.<br>We build what matters to you.</p>
+    <p id="lastSaved" style="font-size:11px; color:var(--dimmer); margin-top:8px;"></p>
+    <div style="display:flex; align-items:center; gap:8px; margin-top:16px;">
+      <input type="email" id="mapEmail" placeholder="your@email.com" style="font-family:'DM Sans',sans-serif; font-size:12px; padding:8px 12px; background:none; border:1px solid var(--dimmer); color:var(--white); width:180px;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--dimmer)'">
+      <button onclick="mapSubscribe()" style="font-family:'DM Sans',sans-serif; font-size:12px; padding:8px 14px; border:1px solid var(--accent-border); background:none; color:var(--accent); cursor:pointer;">Notify me</button>
+      <span id="mapSubConfirm" style="font-size:11px; color:var(--accent);"></span>
+    </div>
+  </div>
+
+  <div style="display:flex; gap:8px; margin-bottom:24px;">
+    <button class="tree-filter active" onclick="filterTree('family',this)">Family</button>
+    <button class="tree-filter" onclick="filterTree('toplist',this)">Toplist</button>
+    <button class="tree-filter" onclick="filterTree('available',this)">Available</button>
+  </div>
+
+  <!-- AWARENESS -->
+  <div class="tree-section">
+    <div class="tree-section-title">Presence & Intention</div>
+    <a href="test-meta.html" class="tree-item done" id="metaItem">
+      <div class="tree-item-bg" id="metaBg"></div>
+      <div class="tree-item-emoji">&#129504;</div>
+      <div class="tree-item-score" id="metaScore">&mdash;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Meta-Observation & Dopamine</div>
+        <div class="tree-item-sub">Can you see yourself happening? Where does your attention live?</div>
+      </div>
+      <div class="tree-item-status" id="metaStatus">&#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#9889;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Flow & Presence</div>
+        <div class="tree-item-sub">How often are you fully absorbed in what you're doing?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#128260;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Pattern Recognition</div>
+        <div class="tree-item-sub">Can you spot the loops you keep running?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#10084;&#65039;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Emotional Awareness</div>
+        <div class="tree-item-sub">Do you feel your emotions or just react to them?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#129723;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Body Signals</div>
+        <div class="tree-item-sub">Is your body trying to tell you something you're not hearing?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+  </div>
+
+  <!-- FOUNDATION -->
+  <div class="tree-section">
+    <div class="tree-section-title">Foundation</div>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#128737;&#65039;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Safety & Security</div>
+        <div class="tree-item-sub">Do you feel safe &mdash; physically, financially, emotionally?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#128564;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Rest & Recovery</div>
+        <div class="tree-item-sub">Is your body actually resting or just pausing between demands?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#128170;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Health & Vitality</div>
+        <div class="tree-item-sub">Does your body have the energy to sustain what you're asking of it?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#127969;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Shelter & Environment</div>
+        <div class="tree-item-sub">Does your physical space support the life you're building?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+  </div>
+
+  <!-- AUTONOMY -->
+  <div class="tree-section">
+    <div class="tree-section-title">Autonomy & Resources</div>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#128509;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Autonomy & Freedom</div>
+        <div class="tree-item-sub">Are you directing your life or responding to everyone else's priorities?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#128176;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Financial Security</div>
+        <div class="tree-item-sub">Does money feel like a tool or a threat?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#127922;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Play & Novelty</div>
+        <div class="tree-item-sub">When did you last do something just because it was interesting?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+  </div>
+
+  <!-- CONNECTION -->
+  <div class="tree-section">
+    <div class="tree-section-title">Connection & Belonging</div>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#128101;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Social Connection</div>
+        <div class="tree-item-sub">Do you have people who actually see you?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#128145;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Intimate Partnership</div>
+        <div class="tree-item-sub">Is your closest relationship growing or on autopilot?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#127795;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Family & Roots</div>
+        <div class="tree-item-sub">What patterns did you inherit? Which ones are you keeping?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#129309;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Community & Tribe</div>
+        <div class="tree-item-sub">Do you belong somewhere &mdash; or are you still looking?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+  </div>
+
+  <!-- IDENTITY -->
+  <div class="tree-section">
+    <div class="tree-section-title">Identity & Self</div>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#129695;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Identity & Esteem</div>
+        <div class="tree-item-sub">Do you know who you are when no one's watching?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#127917;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Authenticity & Expression</div>
+        <div class="tree-item-sub">How much of you is visible to the world right now?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#128682;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Boundaries & Limits</div>
+        <div class="tree-item-sub">Can you say no without guilt?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+  </div>
+
+  <!-- GROWTH -->
+  <div class="tree-section">
+    <div class="tree-section-title">Growth & Direction</div>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#128161;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Cognitive & Intellectual</div>
+        <div class="tree-item-sub">Is your mind growing or just consuming?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#127793;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Purpose & Meaning</div>
+        <div class="tree-item-sub">Does what you do feel like it matters &mdash; to you?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#127912;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Creative Expression</div>
+        <div class="tree-item-sub">Are you making something or just executing?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#128736;&#65039;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Mastery & Craft</div>
+        <div class="tree-item-sub">Are you getting better at something that matters to you?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+  </div>
+
+  <!-- TRANSCENDENCE -->
+  <div class="tree-section">
+    <div class="tree-section-title">Transcendence</div>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#129496;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Spirituality & Presence</div>
+        <div class="tree-item-sub">Do you experience moments of being fully here?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#10024;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Legacy & Contribution</div>
+        <div class="tree-item-sub">What are you leaving behind?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+  </div>
+
+</div>
+</div>
+
+<script src="shared.js"></script>
+<script src="menu.js"></script>
+<script>
+// Show last saved timestamp
+(function() {
+  var lastSavedEl = document.getElementById('lastSaved');
+  var saved = localStorage.getItem('yam_test_meta_done');
+  if (saved && lastSavedEl) {
+    try {
+      var d = JSON.parse(saved);
+      if (d.date) {
+        var date = new Date(d.date);
+        lastSavedEl.textContent = 'Last mapped: ' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+      }
+    } catch(e) {}
+  }
+})();
+
+// Load meta-observation score into tree item
+var saved = localStorage.getItem('yam_test_meta_done');
+if (saved) {
+  try {
+    var data = JSON.parse(saved);
+    if (data.answers) {
+      var sum = 0;
+      for (var i = 0; i < data.answers.length; i++) sum += data.answers[i];
+      var avg = Math.round(sum / data.answers.length);
+      var scoreEl = document.getElementById('metaScore');
+      if (scoreEl) { scoreEl.textContent = avg; scoreEl.style.color = scoreColor(avg); scoreEl.style.fontWeight = '700'; scoreEl.style.fontSize = '18px'; }
+      var statusEl = document.getElementById('metaStatus');
+      if (statusEl) statusEl.textContent = 'view \u2192';
+      var bg = document.getElementById('metaBg');
+      if (bg) { bg.style.width = (avg / 7 * 100) + '%'; bg.style.background = scoreColor(avg); }
+    }
+  } catch(e) {}
+}
+
+// ── TREE FILTERS ──
+function filterTree(mode, btn) {
+  document.querySelectorAll('.tree-filter').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+
+  var sections = document.querySelectorAll('.tree-section');
+  var items = document.querySelectorAll('.tree-item');
+
+  if (mode === 'family') {
+    // Show all grouped by family, clean up toplist artifacts
+    sections.forEach(function(s) { s.style.display = ''; s.querySelector('.tree-section-title').style.display = ''; });
+    items.forEach(function(i) { i.style.display = ''; });
+    document.querySelectorAll('.toplist-rank').forEach(function(r) { r.remove(); });
+    document.querySelectorAll('.toplist-divider').forEach(function(d) { d.remove(); });
+    document.querySelectorAll('.tree-item.todo .tree-item-bg').forEach(function(bg) { bg.style.width = '0'; });
+  } else if (mode === 'toplist') {
+    // Hide section titles, show all items flat sorted by votes
+    sections.forEach(function(s) {
+      s.querySelector('.tree-section-title').style.display = 'none';
+    });
+    items.forEach(function(i) {
+      i.style.display = i.classList.contains('done') ? 'none' : '';
+    });
+    // Collect todo items, sort by votes descending
+    var votes = getVotes();
+    var allItems = Array.from(items).filter(function(i) { return i.classList.contains('todo'); });
+    allItems.sort(function(a, b) {
+      var nameA = a.querySelector('.tree-item-name');
+      var nameB = b.querySelector('.tree-item-name');
+      var vA = nameA ? (votes[nameA.textContent.trim()] || 0) : 0;
+      var vB = nameB ? (votes[nameB.textContent.trim()] || 0) : 0;
+      return vB - vA;
+    });
+    // Add rank numbers and vote bars
+    var maxVotes = allItems.length > 0 ? (votes[allItems[0].querySelector('.tree-item-name').textContent.trim()] || 0) : 1;
+    if (maxVotes === 0) maxVotes = 1;
+    allItems.forEach(function(item, idx) {
+      var nameEl = item.querySelector('.tree-item-name');
+      var v = nameEl ? (votes[nameEl.textContent.trim()] || 0) : 0;
+      var pct = (v / maxVotes * 100);
+      // Add bg bar
+      var existing = item.querySelector('.tree-item-bg');
+      if (!existing) {
+        var bg = document.createElement('div');
+        bg.className = 'tree-item-bg';
+        item.insertBefore(bg, item.firstChild);
+        existing = bg;
+      }
+      existing.style.width = pct + '%';
+      existing.style.background = 'var(--accent)';
+      existing.style.opacity = '0.12';
+      // Add rank
+      var rankEl = item.querySelector('.toplist-rank');
+      if (!rankEl) {
+        rankEl = document.createElement('div');
+        rankEl.className = 'toplist-rank';
+        rankEl.style.cssText = 'font-family:DM Sans,sans-serif; font-size:14px; font-weight:300; color:var(--white); min-width:24px; text-align:center; position:relative; z-index:1;';
+        item.insertBefore(rankEl, item.querySelector('.tree-item-emoji'));
+      }
+      rankEl.textContent = '#' + (idx + 1);
+    });
+    // Move all into first section as a flat list
+    var firstSection = sections[0];
+    var addedDivider = false;
+    allItems.forEach(function(item) {
+      var nameEl = item.querySelector('.tree-item-name');
+      var v = nameEl ? (votes[nameEl.textContent.trim()] || 0) : 0;
+      if (v === 0 && !addedDivider) {
+        var divider = document.createElement('div');
+        divider.className = 'toplist-divider';
+        divider.style.cssText = 'height:1px; background:var(--dimmer); margin:16px 0; opacity:0.3;';
+        firstSection.appendChild(divider);
+        addedDivider = true;
+      }
+      firstSection.appendChild(item);
+    });
+    // Hide other sections
+    for (var s = 1; s < sections.length; s++) { sections[s].style.display = 'none'; }
+  } else if (mode === 'available') {
+    // Show only done items, hide todos
+    sections.forEach(function(s) { s.style.display = ''; });
+    items.forEach(function(i) {
+      i.style.display = i.classList.contains('done') ? '' : 'none';
+    });
+    // Hide empty sections
+    sections.forEach(function(s) {
+      var visible = s.querySelectorAll('.tree-item:not([style*="display: none"])');
+      s.style.display = visible.length > 0 ? '' : 'none';
+    });
+  }
+}
+
+// ── VOTE COUNTER ──
+var VOTES_KEY = 'yam_votes';
+function getVotes() {
+  try { return JSON.parse(localStorage.getItem(VOTES_KEY)) || {}; } catch(e) { return {}; }
+}
+
+setupDoneWidgets();
+setupVoteWidgets();
+setupRecordButtons();
+
+var SHEET_URL = 'https://script.google.com/macros/s/AKfycbwTBZo1v4e1qdirDN7CI78Pz38IQx8vt2uav0zIAF8QI9BrCThn8CLAm54cnN_t0BO7/exec';
+function mapSubscribe() {
+  var input = document.getElementById('mapEmail');
+  var confirm = document.getElementById('mapSubConfirm');
+  var email = input.value.trim();
+  if (!email || !email.includes('@')) { input.style.borderColor = 'rgb(239,68,68)'; setTimeout(function() { input.style.borderColor = ''; }, 1500); return; }
+  fetch(SHEET_URL + '?type=map-notify&content=' + encodeURIComponent(email), { method: 'POST', mode: 'no-cors' }).catch(function() {});
+  input.value = '';
+  confirm.textContent = "You're in \u2713";
+}
+
+
+</script>
+</body>
+</html>

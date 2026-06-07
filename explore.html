@@ -6,45 +6,25 @@
 <title>Explore — You Are Me</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
 <style>
+  /* ── Page-specific variables (extras not in shared.css) ── */
   :root {
-    --accent: #00c9a7;
-    --accent-border: rgba(0,201,167,0.5);
-    --accent-bg: rgba(0,201,167,0.08);
-    --bg: #0a0a0a;
-    --bg-overlay: rgba(0,0,0,0.96);
-    --white: #f0f0f0;
+    --bg-overlay: rgba(0,0,0,0.95);
     --text-hi: rgba(255,255,255,0.9);
     --text-mid: rgba(255,255,255,0.55);
-    --dim: rgba(255,255,255,0.55);
     --text-low: rgba(255,255,255,0.3);
-    --dimmer: rgba(255,255,255,0.2);
     --line: rgba(255,255,255,0.5);
     --border: rgba(255,255,255,0.08);
     --border-light: rgba(255,255,255,0.12);
     --surface: rgba(255,255,255,0.04);
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
-    color: var(--white);
-    background: var(--bg);
     overflow-x: hidden;
     padding-bottom: 60px;
-  }
-
-  .bg-fixed {
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,0,0,0.96), rgba(0,0,0,0.96)),
-      url('ground_background.webp');
-    background-size: cover;
-    background-position: center;
-    z-index: 0;
   }
 
   /* ── NAV ── */
@@ -857,6 +837,54 @@
   }
 
   @media (max-width: 768px) {
+    .hamburger-inline {
+      display: block;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 200;
+      font-size: 24px;
+      color: var(--white);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 8px;
+    }
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: -320px;
+      width: 300px;
+      height: auto;
+      max-height: 100vh;
+      z-index: 190;
+      background: rgba(10,10,10,0.95);
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 60px 28px 32px 20px;
+      gap: 8px;
+      transition: left 0.3s ease;
+      display: flex;
+    }
+    .mobile-menu.open { left: 0; }
+    .mobile-menu a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--white);
+      text-decoration: underline;
+      text-decoration-thickness: 0.5px;
+      text-underline-offset: 4px;
+    }
+    .mobile-menu a.mob-active { color: var(--accent); }
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 180;
+      background: transparent;
+    }
+    .mobile-overlay.open { display: block; }
     nav { padding: 14px 22px; }
     .nav-cta { font-size: 10px; padding: 6px 0; }
     .page-intro { padding: 60px 22px 20px; }
@@ -882,10 +910,26 @@
 <body>
 
 <div class="bg-fixed"></div>
-<nav>
-  <a href="index.html" class="nav-logo">You Are <span>Me</span></a>
-  <a href="index.html#assessmentSection" class="nav-cta">Get your map →</a>
-</nav>
+
+<button class="hamburger-inline" onclick="event.stopPropagation(); document.getElementById('mobileMenu').classList.toggle('open'); document.getElementById('mobileOverlay').classList.toggle('open'); this.textContent = this.textContent === '☰' ? '✕' : '☰'">☰</button>
+<div class="mobile-overlay" id="mobileOverlay" onclick="document.getElementById('mobileMenu').classList.remove('open'); document.querySelector('.hamburger-inline').textContent='☰'; this.classList.remove('open')"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="lp-new.html"><span class="hex-outline">⬡</span> Router</a>
+  <a href="map-tree.html"><span class="hex-outline">⬡</span> Your Map</a>
+  <a href="explore.html" class="mob-active"><span class="hex-active">⬢</span> You Are Me</a>
+  <a href="collaborate.html"><span class="hex-outline">⬡</span> Collaborate</a>
+</div>
+
+<div class="side-menu" id="sideMenu">
+  <a href="lp-new.html"><span class="hex-wrap"><span class="hex-outline">⬡</span><span class="hex-fill">⬢</span></span> <span>Router</span></a>
+  <a href="map-tree.html" class="menu-child" style="padding-left:16px; font-size:11px;"><span class="hex-wrap" style="font-size:9px;"><span class="hex-outline">⬡</span><span class="hex-fill">⬢</span></span> <span>Your Map</span></a>
+  <a href="explore.html" class="menu-child active" style="padding-left:16px; font-size:11px;"><span class="hex-wrap" style="font-size:9px;"><span class="hex-outline">⬡</span><span class="hex-fill">⬢</span></span> <span>You Are Me</span></a>
+  <a href="#post-1" class="menu-child" style="padding-left:28px; font-size:10px;" onclick="scrollToCenter('post-1');return false;"><span class="hex-wrap" style="font-size:8px;"><span class="hex-outline">⬡</span><span class="hex-fill">⬢</span></span> <span>You know exactly...</span></a>
+  <a href="#post-2" class="menu-child" style="padding-left:28px; font-size:10px;" onclick="scrollToCenter('post-2');return false;"><span class="hex-wrap" style="font-size:8px;"><span class="hex-outline">⬡</span><span class="hex-fill">⬢</span></span> <span>Training not to trust</span></a>
+  <a href="#post-3" class="menu-child" style="padding-left:28px; font-size:10px;" onclick="scrollToCenter('post-3');return false;"><span class="hex-wrap" style="font-size:8px;"><span class="hex-outline">⬡</span><span class="hex-fill">⬢</span></span> <span>The Absolute Center</span></a>
+  <a href="collaborate.html" class="menu-child" style="padding-left:16px; font-size:11px;"><span class="hex-wrap" style="font-size:9px;"><span class="hex-outline">⬡</span><span class="hex-fill">⬢</span></span> <span>Collaborate</span></a>
+</div>
+
 
 <div class="page-intro">
   <h2 class="intro-headline">How do you navigate the experience of being <i>you?</i></h2>
@@ -933,7 +977,7 @@ const content = [
     title: "You know exactly what you need to do. And you still can't do it.",
     desc: "The gap between what you consciously want and what your automatic patterns keep doing — and the practice of moving anyway.",
     date: "1 May 2026",
-    image: "images/i-know-exactly.png",
+    image: "images/my perspectives/i-know-exactly.png",
     format: "essay",
     formatIcon: "✍️",
     formatType: "Essay",
@@ -1036,7 +1080,7 @@ If you can't actually move, observe. If you don't have enough leverage to move a
     title: "I'm training myself not to trust myself",
     desc: "How automation, rationalization, and extraction kept me stuck — and how mapping became the way through.",
     date: "24 Apr 2026",
-    image: "images/i-m-training-myself.png",
+    image: "images/my perspectives/i-m-training-myself.png",
     format: "essay",
     formatIcon: "✍️",
     formatType: "Essay",
@@ -1126,7 +1170,7 @@ If you can't actually move, observe. If you don't have enough leverage to move a
     title: "The Absolute Center",
     desc: "The first chapter of Ground. Where all the maps begin — with the realization that you are the center of your own reality.",
     date: "27 Feb 2026",
-    image: "images/the-absolute-center.png",
+    image: "images/my perspectives/the-absolute-center.png",
     descLong: "Everything I have ever felt, feared, loved or lost — happened inside me. Which means the most important place I could ever learn to inhabit... is here. This is the first chapter of Ground — a map built from lived experience, refined over years.",
     format: "video",
     formatIcon: "🎬",
@@ -1193,10 +1237,11 @@ function renderContent() {
     const cls = isPlaceholder ? 'content-card placeholder' : 'content-card';
     const metaCls = c.meta === 'Coming soon' ? 'card-meta muted' : 'card-meta';
     const slug = c.title.replace(/[^a-z0-9]/gi, '-').toLowerCase();
+    const postId = content.indexOf(c) + 1;
 
     const cardImg = c.image ? `<img class="card-image" src="${c.image}" alt="${c.title}">` : '';
 
-    let html = `<div class="${cls}" onclick="${isPlaceholder ? '' : `openCard('${slug}')`}" data-slug="${slug}">
+    let html = `<div class="${cls}" id="post-${postId}" onclick="${isPlaceholder ? '' : `openCard('${slug}')`}" data-slug="${slug}">
       ${cardImg}
       ${c.date ? `<div class="card-date">${c.date}</div>` : ''}
       <div class="card-title">${c.title}</div>
@@ -1479,5 +1524,15 @@ function toggleIntro() {
   if (sub) sub.classList.toggle('expanded', !isOpen);
 }
 </script>
+<script>
+function scrollToCenter(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var rect = el.getBoundingClientRect();
+  var offset = window.scrollY + rect.top - (window.innerHeight / 2) + (rect.height / 2);
+  window.scrollTo({ top: offset, behavior: 'smooth' });
+}
+</script>
+<script src="shared.js"></script>
 </body>
 </html>

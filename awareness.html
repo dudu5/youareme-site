@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presence & Intention — You Are Me</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<script async src="https://plausible.io/js/pa-ueYEguemb1yoTmQce6Gad.js"></script>
+<style>
+  /* Page-specific overrides only — shared.css handles the rest */
+  .tree-wrap {
+    padding: 5vh 40px 10vh 24px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  @media (max-width: 768px) {
+    .tree-image { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-fixed"></div>
+
+<button class="hamburger" onclick="event.stopPropagation(); document.getElementById('mobileMenu').classList.toggle('open'); document.getElementById('mobileOverlay').classList.toggle('open'); this.textContent = this.textContent === '☰' ? '✕' : '☰'">☰</button>
+<div class="mobile-overlay" id="mobileOverlay" onclick="document.getElementById('mobileMenu').classList.remove('open'); var h=document.querySelector('.hamburger-inline'); if(h) h.textContent='☰'; this.classList.remove('open')"></div>
+<div class="mobile-menu" id="mobileMenu"></div>
+
+<div class="side-menu" id="sideMenu"></div>
+
+<div class="tree-page">
+  <div class="tree-image" style="background-image:url('images/map/Presence_Intention.png');"></div>
+
+<div class="tree-wrap">
+  <div class="tree-header">
+    <div style="display:flex; align-items:baseline; margin-bottom:8px;">
+      <button class="hamburger-inline" onclick="event.stopPropagation(); document.getElementById('mobileMenu').classList.toggle('open'); document.getElementById('mobileOverlay').classList.toggle('open'); this.textContent = this.textContent === '☰' ? '✕' : '☰'">☰</button>
+      <a href="map-tree.html" class="tree-back" style="font-size:18px; padding:8px 12px; margin-bottom:0;">&#8592;</a>
+      <h1 style="margin:0;">Presence & <span style="color:var(--accent);">Intention</span></h1>
+    </div>
+    <p>The foundation of all change. Before you can shift anything, you need to see it clearly.</p>
+    <p style="margin-top:8px;">Vote <span style="color:var(--accent);">&#9650;</span> on what you want opened next. We build what matters to you.</p>
+    <div style="display:flex; align-items:center; gap:8px; margin-top:16px;">
+      <input type="email" id="mapEmail" placeholder="your@email.com" style="font-family:'DM Sans',sans-serif; font-size:12px; padding:8px 12px; background:none; border:1px solid var(--dimmer); color:var(--white); width:180px;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--dimmer)'">
+      <button onclick="mapSubscribe()" style="font-family:'DM Sans',sans-serif; font-size:12px; padding:8px 14px; border:1px solid var(--accent-border); background:none; color:var(--accent); cursor:pointer;">Notify me</button>
+      <span id="mapSubConfirm" style="font-size:11px; color:var(--accent);"></span>
+    </div>
+  </div>
+
+  <div class="tree-section">
+    <a href="test-meta.html" class="tree-item done" id="metaItem">
+      <div class="tree-item-bg" id="metaBg"></div>
+      <div class="tree-item-emoji">&#129504;</div>
+      <div class="tree-item-score" id="metaScore">&mdash;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Meta-Observation & Dopamine</div>
+        <div class="tree-item-sub">Can you see yourself happening? Where does your attention live?</div>
+      </div>
+      <div class="tree-item-status" id="metaStatus">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#9889;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Flow & Presence</div>
+        <div class="tree-item-sub">How often are you fully absorbed in what you're doing?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#128260;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Pattern Recognition</div>
+        <div class="tree-item-sub">Can you spot the loops you keep running?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#10084;&#65039;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Emotional Awareness</div>
+        <div class="tree-item-sub">Do you feel your emotions or just react to them?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+    <a href="#" class="tree-item todo">
+      <div class="tree-item-emoji">&#129723;</div>
+      <div class="tree-item-score">&#9675;</div>
+      <div class="tree-item-info">
+        <div class="tree-item-name">Body Signals</div>
+        <div class="tree-item-sub">Is your body trying to tell you something you're not hearing?</div>
+      </div>
+      <div class="tree-item-status">explore &#8594;</div>
+    </a>
+  </div>
+
+</div>
+</div>
+
+<script src="shared.js"></script>
+<script src="menu.js"></script>
+<script>
+// Load meta-observation score if completed
+var saved = localStorage.getItem('yam_test_meta_done');
+if (saved) {
+  try {
+    var data = JSON.parse(saved);
+    if (data.answers) {
+      var sum = 0;
+      for (var i = 0; i < data.answers.length; i++) sum += data.answers[i];
+      var avg = Math.round(sum / data.answers.length);
+
+      var scoreEl = document.getElementById('metaScore');
+      scoreEl.textContent = avg;
+      scoreEl.style.color = scoreColor(avg);
+      scoreEl.style.fontWeight = '700';
+      scoreEl.style.fontSize = '18px';
+      document.getElementById('metaStatus').textContent = 'view \u2192';
+      var bg = document.getElementById('metaBg');
+      if (bg) { bg.style.width = (avg / 7 * 100) + '%'; bg.style.background = scoreColor(avg); }
+    }
+  } catch(e) {}
+}
+
+// ── VOTE COUNTER ──
+var VOTES_KEY = 'yam_votes';
+function getVotes() {
+  try { return JSON.parse(localStorage.getItem(VOTES_KEY)) || {}; } catch(e) { return {}; }
+}
+
+setupDoneWidgets();
+setupVoteWidgets();
+setupRecordButtons();
+
+var SHEET_URL = 'https://script.google.com/macros/s/AKfycbwTBZo1v4e1qdirDN7CI78Pz38IQx8vt2uav0zIAF8QI9BrCThn8CLAm54cnN_t0BO7/exec';
+function mapSubscribe() {
+  var input = document.getElementById('mapEmail');
+  var confirm = document.getElementById('mapSubConfirm');
+  var email = input.value.trim();
+  if (!email || !email.includes('@')) { input.style.borderColor = 'rgb(239,68,68)'; setTimeout(function() { input.style.borderColor = ''; }, 1500); return; }
+  fetch(SHEET_URL + '?type=map-notify&content=' + encodeURIComponent(email), { method: 'POST', mode: 'no-cors' }).catch(function() {});
+  input.value = '';
+  confirm.textContent = "You're in \u2713";
+}
+</script>
+</body>
+</html>

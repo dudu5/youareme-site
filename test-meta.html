@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta-Observation & Dopamine — You Are Me</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<script async src="https://plausible.io/js/pa-ueYEguemb1yoTmQce6Gad.js"></script>
+<style>
+  /* ── PAGE-SPECIFIC: body layout for centered test ── */
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── TEST CONTAINER ── */
+  .test-wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 680px;
+    padding: 0 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .dash-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%, black 70%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 30%, black 70%, transparent 100%);
+    opacity: 0.3;
+    z-index: 0;
+    display: none;
+  }
+
+  /* ── PROGRESS ── */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.4s ease;
+    z-index: 10;
+  }
+
+  .progress-count {
+    position: fixed;
+    top: 16px;
+    right: 24px;
+    font-size: 12px;
+    color: var(--dim);
+    z-index: 10;
+  }
+
+  /* ── STATEMENT ── */
+  .statement {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 5vw, 40px);
+    font-weight: 300;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--white);
+    margin-bottom: 56px;
+    transition: opacity 0.3s ease;
+  }
+
+  /* ── SCALE ── */
+  .scale {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+  }
+
+  .scale-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 1px solid var(--dimmer);
+    background: none;
+    color: var(--dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .scale-btn[data-value="1"] { --btn-color: rgb(239,68,68); }
+  .scale-btn[data-value="2"] { --btn-color: rgb(251,146,60); }
+  .scale-btn[data-value="3"] { --btn-color: rgb(250,204,21); }
+  .scale-btn[data-value="4"] { --btn-color: var(--white); }
+  .scale-btn[data-value="5"] { --btn-color: rgb(100,149,237); }
+  .scale-btn[data-value="6"] { --btn-color: rgb(45,212,191); }
+  .scale-btn[data-value="7"] { --btn-color: rgb(45,212,191); }
+
+  .scale-btn:hover {
+    border-color: var(--btn-color);
+    color: var(--btn-color);
+  }
+
+  .scale-btn:active, .scale-btn.selected {
+    background: var(--btn-color);
+    border-color: var(--btn-color);
+    color: #0a0a0a;
+    font-weight: 400;
+  }
+
+  .scale-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: opacity 0.3s ease;
+  }
+
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--dim);
+  }
+
+  /* ── RESULT / DASHBOARD ── */
+  .dashboard {
+    width: 100%;
+    transition: opacity 0.3s ease;
+  }
+
+  .dash-header {
+    text-align: left;
+    margin-bottom: 12px;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
+
+  .dash-score {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 56px;
+    font-weight: 200;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .dash-score-label {
+    font-size: 13px;
+    color: var(--dim);
+    margin-bottom: 16px;
+  }
+
+  .dash-reflection {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.7);
+    margin: 0;
+  }
+
+  /* ── DIMENSION BLOCKS ── */
+  .dash-dimension {
+    margin-bottom: 32px;
+  }
+
+  .dash-dim-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+  }
+
+  .dash-dim-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--white);
+  }
+
+  .dash-dim-avg {
+    font-size: 16px;
+    font-weight: 700;
+    min-width: 24px;
+    text-align: right;
+    margin-right: 16px;
+  }
+
+  .dash-dim-reflection {
+    font-size: 13px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+
+  .dash-statement {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px 8px 4px;
+    margin-bottom: 4px;
+    overflow: hidden;
+    transition: opacity 0.3s;
+  }
+
+  .dash-statement-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transition: width 0.6s ease;
+    opacity: 0.25;
+  }
+
+  .dash-bar-text {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.4;
+  }
+
+  .dash-bar-score {
+    position: relative;
+    z-index: 1;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    min-width: 24px;
+    text-align: right;
+  }
+
+  /* ── FILTERS ── */
+  .dash-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    padding: 6px 14px;
+    border: 1px solid var(--dimmer);
+    background: none;
+    color: var(--filter-color, var(--dim));
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .filter-btn.active {
+    border-color: var(--filter-color, var(--accent));
+    color: var(--filter-color, var(--accent));
+  }
+
+  .filter-btn:hover { border-color: var(--filter-color, var(--accent)); color: var(--filter-color, var(--accent)); }
+
+  /* ── POST-DASHBOARD MENU ── */
+  .post-menu {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .post-menu-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .post-menu-sub {
+    font-size: 13px;
+    color: var(--dim);
+    margin-bottom: 24px;
+  }
+
+  .post-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+
+  .post-card:hover { border-color: rgba(255,255,255,0.15); }
+
+  .post-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    cursor: pointer;
+  }
+
+  .post-card-label {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--accent);
+    min-width: 70px;
+  }
+
+  .post-card-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--dim);
+    flex: 1;
+  }
+
+  .post-card-toggle {
+    font-size: 18px;
+    color: var(--dimmer);
+    transition: transform 0.2s;
+  }
+
+  .post-card-body {
+    padding: 0 20px 20px;
+  }
+
+  .reflection-textarea {
+    width: 100%;
+    min-height: 100px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 12px 16px;
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  .reflection-textarea:focus {
+    outline: none;
+    border-color: var(--accent-border);
+  }
+
+  .reflection-textarea::placeholder { color: var(--dimmer); }
+
+  .btn-small {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    padding: 8px 16px;
+    border: 1px solid var(--accent-border);
+    background: none;
+    color: var(--accent);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-small:hover { background: var(--accent-bg); }
+
+  .btn-small-dim {
+    border-color: var(--dimmer);
+    color: var(--dim);
+  }
+
+  .btn-small-dim:hover { border-color: var(--accent-border); color: var(--accent); }
+
+  .interest-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .interest-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    padding: 8px 14px;
+    border: 1px solid var(--dimmer);
+    background: none;
+    color: var(--dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .interest-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .interest-btn.selected { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+
+  .interest-custom {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+
+  .interest-custom:focus { outline: none; border-color: var(--accent-border); }
+  .interest-custom::placeholder { color: var(--dimmer); }
+
+  .dash-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    border: 1px solid var(--accent-border);
+    padding: 12px 28px;
+    text-decoration: none;
+    background: none;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .btn-primary:hover { background: var(--accent-bg); }
+
+  .btn-secondary {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--dim);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 4px;
+    transition: color 0.2s;
+  }
+
+  .btn-secondary:hover { color: var(--white); }
+
+  /* ── INTRO ── */
+  .intro {
+    text-align: center;
+    transition: opacity 0.3s ease;
+  }
+
+  .intro h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .intro p {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--dim);
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+
+  .intro .start-btn {
+    margin-top: 32px;
+  }
+
+  /* ── BACK BUTTON ── */
+  .back-btn {
+    position: fixed;
+    top: 12px;
+    left: 24px;
+    font-size: 13px;
+    color: var(--dim);
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.2s;
+  }
+
+  .back-btn:hover { color: var(--white); }
+
+  /* ── DASHBOARD NAV ── */
+  .dash-nav-row { display: inline-flex !important; margin-bottom: 0 !important; }
+  .dash-title { margin-left: 0; }
+
+  /* ── MOBILE OVERRIDES (test-specific) ── */
+  @media (max-width: 768px) {
+    .dash-image {
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      opacity: 0.15 !important;
+      -webkit-mask-image: radial-gradient(circle, black 30%, transparent 70%) !important;
+      mask-image: radial-gradient(circle, black 30%, transparent 70%) !important;
+    }
+    .test-wrap {
+      max-width: 100% !important;
+      width: 100% !important;
+      margin-left: 0 !important;
+      padding: 40px 16px !important;
+    }
+    .dashboard {
+      width: 100%;
+    }
+    .dash-header h1 {
+      font-size: 22px !important;
+    }
+    .dash-statement {
+      padding: 12px 4px !important;
+      margin-bottom: 0 !important;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      gap: 16px !important;
+    }
+    .dash-bar-score {
+      min-width: 40px !important;
+      text-align: center !important;
+      border-left: 3px solid var(--stmt-color, var(--dimmer));
+      padding-left: 12px !important;
+    }
+    .dash-statement:last-child { border-bottom: none; }
+    .dash-statement-bg { display: none; }
+    .dash-filters {
+      flex-wrap: wrap;
+    }
+    .statement {
+      font-size: clamp(20px, 6vw, 28px);
+      padding: 0 8px;
+    }
+    .scale {
+      gap: 10px;
+    }
+    .scale-btn {
+      width: 44px;
+      height: 44px;
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .scale-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 15px;
+    }
+    .scale { gap: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-fixed"></div>
+<div class="dash-image" id="dashImage" style="background-image:url('images/map/Awareness_Observation.png');"></div>
+<button class="hamburger" onclick="event.stopPropagation(); document.getElementById('mobileMenu').classList.toggle('open'); document.getElementById('mobileOverlay').classList.toggle('open'); this.textContent = this.textContent === '☰' ? '✕' : '☰'">☰</button>
+<div class="mobile-overlay" id="mobileOverlay" onclick="document.getElementById('mobileMenu').classList.remove('open'); var h=document.querySelector('.hamburger-inline'); if(h) h.textContent='☰'; this.classList.remove('open')"></div>
+<div class="mobile-menu" id="mobileMenu"></div>
+
+<div class="side-menu" id="sideMenu"></div>
+<div class="progress-bar" id="progressBar" style="width:0%;"></div>
+<div class="progress-count" id="progressCount" style="display:none;"></div>
+<button class="back-btn" id="backBtn" style="display:none;" onclick="goBack()">← back</button>
+
+<div class="test-wrap" id="testWrap">
+
+  <!-- INTRO -->
+  <div class="intro" id="introScreen">
+    <h1>Meta-Observation & Dopamine</h1>
+    <p>12 statements. Rate each one honestly.</p>
+    <p>No right answers. Just where you are right now.</p>
+    <p style="color:var(--dimmer); font-size:12px; margin-top:16px;">Takes about 2 minutes</p>
+    <button class="btn-primary start-btn" onclick="startTest()">Begin <span>→</span></button>
+    <button class="btn-secondary" style="margin-top:16px;" onclick="demoMode()">Demo with random scores</button>
+  </div>
+
+  <!-- STATEMENT SCREEN (hidden initially) -->
+  <div id="questionScreen" style="display:none;">
+    <p class="statement" id="statementText"></p>
+    <div class="scale" id="scaleButtons"></div>
+    <div class="scale-labels">
+      <span>not at all</span>
+      <span>completely</span>
+    </div>
+  </div>
+
+  <!-- DASHBOARD (hidden initially) -->
+  <div class="dashboard" id="resultScreen" style="display:none;">
+    <div class="dash-header">
+      <div class="dash-score" id="dashScore" style="display:none;"></div>
+      <div class="dash-nav-row" style="display:flex; align-items:center; margin-bottom:4px;">
+        <button class="hamburger-inline" onclick="event.stopPropagation(); document.getElementById('mobileMenu').classList.toggle('open'); document.getElementById('mobileOverlay').classList.toggle('open'); this.textContent = this.textContent === '☰' ? '✕' : '☰'">☰</button>
+        <a href="awareness.html" class="dash-back-arrow" style="font-size:18px; padding:8px 12px; color:var(--dim); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--dim)'">←</a>
+      </div>
+      <h1 class="dash-title" style="font-family:'Cormorant Garamond',serif; font-size:clamp(24px, 4vw, 36px); font-weight:300; color:var(--white); margin:0 0 8px;">Meta-Observation & Dopamine</h1>
+      <div style="display:flex; gap:12px;">
+        <div style="display:flex; align-items:center;">
+          <span class="dash-score" id="dashScoreSide" style="font-size:64px;"></span>
+        </div>
+        <div style="display:flex; align-items:center;">
+          <p class="dash-reflection" id="dashReflection"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-filters" id="dashFilters">
+      <button class="filter-btn" onclick="toggleSort(this)" id="sortBtn">Sort ↓</button>
+      <span style="width:1px; background:var(--dimmer); margin:0 4px;"></span>
+      <button class="filter-btn active" onclick="filterDash('all',this)" style="--filter-color:var(--white);">All</button>
+      <button class="filter-btn" onclick="filterDash('blind',this)" style="--filter-color:rgb(239,68,68);">Blind spots</button>
+      <button class="filter-btn" onclick="filterDash('growth',this)" style="--filter-color:rgb(100,149,237);">Growth edges</button>
+      <button class="filter-btn" onclick="filterDash('strengths',this)" style="--filter-color:rgb(45,212,191);">Strengths</button>
+    </div>
+
+    <div id="dashBody"></div>
+
+  </div>
+
+</div>
+
+<script src="shared.js"></script>
+<script src="menu.js"></script>
+<script>
+var statements = [
+  "I notice when I'm in a reaction, not after it's already happened",
+  "I can watch what I'm doing while I'm doing it",
+  "I see my own patterns playing out in real time",
+  "My attention goes where I decide it should, not where it gets pulled",
+  "I reach for my phone intentionally, not automatically",
+  "I can feel when something is hijacking my focus",
+  "I notice when my energy is crashing after a high",
+  "I can sense when I'm running on dopamine hits vs. actual fuel",
+  "I know the difference between stimulated and genuinely energized",
+  "At the end of the day, I did what I actually wanted to do",
+  "I can see where my time went and it makes sense",
+  "My actions align with what matters to me, or I notice the gap clearly"
+];
+
+var answers = [];
+var currentIdx = 0;
+var STORAGE_KEY = 'yam_test_meta';
+var isDemo = window.location.search.indexOf('demo') !== -1;
+
+// Restore saved progress (skip if demo)
+if (!isDemo) {
+  (function() {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        var data = JSON.parse(saved);
+        if (data.answers && data.answers.length > 0 && data.answers.length < statements.length) {
+          answers = data.answers;
+          currentIdx = answers.length;
+        }
+      } catch(e) {}
+    }
+  })();
+}
+
+function startTest() {
+  var intro = document.getElementById('introScreen');
+  intro.style.opacity = '0';
+  setTimeout(function() {
+    intro.style.display = 'none';
+    document.getElementById('questionScreen').style.display = '';
+    document.getElementById('progressCount').style.display = '';
+    document.getElementById('backBtn').style.display = '';
+    showStatement();
+  }, 400);
+}
+
+function showStatement() {
+  var el = document.getElementById('statementText');
+  var scale = document.getElementById('scaleButtons');
+  el.style.opacity = '0';
+  scale.style.opacity = '0';
+
+  setTimeout(function() {
+    el.textContent = statements[currentIdx];
+    updateProgress();
+    buildScale();
+    el.style.opacity = '1';
+    scale.style.opacity = '1';
+  }, 300);
+}
+
+function buildScale() {
+  var scale = document.getElementById('scaleButtons');
+  scale.innerHTML = '';
+  for (var i = 1; i <= 7; i++) {
+    var btn = document.createElement('button');
+    btn.className = 'scale-btn';
+    btn.textContent = i;
+    btn.setAttribute('data-value', i);
+    btn.onclick = function() { selectAnswer(parseInt(this.getAttribute('data-value'))); };
+    scale.appendChild(btn);
+  }
+}
+
+function selectAnswer(val) {
+  // Brief highlight
+  var btns = document.querySelectorAll('.scale-btn');
+  btns.forEach(function(b) {
+    if (parseInt(b.getAttribute('data-value')) === val) b.classList.add('selected');
+  });
+
+  answers[currentIdx] = val;
+  saveProgress();
+
+  setTimeout(function() {
+    currentIdx++;
+    if (currentIdx >= statements.length) {
+      showResult();
+    } else {
+      showStatement();
+    }
+  }, 300);
+}
+
+function goBack() {
+  if (currentIdx > 0) {
+    currentIdx--;
+    showStatement();
+  }
+}
+
+function updateProgress() {
+  var pct = ((currentIdx) / statements.length) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = (currentIdx + 1) + ' / ' + statements.length;
+}
+
+function saveProgress() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({ answers: answers }));
+}
+
+var dimensions = [
+  {
+    name: 'Can you see yourself happening',
+    indices: [0, 1, 2],
+    reflections: {
+      low: "You're catching reactions after the fact — the loop runs before you notice it.",
+      mid: "You see some patterns in motion, but others still slip past.",
+      high: "You're watching yourself in real time — the observer is awake."
+    }
+  },
+  {
+    name: 'Where does your attention actually live',
+    indices: [3, 4, 5],
+    reflections: {
+      low: "Your attention is mostly being pulled, not directed. That's common — and worth seeing.",
+      mid: "You have some control, but distractions still win more than you'd like.",
+      high: "You're choosing where your focus goes. That's rare and powerful."
+    }
+  },
+  {
+    name: 'Do you feel the cycles',
+    indices: [6, 7, 8],
+    reflections: {
+      low: "The highs and crashes are running you — you're not seeing the pattern yet.",
+      mid: "You're starting to notice the energy cycles, but they still catch you off guard.",
+      high: "You can feel the difference between real energy and borrowed stimulation."
+    }
+  },
+  {
+    name: 'Does your day match what you meant',
+    indices: [9, 10, 11],
+    reflections: {
+      low: "There's a gap between intention and action — your day is happening to you.",
+      mid: "Some days align, some don't. You see the gap but can't always close it.",
+      high: "Your actions and values are mostly in sync. You notice when they're not."
+    }
+  }
+];
+
+var currentFilter = 'all';
+var sortMode = 'score-asc';
+
+var lenses = {
+  blind: {
+    title: 'Blind spots',
+    subtitle: 'These are running you. The first step is just seeing them.',
+    match: function(s) { return s <= 3; },
+    insight: function() {
+      return 'Don\'t try to fix these. Just start noticing when they happen — in real time, not after. Awareness is the intervention.';
+    }
+  },
+  growth: {
+    title: 'Growth edges',
+    subtitle: 'This is where practice actually moves the needle.',
+    match: function(s) { return s >= 4 && s <= 5; },
+    insight: function() {
+      return 'The awareness is already there — it\'s just not consistent yet. These are your leverage points. Small, repeated attention here compounds fast.';
+    }
+  },
+  strengths: {
+    title: 'Strengths',
+    subtitle: 'This is already working. Acknowledge it.',
+    match: function(s) { return s >= 6; },
+    insight: function() {
+      return 'Don\'t overthink what\'s working. Trust it. Use this as your foundation — the ground you build from.';
+    }
+  }
+};
+
+// ── DASHBOARD SETUP ──
+
+function setupDashboardLayout() {
+  document.getElementById('questionScreen').style.display = 'none';
+  document.getElementById('backBtn').style.display = 'none';
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('progressCount').style.display = 'none';
+  document.body.style.overflow = 'auto';
+  document.body.style.display = 'flex';
+  document.body.style.alignItems = 'flex-start';
+  document.getElementById('dashImage').style.display = 'block';
+  document.getElementById('sideMenu').classList.add('visible');
+
+  var wrap = document.getElementById('testWrap');
+  wrap.style.minHeight = '100vh';
+  wrap.style.padding = '10vh 40px 10vh 24px';
+  wrap.style.maxWidth = '640px';
+  wrap.style.width = '60%';
+  wrap.style.marginLeft = '40%';
+  wrap.style.display = 'flex';
+  wrap.style.flexDirection = 'column';
+  wrap.style.justifyContent = 'center';
+}
+
+function calculateScores() {
+  var sum = 0;
+  for (var i = 0; i < answers.length; i++) sum += answers[i];
+  var avg = Math.round(sum / answers.length);
+
+  var reflection = '';
+  if (avg <= 3) {
+    reflection = "You're mostly on autopilot right now. Reactivity is high \u2014 and that's not a judgment, it's a starting point.";
+  } else if (avg <= 5) {
+    reflection = "You have moments of clarity and times you're pulled away. The awareness is there \u2014 it's just not consistent yet.";
+  } else {
+    reflection = "You're pretty aware of what's happening and where your attention goes. The foundation is solid.";
+  }
+
+  return { avg: avg, reflection: reflection };
+}
+
+function renderDashboardUI(scores) {
+  document.getElementById('dashScore').textContent = scores.avg;
+  document.getElementById('dashScoreSide').textContent = scores.avg;
+  document.getElementById('dashReflection').textContent = scores.reflection;
+
+  renderDashboard();
+
+  var result = document.getElementById('resultScreen');
+  result.style.display = '';
+  result.style.opacity = '0';
+  setTimeout(function() { result.style.opacity = '1'; }, 50);
+}
+
+function saveResult() {
+  localStorage.setItem(STORAGE_KEY + '_done', JSON.stringify({ answers: answers, date: new Date().toISOString() }));
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+function showExportReminder() {
+  var reminder = document.createElement('div');
+  reminder.style.cssText = 'position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(0,201,167,0.1); border:1px solid var(--accent-border); padding:12px 20px; font-size:13px; color:var(--dim); z-index:100; display:flex; align-items:center; gap:12px; max-width:400px;';
+  reminder.innerHTML = '<span>Your results are saved locally. <a href="#" style="color:var(--accent); text-decoration:underline;" onclick="downloadResults(); this.parentElement.parentElement.remove(); return false;">Download a backup?</a></span><button style="background:none; border:none; color:var(--dimmer); cursor:pointer; font-size:18px;" onclick="this.parentElement.remove()">\u2715</button>';
+  document.body.appendChild(reminder);
+  setTimeout(function() { if (reminder.parentElement) reminder.remove(); }, 15000);
+}
+
+function downloadResults() {
+  var data = {};
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    if (key.startsWith('yam_')) {
+      try { data[key] = JSON.parse(localStorage.getItem(key)); } catch(e) { data[key] = localStorage.getItem(key); }
+    }
+  }
+  var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'youareme-map-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+}
+
+function showResult() {
+  setupDashboardLayout();
+  var scores = calculateScores();
+  renderDashboardUI(scores);
+  saveResult();
+  updateRetestStatus();
+  showExportReminder();
+}
+
+function renderStatement(idx) {
+  var score = answers[idx];
+  var pct = (score / 7 * 100).toFixed(0);
+  var color = scoreColor(score);
+  var html = '<div class="dash-statement" style="--stmt-color:' + color + ';" data-stmt="' + idx + '">';
+  html += '<div class="dash-statement-bg" style="width:' + pct + '%; background:' + color + ';"></div>';
+  html += '<button class="stmt-mic" onclick="toggleStmtRecord(this,' + idx + ')" style="font-size:14px; background:none; border:none; cursor:pointer; opacity:0.4; transition:opacity 0.2s; position:relative; z-index:1; padding:4px;" onmouseenter="this.style.opacity=1" onmouseleave="if(!this.classList.contains(\'recording\'))this.style.opacity=0.4">🎙</button>';
+  html += '<div class="dash-bar-score" style="color:' + color + ';">' + score + '</div>';
+  html += '<div class="dash-bar-text">' + statements[idx] + '</div>';
+  html += '</div>';
+  return html;
+}
+
+var activeRecognition = null;
+function toggleStmtRecord(btn, idx) {
+  var key = statements[idx];
+
+  if (btn.classList.contains('recording')) {
+    activeRecognition.stop();
+    return;
+  }
+
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) return;
+
+  activeRecognition = new SpeechRecognition();
+  activeRecognition.continuous = true;
+  activeRecognition.interimResults = true;
+  activeRecognition.lang = 'en-US';
+
+  var liveText = document.createElement('div');
+  liveText.style.cssText = 'padding:8px 4px 8px 40px; font-size:13px; color:var(--accent); font-style:italic; border-left:2px solid var(--accent); margin-left:20px; margin-top:4px; min-height:20px; opacity:0.8;';
+  liveText.textContent = 'Listening...';
+  var stmtEl = btn.closest('.dash-statement');
+  stmtEl.parentElement.insertBefore(liveText, stmtEl.nextSibling);
+
+  var finalTranscript = '';
+
+  activeRecognition.onstart = function() {
+    btn.classList.add('recording');
+    btn.style.opacity = '1';
+    btn.style.color = 'var(--accent)';
+    btn.textContent = '⏹';
+  };
+
+  activeRecognition.onresult = function(event) {
+    var interim = '';
+    for (var i = event.resultIndex; i < event.results.length; i++) {
+      if (event.results[i].isFinal) {
+        finalTranscript += event.results[i][0].transcript;
+      } else {
+        interim += event.results[i][0].transcript;
+      }
+    }
+    liveText.textContent = finalTranscript + interim || 'Listening...';
+  };
+
+  activeRecognition.onend = function() {
+    btn.classList.remove('recording');
+    btn.style.opacity = '0.4';
+    btn.style.color = '';
+    btn.textContent = '🎙';
+    if (finalTranscript.trim()) {
+      saveReflectionToNode(key, finalTranscript.trim());
+    }
+    liveText.remove();
+    finalTranscript = '';
+    activeRecognition = null;
+  };
+
+  activeRecognition.onerror = function() {
+    btn.classList.remove('recording');
+    btn.style.opacity = '0.4';
+    btn.style.color = '';
+    btn.textContent = '🎙';
+    if (liveText.parentElement) liveText.remove();
+    finalTranscript = '';
+    activeRecognition = null;
+  };
+
+  activeRecognition.start();
+}
+
+function getIndices(filter) {
+  var indices = [];
+  if (filter === 'all') {
+    for (var i = 0; i < statements.length; i++) indices.push(i);
+  } else {
+    var lens = lenses[filter];
+    for (var i = 0; i < answers.length; i++) {
+      if (lens.match(answers[i])) indices.push(i);
+    }
+  }
+  if (sortMode === 'score-asc') {
+    indices.sort(function(a, b) { return answers[a] - answers[b]; });
+  } else if (sortMode === 'score-desc') {
+    indices.sort(function(a, b) { return answers[b] - answers[a]; });
+  }
+  return indices;
+}
+
+function renderDashboard() {
+  var body = document.getElementById('dashBody');
+  var html = '';
+  var indices = getIndices(currentFilter);
+
+  if (currentFilter === 'all') {
+    indices.forEach(function(idx) { html += renderStatement(idx); });
+  } else {
+    var lens = lenses[currentFilter];
+    html += '<div class="dash-dimension">';
+    html += '<div class="dash-dim-title" style="font-size:22px; margin-bottom:8px;">' + lens.title + '</div>';
+    html += '<div class="dash-dim-reflection" style="margin-bottom:24px; font-style:normal; color:rgba(255,255,255,0.6);">' + lens.subtitle + '</div>';
+
+    if (indices.length === 0) {
+      html += '<div style="font-size:14px; color:var(--dim); padding:20px 0;">No statements in this range.</div>';
+    } else {
+      indices.forEach(function(idx) { html += renderStatement(idx); });
+      html += '<div style="font-size:13px; font-weight:300; font-style:italic; color:rgba(255,255,255,0.5); padding:16px 0 0; line-height:1.6;">' + lens.insight() + '</div>';
+    }
+    html += '</div>';
+  }
+
+  body.innerHTML = html;
+}
+
+function filterDash(range, btn) {
+  currentFilter = range;
+  document.querySelectorAll('.filter-btn:not(#sortBtn)').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderDashboard();
+}
+
+function toggleSort(btn) {
+  if (sortMode === 'chronological') {
+    sortMode = 'score-asc';
+    btn.textContent = 'Sort ↑';
+    btn.classList.add('active');
+  } else if (sortMode === 'score-asc') {
+    sortMode = 'score-desc';
+    btn.textContent = 'Sort ↓';
+  } else {
+    sortMode = 'chronological';
+    btn.textContent = 'Sort';
+    btn.classList.remove('active');
+  }
+  renderDashboard();
+}
+
+// ── POST-MENU ──
+function toggleCard(id) {
+  var card = document.getElementById(id);
+  var toggle = document.getElementById(id + 'Toggle');
+  if (card.style.display === 'none') {
+    card.style.display = '';
+    toggle.textContent = '−';
+  } else {
+    card.style.display = 'none';
+    toggle.textContent = '+';
+  }
+}
+
+function saveReflection() {
+  var text = document.getElementById('reflectionInput').value.trim();
+  if (!text) return;
+  var data = JSON.parse(localStorage.getItem(STORAGE_KEY + '_done') || '{}');
+  data.reflection = text;
+  data.reflectionDate = new Date().toISOString();
+  localStorage.setItem(STORAGE_KEY + '_done', JSON.stringify(data));
+  var status = document.getElementById('reflectionStatus');
+  status.textContent = 'Saved ✓';
+  status.style.display = '';
+}
+
+function shareReflection() {
+  var text = document.getElementById('reflectionInput').value.trim();
+  if (!text) return;
+  // For now, save locally with share flag — backend later
+  var data = JSON.parse(localStorage.getItem(STORAGE_KEY + '_done') || '{}');
+  data.reflection = text;
+  data.shared = true;
+  data.reflectionDate = new Date().toISOString();
+  localStorage.setItem(STORAGE_KEY + '_done', JSON.stringify(data));
+  var status = document.getElementById('reflectionStatus');
+  status.textContent = 'Shared anonymously ✓ Thank you.';
+  status.style.display = '';
+}
+
+function toggleInterest(btn) {
+  btn.classList.toggle('selected');
+}
+
+function saveInterests() {
+  var selected = [];
+  document.querySelectorAll('.interest-btn.selected').forEach(function(b) {
+    selected.push(b.textContent);
+  });
+  var custom = document.getElementById('interestCustom').value.trim();
+  if (custom) selected.push(custom);
+  if (selected.length === 0) return;
+
+  var data = JSON.parse(localStorage.getItem(STORAGE_KEY + '_done') || '{}');
+  data.interests = selected;
+  localStorage.setItem(STORAGE_KEY + '_done', JSON.stringify(data));
+  var status = document.getElementById('interestStatus');
+  status.textContent = 'Received ✓ This shapes what gets built.';
+  status.style.display = '';
+}
+
+// Re-test status
+function updateRetestStatus() {
+  var data = localStorage.getItem(STORAGE_KEY + '_done');
+  if (data) {
+    var parsed = JSON.parse(data);
+    if (parsed.date) {
+      var taken = new Date(parsed.date);
+      var next = new Date(taken.getTime() + 30 * 24 * 60 * 60 * 1000);
+      var now = new Date();
+      var daysLeft = Math.ceil((next - now) / (24 * 60 * 60 * 1000));
+      var el = document.getElementById('retestStatus');
+      if (el) {
+        if (daysLeft > 0) {
+          el.textContent = 'Last taken: ' + taken.toLocaleDateString() + ' — re-test in ' + daysLeft + ' days';
+        } else {
+          el.textContent = 'Ready to re-test — see what shifted.';
+        }
+      }
+    }
+  }
+}
+
+function demoMode() {
+  answers = statements.map(function() { return 1 + Math.floor(Math.random() * 7); });
+  document.getElementById('introScreen').style.display = 'none';
+  showResult();
+}
+
+function resetTest() {
+  answers = [];
+  currentIdx = 0;
+  localStorage.removeItem(STORAGE_KEY);
+
+  var body = document.body;
+  body.style.overflow = 'hidden';
+  body.style.display = 'flex';
+  body.style.alignItems = 'center';
+
+  document.getElementById('dashImage').style.display = 'none';
+  document.getElementById('sideMenu').classList.remove('visible');
+
+  var wrap = document.getElementById('testWrap');
+  wrap.style.minHeight = '100vh';
+  wrap.style.padding = '0 32px';
+  wrap.style.maxWidth = '680px';
+  wrap.style.width = '100%';
+  wrap.style.marginLeft = 'auto';
+  wrap.style.marginRight = 'auto';
+  wrap.style.display = 'flex';
+  wrap.style.flexDirection = 'column';
+  wrap.style.alignItems = 'center';
+  wrap.style.justifyContent = 'center';
+
+  document.getElementById('progressBar').style.width = '0%';
+  document.getElementById('introScreen').style.display = '';
+  document.getElementById('introScreen').style.opacity = '1';
+  document.getElementById('resultScreen').style.display = 'none';
+}
+
+// Check if test already completed — show results directly
+var completed = localStorage.getItem(STORAGE_KEY + '_done');
+if (completed) {
+  try {
+    var doneData = JSON.parse(completed);
+    if (doneData.answers && doneData.answers.length === statements.length) {
+      answers = doneData.answers;
+      document.getElementById('introScreen').style.display = 'none';
+      showResult();
+    }
+  } catch(e) {}
+}
+// Demo mode — random scores straight to dashboard
+else if (isDemo) {
+  answers = statements.map(function() { return 1 + Math.floor(Math.random() * 7); });
+  document.getElementById('introScreen').style.display = 'none';
+  showResult();
+}
+// Auto-resume if there's saved progress
+else if (currentIdx > 0) {
+  document.getElementById('introScreen').style.display = 'none';
+  document.getElementById('questionScreen').style.display = '';
+  document.getElementById('progressCount').style.display = '';
+  document.getElementById('backBtn').style.display = '';
+  showStatement();
+}
+
+</script>
+</body>
+</html>

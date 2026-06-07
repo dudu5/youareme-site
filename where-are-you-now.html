@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Map — You Are Me</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<script async src="https://plausible.io/js/pa-ueYEguemb1yoTmQce6Gad.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+
+  .top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 16px 28px;
+    background: linear-gradient(rgba(10,10,10,0.9), transparent);
+  }
+
+  .top-nav a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .top-nav a span { color: var(--accent); }
+
+  /* ── PAGE ── */
+  .page-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 15vh;
+  }
+
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .page-subtitle {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--dim);
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  /* ── TEST ROWS ── */
+  .test-row {
+    display: none;
+  }
+
+  .test-type {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 8px;
+  }
+
+  .test-type.org {
+    color: rgb(168,130,255);
+  }
+
+  .test-left {
+    width: 80px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .test-left .test-emoji {
+    font-size: 36px;
+    margin-bottom: 0;
+  }
+
+  .test-map-link {
+    font-size: 14px;
+    color: var(--white);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 4px;
+    transition: color 0.2s;
+  }
+
+  .test-map-link:hover { color: var(--accent); }
+
+  .test-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  .test-tag {
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--dim);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 4px 10px;
+    white-space: nowrap;
+    transition: border-color 0.2s, color 0.2s;
+    cursor: default;
+  }
+
+  .test-tag:hover {
+    border-color: var(--accent-border);
+    color: var(--white);
+  }
+
+  .test-tag.active {
+    border-color: var(--accent);
+    color: var(--white);
+  }
+  .test-tag-desc {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.75);
+    margin-top: 12px;
+    padding: 12px 16px;
+    border-left: 1px solid var(--accent);
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .test-info {
+    flex: 2;
+  }
+
+  .test-emoji {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .test-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .test-headline {
+    font-size: 14px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .test-desc {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 16px;
+  }
+
+  .test-cta {
+    font-size: 14px;
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .test-cta:hover { color: var(--white); }
+
+  /* ── WAITLIST POPUP ── */
+  .waitlist-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .waitlist-popup.open { opacity: 1; pointer-events: auto; }
+  .waitlist-popup-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+  }
+  .waitlist-popup-content {
+    position: relative;
+    text-align: center;
+    max-width: 420px;
+    padding: 48px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(10,10,10,0.6);
+  }
+  .waitlist-popup-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 16px;
+    color: var(--dim);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .waitlist-popup-close:hover { color: var(--white); }
+  .waitlist-input {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--white);
+    outline: none;
+    margin: 16px 0;
+    transition: border-color 0.2s;
+  }
+  .waitlist-input:focus { border-color: var(--accent); }
+  .waitlist-input::placeholder { color: var(--dim); }
+  .waitlist-submit {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--accent);
+    background: transparent;
+    border: 1px solid var(--accent-border);
+    padding: 10px 28px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .waitlist-submit:hover { background: var(--accent-bg); }
+
+  @media (max-width: 768px) {
+    .hamburger-inline {
+      display: block;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 200;
+      font-size: 24px;
+      color: var(--white);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 8px;
+    }
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: -320px;
+      width: 300px;
+      height: auto;
+      max-height: 100vh;
+      z-index: 190;
+      background: rgba(10,10,10,0.95);
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 60px 28px 32px 20px;
+      gap: 8px;
+      transition: left 0.3s ease;
+      display: flex;
+    }
+    .mobile-menu.open { left: 0; }
+    .mobile-menu a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--white);
+      text-decoration: underline;
+      text-decoration-thickness: 0.5px;
+      text-underline-offset: 4px;
+    }
+    .mobile-menu a.mob-active { color: var(--accent); }
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 180;
+      background: transparent;
+    }
+    .mobile-overlay.open { display: block; }
+    .page-content > div:first-child { max-width: 100% !important; }
+    .page-content > div:first-child > div:first-child img { width: 350px !important; margin-right: -50px !important; }
+    .page-content > div:first-child > div:last-child { margin-top: -150px !important; }
+    .test-row { flex-direction: column; gap: 20px; }
+    #lowerSection { max-width: 100% !important; padding: 0 16px; }
+    #entryPointSection { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+    #entryPointSection > div:last-child { align-self: flex-start; }
+    #testCarousel > div:first-child { flex-direction: column !important; gap: 20px !important; }
+    #testCarousel > div:first-child > div:last-child { align-self: center !important; }
+    .test-tags { width: 100%; justify-content: flex-start; }
+    .page-content { padding: 80px 24px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-fixed"></div>
+
+<button class="hamburger-inline" onclick="event.stopPropagation(); document.getElementById('mobileMenu').classList.toggle('open'); document.getElementById('mobileOverlay').classList.toggle('open'); this.textContent = this.textContent === '☰' ? '✕' : '☰'">☰</button>
+<div class="mobile-overlay" id="mobileOverlay" onclick="document.getElementById('mobileMenu').classList.remove('open'); document.querySelector('.hamburger-inline').textContent='☰'; this.classList.remove('open')"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="lp-new.html"><span class="hex-outline">⬡</span> Router</a>
+  <a href="where-are-you-now.html" class="mob-active"><span class="hex-active">⬢</span> Your Map</a>
+  <a href="explore.html"><span class="hex-outline">⬡</span> You Are Me</a>
+  <a href="collaborate.html"><span class="hex-outline">⬡</span> Collaborate</a>
+</div>
+
+<div class="side-menu" id="sideMenu">
+  <a href="lp-new.html"><span class="hex-wrap"><span class="hex-outline">⬡</span><span class="hex-fill">⬢</span></span> <span>Router</span></a>
+  <a href="where-are-you-now.html" class="active"><span class="hex-wrap"><span class="hex-outline">⬡</span><span class="hex-fill">⬢</span></span> <span>Your Map</span></a>
+  <a href="explore.html"><span class="hex-wrap"><span class="hex-outline">⬡</span><span class="hex-fill">⬢</span></span> <span>You Are Me</span></a>
+  <a href="collaborate.html"><span class="hex-wrap"><span class="hex-outline">⬡</span><span class="hex-fill">⬢</span></span> <span>Collaborate</span></a>
+</div>
+
+<div class="page-content">
+  <div style="max-width:85%; margin-left:auto; margin-right:auto; margin-bottom:48px; position:relative;">
+    <div style="display:flex; justify-content:flex-end;">
+      <img src="images/map/Map.png" style="width:550px; object-fit:contain; margin-right:-100px; opacity:0.5; -webkit-mask-image:radial-gradient(circle, black 30%, transparent 70%); mask-image:radial-gradient(circle, black 30%, transparent 70%);">
+    </div>
+    <div style="text-align:left; position:relative; margin-top:-200px; z-index:2;">
+      <h1 class="page-title" style="text-align:left;">Where are you <span style="color:var(--accent);">now?</span></h1>
+
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px;">
+        <div style="font-size:14px; font-weight:300; color:var(--accent); line-height:1.8;">
+          <div><span style="color:var(--white);">•</span> No email needed</div>
+          <div><span style="color:var(--white);">•</span> Data is yours</div>
+        </div>
+        <div>
+          <a href="test-meta.html?demo=1" style="display:inline-flex; align-items:center; gap:8px; font-size:14px; letter-spacing:0.08em; color:var(--accent); border:1px solid var(--accent-border); padding:12px 28px; text-decoration:none; transition:background 0.3s; cursor:pointer;" onmouseover="this.style.background='var(--accent-bg)'" onmouseout="this.style.background='none'"><span>It's free</span><span>→</span></a>
+        </div>
+      </div>
+
+      <p style="font-size:14px; font-weight:300; color:rgba(255,255,255,0.75); line-height:1.7; margin:0 0 8px; max-width:450px;">Map it to see it clearly.</p>
+      <p style="font-size:14px; font-weight:300; color:var(--white); line-height:1.7; margin:0 0 20px; max-width:450px;">Start where you actually are. Not where you think you should be.</p>
+
+      <div style="margin-top:4px; max-width:400px; margin-bottom:20px; min-height:80px;">
+        <div id="quoteRotator" style="opacity:1; transition:opacity 1.2s ease;">
+          <p id="quoteText" style="font-size:13px; font-weight:300; font-style:italic; color:rgba(255,255,255,0.6); line-height:1.7; margin-bottom:4px;">"Scoring life parameters was an eye-opener. Giving perspective on what I take for granted, like physical safety, while highlighting gaps I hadn't named."</p>
+          <p id="quoteAuthor" style="font-size:12px; color:var(--accent);">— Martin</p>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:16px; margin-top:8px;">
+        <button onclick="downloadMap()" style="font-family:'DM Sans',sans-serif; font-size:12px; padding:8px 16px; border:1px solid var(--dimmer); background:none; color:var(--dim); cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--dimmer)'; this.style.color='var(--dim)'">Download my map</button>
+        <label style="font-family:'DM Sans',sans-serif; font-size:12px; padding:8px 16px; border:1px solid var(--dimmer); background:none; color:var(--dim); cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--dimmer)'; this.style.color='var(--dim)'">Upload a map<input type="file" accept=".json" style="display:none;" onchange="uploadMap(this)"></label>
+      </div>
+      <p id="mapStatus" style="font-size:11px; color:var(--accent); margin-top:6px; display:none;"></p>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleTagDesc(tag) {
+  const row = tag.closest('.test-info') || tag.closest('.test-row');
+  const info = row.querySelector ? row : row;
+  const existing = tag.parentElement.querySelector('.test-tag-desc');
+
+  // If clicking same tag that's active, close it
+  if (tag.classList.contains('active')) {
+    tag.classList.remove('active');
+    if (existing) existing.remove();
+    return;
+  }
+
+  // Remove any existing open description
+  tag.parentElement.querySelectorAll('.test-tag').forEach(t => t.classList.remove('active'));
+  if (existing) existing.remove();
+
+  // Show new description
+  tag.classList.add('active');
+  const desc = document.createElement('div');
+  desc.className = 'test-tag-desc';
+  desc.textContent = tag.dataset.desc;
+  tag.parentElement.appendChild(desc);
+}
+
+// ── CAROUSEL ──
+var carouselTests = [
+  {emoji:'🔋', name:'Work & Energy', type:'Individual',
+   questions:['Feeling drained by work?','Burned out?','Misaligned between what you do and how you want to live?'],
+   desc:'This test maps the needs underneath work stress, energy depletion, and life-work misalignment. Understand what\'s actually draining you so you can make different choices.',
+   tags:['🧠 Cognitive & Intellectual','😴 Rest & Recovery','💪 Health & Vitality','🗽 Autonomy & Freedom']},
+  {emoji:'🤝', name:'Relationships & Connection', type:'Individual',
+   questions:['Feeling isolated or lonely?','Stuck in relational patterns?','Wanting deeper understanding of your connections?'],
+   desc:'This test reveals the needs driving your relational patterns. See what\'s blocking genuine connection and what would actually fulfill you in relationships.',
+   tags:['👥 Social Connection','🪞 Identity & Esteem','🛡️ Safety & Security']},
+  {emoji:'🧭', name:'Life Direction & Purpose', type:'Individual',
+   questions:['Feeling lost or directionless?','Questioning what actually matters to you?','Searching for meaning?'],
+   desc:'This test helps you locate what\'s genuinely alive in you versus what you think you should want. Clarity on purpose starts with honest self-location.',
+   tags:['🌱 Purpose & Meaning','🧠 Cognitive & Intellectual','🗽 Autonomy & Freedom','🪞 Identity & Esteem']},
+  {emoji:'🧠', name:'Nervous System & Presence', type:'Individual',
+   questions:['Dealing with anxiety or dysregulation?','Feeling unsafe in your body?','Struggling to be present?'],
+   desc:'This test maps the safety and recovery needs your nervous system is signaling. Understand what your body actually needs to regulate and come home.',
+   tags:['🛡️ Safety & Security','😴 Rest & Recovery','💪 Health & Vitality','👥 Social Connection']},
+  {emoji:'🎭', name:'Authenticity & Self-Expression', type:'Individual',
+   questions:['Masking or performing constantly?','Struggling to be yourself?','Ready to stop hiding?'],
+   desc:'This test reveals what you\'re protecting through your masks and what would become possible if you let yourself be seen. Authenticity starts with honest self-knowledge.',
+   tags:['🗽 Autonomy & Freedom','🪞 Identity & Esteem','🧠 Cognitive & Intellectual','👥 Social Connection']},
+  {emoji:'🎨', name:'Creative & Generative Life', type:'Individual',
+   questions:['Want to build, create, or contribute meaningfully?','Ready to make something that matters?'],
+   desc:'This test clarifies the needs driving your creative impulse and what would feel generative versus depleting. Understand what actual contribution requires.',
+   tags:['🌱 Purpose & Meaning','🧠 Cognitive & Intellectual','💪 Health & Vitality','🗽 Autonomy & Freedom']},
+  {emoji:'💑', name:'Intimate Partnership', type:'Individual',
+   questions:['In a deep relationship?','Want to understand your dynamic better?','Ready to deepen connection?'],
+   desc:'This test maps the needs shaping your intimate partnerships. See what\'s working, what\'s missing, and what would transform your closest relationships.',
+   tags:['👥 Social Connection','🪞 Identity & Esteem','🛡️ Safety & Security','💪 Health & Vitality']},
+  {emoji:'🏗️', name:'Foundation Reset', type:'Individual',
+   questions:['In overwhelm or crisis?','Need to rebuild from ground zero?','Ready to stabilize first?'],
+   desc:'This test focuses on the foundational needs that make everything else possible. Start here if you\'re in overwhelm and need to rebuild safety and stability.',
+   tags:['🛡️ Safety & Security','😴 Rest & Recovery','💪 Health & Vitality','👥 Social Connection']},
+  {emoji:'🎯', name:'Strategic Clarity & Execution', type:'Organization',
+   questions:['Is your team aligned on direction?','Does execution feel smooth or constantly stuck in re-discussion?'],
+   desc:'This assessment maps whether your core assumptions are clear, your team shares them, and your decision-making principles actually work. Misalignment here cascades into everything.',
+   tags:['🎯 Core Assumptions','🔄 Market Interaction','🤝 Decision Making']},
+  {emoji:'👥', name:'Team Coherence & Vector Alignment', type:'Organization',
+   questions:['Are your strongest people lifting the team or creating friction?','Do individual strengths compound or conflict?'],
+   desc:'This assessment reveals whether your team\'s vectors are aligned or fighting each other. It exposes net negative contributors and shows where collaboration is breaking down.',
+   tags:['🤝 Team Alignment','⚔️ Differentiation','🛡️ Plan B']},
+  {emoji:'🔍', name:'Market Understanding & Customer Reality', type:'Organization',
+   questions:['Do you deeply understand your customer\'s actual reality?','Or are you building on assumptions?'],
+   desc:'This assessment tests whether you\'re interacting frequently with your market or operating in abstraction. It reveals blind spots between what you think customers need and what they actually struggle with.',
+   tags:['👥 Customer Reality','🔄 Market Interaction','🎯 Core Assumptions']},
+  {emoji:'💡', name:'Product-Market Fit Clarity', type:'Organization',
+   questions:['Is your differentiation actually clear?','Can your team articulate why customers choose you over alternatives?'],
+   desc:'This assessment maps whether you have genuine product-market fit or you\'re mistaking early traction for validation.',
+   tags:['⚔️ Differentiation','👥 Customer Reality','🔄 Market Interaction']},
+  {emoji:'⚡', name:'Speed of Learning & Adaptation', type:'Organization',
+   questions:['How fast can you run experiments and learn?','Or do you get stuck defending initial assumptions?'],
+   desc:'This assessment measures your experimental velocity and whether you\'re actually seeking to disprove your assumptions or defending them.',
+   tags:['⚡ Experimentation','🤝 Decision Making','🛡️ Plan B']},
+  {emoji:'🛡️', name:'Resilience & Backup Readiness', type:'Organization',
+   questions:['What\'s your plan if your core assumptions prove wrong?','Do you have strategic options or would pivoting feel like failure?'],
+   desc:'This assessment tests whether you\'ve thought through contingency or you\'re betting everything on one path.',
+   tags:['🛡️ Plan B','🎯 Core Assumptions','⚡ Experimentation']},
+  {emoji:'💰', name:'Resource Allocation & Prioritization', type:'Organization',
+   questions:['Are your people working on what actually matters?','Or are you spreading attention across too many priorities?'],
+   desc:'This assessment reveals whether your team knows what to say no to and whether resource allocation follows from your stated strategy.',
+   tags:['🎯 Core Assumptions','🤝 Team Alignment','⚡ Experimentation']},
+  {emoji:'🌱', name:'Culture & Psychological Safety', type:'Organization',
+   questions:['Can people tell the truth in your organization?','Or are they managing perception and hiding problems?'],
+   desc:'This assessment maps whether your team feels safe being honest about what\'s working and what isn\'t.',
+   tags:['🤝 Team Alignment','🤝 Decision Making','👥 Customer Reality']}
+];
+
+var carouselIdx = 0;
+var carouselContent = document.getElementById('carouselContent');
+var carouselDots = document.getElementById('carouselDots');
+
+function renderCarousel() {
+  var t = filteredTests[carouselIdx];
+  var typeColor = t.type === 'Individual' ? 'var(--accent)' : 'rgb(168,130,255)';
+  var html = '<div style="animation:fadeIn 0.3s ease; text-align:left;">';
+  html += '<div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">';
+  html += '<div style="font-size:36px;">' + t.emoji + '</div>';
+  html += '<div>';
+  html += '<div style="font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:' + typeColor + ';">' + t.type + '</div>';
+  html += '<h3 style="font-family:\'Cormorant Garamond\',serif; font-size:clamp(20px, 2.5vw, 28px); font-weight:300; color:var(--white);">' + t.name + '</h3>';
+  html += '</div></div>';
+  html += '<p style="font-size:14px; font-weight:300; font-style:italic; color:var(--white); line-height:1.6; margin-bottom:12px;">' + t.questions.join(' ') + '</p>';
+  html += '<p style="font-size:14px; font-weight:300; color:rgba(255,255,255,0.75); line-height:1.7; margin-bottom:16px;">' + t.desc + '</p>';
+  html += '<div style="display:flex; flex-wrap:wrap; gap:6px;">';
+  t.tags.forEach(function(tag) {
+    html += '<span style="font-size:11px; font-weight:300; color:var(--dim); border:1px solid rgba(255,255,255,0.1); padding:4px 10px;">' + tag + '</span>';
+  });
+  html += '</div></div>';
+  carouselContent.innerHTML = html;
+
+  // dots
+  var dots = '';
+  for (var i = 0; i < filteredTests.length; i++) {
+    dots += '<span onclick="carouselGo(' + i + ')" style="width:6px; height:6px; border-radius:50%; background:' + (i === carouselIdx ? 'var(--accent)' : 'rgba(255,255,255,0.2)') + '; cursor:pointer; transition:background 0.2s;"></span>';
+  }
+  carouselDots.innerHTML = dots;
+}
+
+var filteredTests = carouselTests;
+var carouselFilter = 'Individual';
+
+function filterCarousel(type) {
+  carouselFilter = type;
+  filteredTests = carouselTests.filter(function(t) { return t.type === type; });
+  carouselIdx = 0;
+  renderCarousel();
+  var iBtn = document.getElementById('filterIndividual');
+  var oBtn = document.getElementById('filterOrg');
+  if (type === 'Individual') {
+    iBtn.style.background = 'var(--accent)'; iBtn.style.color = '#000'; iBtn.style.border = 'none';
+    oBtn.style.background = 'transparent'; oBtn.style.color = 'var(--white)'; oBtn.style.border = '1px solid rgba(255,255,255,0.2)';
+  } else {
+    oBtn.style.background = 'rgb(168,130,255)'; oBtn.style.color = '#000'; oBtn.style.border = 'none';
+    iBtn.style.background = 'transparent'; iBtn.style.color = 'var(--white)'; iBtn.style.border = '1px solid rgba(255,255,255,0.2)';
+  }
+}
+
+function carouselNext() { carouselIdx = (carouselIdx + 1) % filteredTests.length; renderCarousel(); }
+function carouselPrev() { carouselIdx = (carouselIdx - 1 + filteredTests.length) % filteredTests.length; renderCarousel(); }
+function carouselGo(i) { carouselIdx = i; renderCarousel(); }
+filterCarousel('Individual');
+
+
+// ── RADAR ──
+(function() {
+  var container = document.getElementById('mapRadar');
+  if (!container) return;
+  var allEmojis = ['🩺','🛌','🛋️','🎲','💰','🏰','🧘','🏡','❤️','🤲','🚪','🎯','🛑','🏆','🌟','🧠','💡','🔥','🛠️','🤝','🚀','✨','⚡','🧩','🔄','👥','⚔️','⚖️','🛡️','🌊','🎭','🔮','🌱','💎','🦋'];
+  var RED='rgb(239,68,68)',ORANGE='rgb(251,146,60)',TEAL='rgb(45,212,191)';
+  function scoreColor(s){return s<=3?RED:s<=5?ORANGE:TEAL;}
+  var vb=400,cx=200,cy=200,R=150,levels=7,startAngle=-Math.PI/2;
+  function pol(r,a){return[cx+r*Math.cos(a),cy+r*Math.sin(a)];}
+  var fixed22 = ['🩺','🛌','🛋️','🎲','💰','🏰','🧘','🏡','❤️','🤲','🚪','🎯','🛑','🏆','🌟','🧠','💡','🔥','🛠️','🤝','🚀','✨'];
+  function generateMap(){var cats=fixed22;var scores=cats.map(()=>1+Math.floor(Math.random()*7));var paired=scores.map((s,i)=>({score:s,catIdx:i}));paired.sort((a,b)=>b.score-a.score);return{cats:cats,scores:paired.map(x=>x.score),catOrder:paired.map(x=>x.catIdx),n:22};}
+  function buildAll(map){var cats=map.cats,scores=map.scores,catOrder=map.catOrder,n=map.n;var step=(2*Math.PI)/n;var mid=function(i){return startAngle+i*step+step/2;};var spoke=function(i){return startAngle+i*step;};var grid='';for(var l=1;l<=levels;l++){var r=(l/levels)*R;grid+='<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="'+(l===levels?1.5:0.5)+'"/>';}for(var i=0;i<n;i++){var xy=pol(R,spoke(i));grid+='<line x1="'+cx+'" y1="'+cy+'" x2="'+xy[0]+'" y2="'+xy[1]+'" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>';}var labels='';for(var i=0;i<n;i++){var ma=mid(i),s=Math.round(scores[i]),cat=cats[catOrder[i]];var color=scoreColor(s),cosA=Math.cos(ma);var anchor=cosA<-0.15?'end':cosA>0.15?'start':'middle';var exy=pol(R+16,ma);labels+='<text x="'+exy[0]+'" y="'+(exy[1]+5)+'" text-anchor="middle" font-size="14">'+cat+'</text>';var sxy=pol(R+32,ma);labels+='<text x="'+sxy[0]+'" y="'+(sxy[1]+4)+'" text-anchor="'+anchor+'" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="'+color+'">'+s+'</text>';}var slices='';for(var i=0;i<n;i++){var s=scores[i],color=scoreColor(s),r=(s/levels)*R;var a1=spoke(i),a2=a1+step;var xy1=pol(r,a1),xy2=pol(r,a2);slices+='<path d="M'+cx+','+cy+' L'+xy1[0]+','+xy1[1]+' A'+r+','+r+' 0 0 1 '+xy2[0]+','+xy2[1]+' Z" fill="'+color+'" opacity="0.08"/>';}var pts=scores.map(function(s,i){return pol((s/levels)*R,mid(i)).join(',');}).join(' ');var data='<polygon points="'+pts+'" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linejoin="round"/>';scores.forEach(function(s,i){var xy=pol((s/levels)*R,mid(i));data+='<circle cx="'+xy[0]+'" cy="'+xy[1]+'" r="3" fill="'+scoreColor(s)+'"/>';});return{grid:grid,labels:labels,slices:slices,data:data};}
+  var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 '+vb+' '+vb);svg.style.width='100%';
+  var gridG=document.createElementNS('http://www.w3.org/2000/svg','g');svg.appendChild(gridG);var slicesG=document.createElementNS('http://www.w3.org/2000/svg','g');svg.appendChild(slicesG);var dataG=document.createElementNS('http://www.w3.org/2000/svg','g');svg.appendChild(dataG);var labelsG=document.createElementNS('http://www.w3.org/2000/svg','g');svg.appendChild(labelsG);container.appendChild(svg);
+  function render(map){var b=buildAll(map);gridG.innerHTML=b.grid;slicesG.innerHTML=b.slices;dataG.innerHTML=b.data;labelsG.innerHTML=b.labels;}
+  function transition(){var dur='0.7s';labelsG.style.transition='opacity '+dur+' ease';slicesG.style.transition='opacity '+dur+' ease';dataG.style.transition='opacity '+dur+' ease';gridG.style.transition='opacity '+dur+' ease';labelsG.style.opacity='0';slicesG.style.opacity='0';dataG.style.opacity='0';gridG.style.opacity='0';setTimeout(function(){render(generateMap());labelsG.style.opacity='1';slicesG.style.opacity='1';dataG.style.opacity='1';gridG.style.opacity='1';},800);}
+  render(generateMap());setInterval(transition,4000);
+})();
+
+// ── PERSONAL/LEADER TOGGLE ──
+function filterTests(mode) {
+  var pBtn = document.getElementById('togglePersonal');
+  var lBtn = document.getElementById('toggleLeader');
+  var desc = document.getElementById('assessmentDesc');
+  var cta = document.getElementById('mapCta');
+  var rows = document.querySelectorAll('.test-row');
+
+  if (mode === 'personal') {
+    pBtn.style.background = 'var(--accent)'; pBtn.style.color = '#000'; pBtn.style.border = 'none';
+    lBtn.style.background = 'transparent'; lBtn.style.color = 'var(--white)'; lBtn.style.border = '1px solid rgba(255,255,255,0.2)';
+    desc.textContent = 'Without a map, you are lost. Map your needs as they are today — not as you think they should be.';
+    cta.href = '/map/';
+  } else {
+    lBtn.style.background = 'rgb(168,130,255)'; lBtn.style.color = '#000'; lBtn.style.border = 'none';
+    pBtn.style.background = 'transparent'; pBtn.style.color = 'var(--white)'; pBtn.style.border = '1px solid rgba(255,255,255,0.2)';
+    desc.textContent = 'Map where your startup actually stands — not where you hope it does. 8 key perspectives, honest scoring.';
+    cta.href = 'map/?mode=leader';
+  }
+
+  rows.forEach(function(row) {
+    var type = row.querySelector('.test-type');
+    if (!type) return;
+    var isIndividual = type.textContent.trim() === 'Individual';
+    var isOrg = type.textContent.trim() === 'Organization';
+    if (mode === 'personal') row.style.display = isIndividual ? '' : 'none';
+    else row.style.display = isOrg ? '' : 'none';
+  });
+}
+
+// Show personal by default, hide org
+filterTests('personal');
+
+// ── IMPORT CSV ──
+function handleImport(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    localStorage.setItem('myspiral_import', e.target.result);
+    window.location = '/map/';
+  };
+  reader.readAsText(file);
+}
+
+// ── WAITLIST POPUP ──
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') document.getElementById('waitlistPopup').classList.remove('open');
+});
+
+function submitWaitlist() {
+  var email = document.getElementById('waitlistEmail').value;
+  if (!email || !email.includes('@')) return;
+  var btn = document.querySelector('.waitlist-submit');
+  btn.textContent = 'You\'re on the list ✓';
+  btn.style.color = 'var(--accent)';
+  btn.style.borderColor = 'var(--accent)';
+  document.getElementById('waitlistEmail').style.display = 'none';
+  // TODO: send email to backend
+  setTimeout(function() {
+    document.getElementById('waitlistPopup').classList.remove('open');
+    btn.textContent = 'Notify me';
+    btn.style.color = '';
+    btn.style.borderColor = '';
+    document.getElementById('waitlistEmail').style.display = '';
+    document.getElementById('waitlistEmail').value = '';
+  }, 2500);
+}
+</script>
+<script>
+(function() {
+  var q = [
+    {t: '"Scoring life parameters was an eye-opener. Giving perspective on what I take for granted, like physical safety, while highlighting gaps I hadn\'t named."', a: '— Martin'},
+    {t: '"It boosted me by revealing how much is already going well in my life."', a: '— Eliza'},
+    {t: '"This was a highlight for me, helping me zoom out on where I stand now and then prioritize, turning abstract feelings into something tangible."', a: '— Pauline'},
+    {t: '"It offered a fresh lens on my priorities—like managing dopamine—and sparking meaningful connections with open, diverse people who amplified my energy."', a: '— Patrycjusz'},
+    {t: '"It gave me a clear snapshot of my current situation—highlighting both what\'s working, like my active lifestyle, and what\'s holding me back, like scattered focus—without feeling overwhelming."', a: '— Mark'},
+    {t: '"Seeing my life spread across parameters — and then choosing only a handful to focus on — made everything feel doable instead of paralyzing."', a: '— Lou'}
+  ];
+  var i = 0;
+  var wrap = document.getElementById('quoteRotator');
+  var txt = document.getElementById('quoteText');
+  var auth = document.getElementById('quoteAuthor');
+  if (!wrap || !txt || !auth) return;
+
+  function show() {
+    txt.textContent = q[i].t;
+    auth.textContent = q[i].a;
+    wrap.style.opacity = '1';
+  }
+
+  function next() {
+    wrap.style.opacity = '0';
+    setTimeout(function() {
+      i = (i + 1) % q.length;
+      show();
+    }, 1200);
+  }
+
+  show();
+  setInterval(next, 6000);
+})();
+</script>
+
+<div class="waitlist-popup" id="waitlistPopup">
+  <div class="waitlist-popup-bg" onclick="document.getElementById('waitlistPopup').classList.remove('open')"></div>
+  <div class="waitlist-popup-content">
+    <span class="waitlist-popup-close" onclick="document.getElementById('waitlistPopup').classList.remove('open')">✕</span>
+    <h2 style="font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:var(--white); margin-bottom:8px;">Coming soon</h2>
+    <p style="font-size:14px; color:var(--dim); margin-bottom:4px;">Be notified when mapping goes live.</p>
+    <input type="email" id="waitlistEmail" class="waitlist-input" placeholder="your@email.com">
+    <button class="waitlist-submit" onclick="submitWaitlist()">Notify me</button>
+  </div>
+</div>
+<script src="shared.js"></script>
+<script>
+// ── DOWNLOAD / UPLOAD MAP ──
+function downloadMap() {
+  var data = {};
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    if (key.startsWith('yam_')) {
+      try { data[key] = JSON.parse(localStorage.getItem(key)); } catch(e) { data[key] = localStorage.getItem(key); }
+    }
+  }
+  if (Object.keys(data).length === 0) {
+    var s = document.getElementById('mapStatus');
+    s.textContent = 'No map data yet. Take a test first.';
+    s.style.display = '';
+    setTimeout(function() { s.style.display = 'none'; }, 3000);
+    return;
+  }
+  var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'youareme-map-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+}
+
+function uploadMap(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var data = JSON.parse(e.target.result);
+      Object.keys(data).forEach(function(key) {
+        localStorage.setItem(key, typeof data[key] === 'string' ? data[key] : JSON.stringify(data[key]));
+      });
+      var s = document.getElementById('mapStatus');
+      s.textContent = 'Map restored \u2713';
+      s.style.display = '';
+      setTimeout(function() { s.style.display = 'none'; }, 3000);
+    } catch(err) {
+      var s = document.getElementById('mapStatus');
+      s.textContent = 'Invalid file';
+      s.style.color = 'rgb(239,68,68)';
+      s.style.display = '';
+      setTimeout(function() { s.style.display = 'none'; s.style.color = 'var(--accent)'; }, 3000);
+    }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+</script>
+</body>
+</html>
