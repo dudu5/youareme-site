@@ -2,7 +2,7 @@
   "name": "You Are Me",
   "short_name": "YouAreMe",
   "description": "Map where you are. See yourself clearly.",
-  "start_url": "/",
+  "start_url": "/router",
   "display": "standalone",
   "background_color": "#0a0a0a",
   "theme_color": "#00c9a7",
