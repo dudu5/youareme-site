@@ -28,6 +28,14 @@ var scoreColor, getVotes;
     document.head.appendChild(manifestLink);
   }
 
+  // Update favicon and apple-touch-icon
+  var existingFavicon = document.querySelector('link[rel="icon"]');
+  if (existingFavicon) existingFavicon.href = '/images/Logo/Logo.png';
+  var appleIcon = document.createElement('link');
+  appleIcon.rel = 'apple-touch-icon';
+  appleIcon.href = '/images/Logo/Logo.png';
+  document.head.appendChild(appleIcon);
+
   // Add PWA meta tags
   var metaTheme = document.createElement('meta');
   metaTheme.name = 'theme-color';
