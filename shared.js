@@ -57,7 +57,7 @@ var scoreColor, getVotes;
     leftWrap.style.cssText = 'position:fixed; bottom:24px; left:24px; z-index:100; display:flex; flex-direction:column; align-items:center; gap:8px;';
 
     var sideMenu = document.getElementById('sideMenu') || document.getElementById('collabMenu');
-    if (sideMenu) {
+    if (sideMenu && window.innerWidth > 768) {
       var menuScale = parseFloat(localStorage.getItem('yam_menu_scale') || '1');
       sideMenu.style.transform = 'scale(' + menuScale + ')';
       sideMenu.style.transformOrigin = 'left center';
