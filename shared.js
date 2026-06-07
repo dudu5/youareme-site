@@ -36,6 +36,21 @@ var scoreColor, getVotes;
   appleIcon.href = '/images/Logo/Logo.png';
   document.head.appendChild(appleIcon);
 
+  // Generate dark-background icon dynamically for apple-touch-icon
+  var iconCanvas = document.createElement('canvas');
+  iconCanvas.width = 180;
+  iconCanvas.height = 180;
+  var iconCtx = iconCanvas.getContext('2d');
+  iconCtx.fillStyle = '#0a0a0a';
+  iconCtx.fillRect(0, 0, 180, 180);
+  var logoImg = new Image();
+  logoImg.crossOrigin = 'anonymous';
+  logoImg.onload = function() {
+    iconCtx.drawImage(logoImg, 0, 0, 180, 180);
+    appleIcon.href = iconCanvas.toDataURL('image/png');
+  };
+  logoImg.src = '/images/Logo/Logo.png';
+
   // Add PWA meta tags
   var metaTheme = document.createElement('meta');
   metaTheme.name = 'theme-color';
@@ -76,7 +91,7 @@ var scoreColor, getVotes;
           steps.style.cssText = 'font-family:DM Sans,sans-serif; font-size:12px; color:var(--dim); line-height:1.6;';
 
           if (isIOS) {
-            steps.innerHTML = '1. Tap the <b style="color:var(--white);">Share</b> button (square with arrow) below<br>2. Scroll down, tap <b style="color:var(--white);">Add to Home Screen</b><br>3. Tap <b style="color:var(--white);">Add</b>';
+            steps.innerHTML = '1. Tap the <b style="color:var(--white);">⋯</b> (three dots, bottom-right corner)<br>2. Tap <b style="color:var(--white);">Share</b> (square with arrow)<br>3. Scroll down, tap <b style="color:var(--white);">Add to Home Screen</b><br>4. Tap <b style="color:var(--white);">Add</b>';
           } else {
             steps.innerHTML = '1. Tap the <b style="color:var(--white);">⋮ menu</b> (top-right)<br>2. Tap <b style="color:var(--white);">Add to Home Screen</b> or <b style="color:var(--white);">Install app</b><br>3. Tap <b style="color:var(--white);">Install</b>';
           }
