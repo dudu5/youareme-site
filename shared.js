@@ -30,26 +30,11 @@ var scoreColor, getVotes;
 
   // Update favicon and apple-touch-icon
   var existingFavicon = document.querySelector('link[rel="icon"]');
-  if (existingFavicon) existingFavicon.href = '/images/Logo/Logo.png';
+  if (existingFavicon) existingFavicon.href = '/images/Logo/Logo-dark.png';
   var appleIcon = document.createElement('link');
   appleIcon.rel = 'apple-touch-icon';
-  appleIcon.href = '/images/Logo/Logo.png';
+  appleIcon.href = '/images/Logo/Logo-dark.png';
   document.head.appendChild(appleIcon);
-
-  // Generate dark-background icon dynamically for apple-touch-icon
-  var iconCanvas = document.createElement('canvas');
-  iconCanvas.width = 180;
-  iconCanvas.height = 180;
-  var iconCtx = iconCanvas.getContext('2d');
-  iconCtx.fillStyle = '#0a0a0a';
-  iconCtx.fillRect(0, 0, 180, 180);
-  var logoImg = new Image();
-  logoImg.crossOrigin = 'anonymous';
-  logoImg.onload = function() {
-    iconCtx.drawImage(logoImg, 0, 0, 180, 180);
-    appleIcon.href = iconCanvas.toDataURL('image/png');
-  };
-  logoImg.src = '/images/Logo/Logo.png';
 
   // Add PWA meta tags
   var metaTheme = document.createElement('meta');
