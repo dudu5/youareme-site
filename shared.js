@@ -58,6 +58,48 @@ var scoreColor, getVotes;
       document.body.classList.add('loaded');
     }, 150);
 
+    // PWA install prompt (show once per session)
+    var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    if (!isStandalone && !sessionStorage.getItem('yam_pwa_dismissed')) {
+      var isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+      var isAndroid = /Android/.test(navigator.userAgent);
+      if (isIOS || isAndroid) {
+        setTimeout(function() {
+          var banner = document.createElement('div');
+          banner.style.cssText = 'position:fixed; top:0; left:0; right:0; z-index:300; background:var(--bg); border-bottom:1px solid var(--dimmer); padding:16px 20px; display:flex; flex-direction:column; gap:8px; animation:slideDown 0.4s ease;';
+
+          var title = document.createElement('div');
+          title.style.cssText = 'font-family:DM Sans,sans-serif; font-size:14px; font-weight:400; color:var(--white);';
+          title.textContent = 'Install You Are Me for the best experience';
+
+          var steps = document.createElement('div');
+          steps.style.cssText = 'font-family:DM Sans,sans-serif; font-size:12px; color:var(--dim); line-height:1.6;';
+
+          if (isIOS) {
+            steps.innerHTML = '1. Tap the <b style="color:var(--white);">Share</b> button (square with arrow) below<br>2. Scroll down, tap <b style="color:var(--white);">Add to Home Screen</b><br>3. Tap <b style="color:var(--white);">Add</b>';
+          } else {
+            steps.innerHTML = '1. Tap the <b style="color:var(--white);">⋮ menu</b> (top-right)<br>2. Tap <b style="color:var(--white);">Add to Home Screen</b> or <b style="color:var(--white);">Install app</b><br>3. Tap <b style="color:var(--white);">Install</b>';
+          }
+
+          var dismiss = document.createElement('button');
+          dismiss.textContent = 'Got it';
+          dismiss.style.cssText = 'align-self:flex-start; font-family:DM Sans,sans-serif; font-size:12px; padding:6px 14px; border:1px solid var(--accent); background:none; color:var(--accent); cursor:pointer; margin-top:4px;';
+          dismiss.onclick = function() {
+            banner.remove();
+            sessionStorage.setItem('yam_pwa_dismissed', '1');
+          };
+
+          banner.appendChild(title);
+          banner.appendChild(steps);
+          banner.appendChild(dismiss);
+          document.body.appendChild(banner);
+
+          // Auto-dismiss after 15s
+          setTimeout(function() { if (banner.parentElement) banner.remove(); }, 15000);
+        }, 2000);
+      }
+    }
+
     // Bottom controls
     var btnStyle = 'width:48px; height:48px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:22px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center;';
     var isMobile = window.innerWidth <= 768;
