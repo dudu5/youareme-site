@@ -426,7 +426,7 @@ function filterTree(mode, btn) {
         divider.style.cssText = 'height:1px; background:var(--dimmer); margin:16px 0; opacity:0.3;';
         firstSection.appendChild(divider);
         addedDivider = true;
-      } else if (idx > 0 && idx % 10 === 0) {
+      } else if (idx > 0 && idx % (window.innerWidth <= 768 ? 5 : 10) === 0) {
         var divider10 = document.createElement('div');
         divider10.className = 'toplist-divider';
         divider10.style.cssText = 'height:1px; background:var(--dimmer); margin:12px 0; opacity:0.2;';
