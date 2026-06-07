@@ -4,18 +4,18 @@
  */
 
 var MENU_CONFIG = [
-  { label: 'Router', href: 'router.html', level: 0 },
-  { label: 'Your Map', href: 'yourmap.html', level: 1 },
-  { label: 'Presence & Intention', href: 'awareness.html', level: 2 },
-  { label: 'Meta-Observation', href: 'test-meta.html', level: 3, scoreKey: 'yam_test_meta_done' },
-  { label: 'You Are Me', href: 'explore.html', level: 1 },
-  { label: 'Collaborate', href: 'collaborate.html', level: 1 }
+  { label: 'Router', href: 'router', level: 0 },
+  { label: 'Your Map', href: 'yourmap', level: 1 },
+  { label: 'Presence & Intention', href: 'awareness', level: 2 },
+  { label: 'Meta-Observation', href: 'test-meta', level: 3, scoreKey: 'yam_test_meta_done' },
+  { label: 'You Are Me', href: 'explore', level: 1 },
+  { label: 'Collaborate', href: 'collaborate', level: 1 }
 ];
 
 (function() {
   var currentPath = window.location.pathname;
   var currentPage = currentPath.split('/').pop() || 'index.html';
-  // Handle cases like /map-tree vs /yourmap.html
+  // Handle cases like /map-tree vs /yourmap
   if (currentPage.indexOf('.') === -1) currentPage += '.html';
 
   // ── DESKTOP SIDE MENU ──
