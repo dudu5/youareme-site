@@ -320,18 +320,19 @@ body {
   .mobile-menu.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
   .mobile-menu a {
     font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 300;
     letter-spacing: 0.04em;
     color: var(--white);
     text-decoration: underline;
     text-decoration-thickness: 0.5px;
     text-underline-offset: 4px;
+    padding: 4px 0;
   }
   .mobile-menu a.mob-active { color: var(--accent); }
-  .mobile-menu .mob-child { padding-left: 16px; font-size: 11px; }
-  .mobile-menu .mob-child-deep { padding-left: 28px; font-size: 10px; }
-  .mobile-menu .mob-child-deepest { padding-left: 40px; font-size: 10px; }
+  .mobile-menu .mob-child { padding-left: 16px; font-size: 14px; }
+  .mobile-menu .mob-child-deep { padding-left: 28px; font-size: 13px; }
+  .mobile-menu .mob-child-deepest { padding-left: 40px; font-size: 13px; }
 
   .mobile-overlay {
     display: none;
