@@ -417,7 +417,7 @@ function filterTree(mode, btn) {
     // Move all into first section as a flat list
     var firstSection = sections[0];
     var addedDivider = false;
-    allItems.forEach(function(item) {
+    allItems.forEach(function(item, idx) {
       var nameEl = item.querySelector('.tree-item-name');
       var v = nameEl ? (votes[nameEl.textContent.trim()] || 0) : 0;
       if (v === 0 && !addedDivider) {
@@ -426,6 +426,11 @@ function filterTree(mode, btn) {
         divider.style.cssText = 'height:1px; background:var(--dimmer); margin:16px 0; opacity:0.3;';
         firstSection.appendChild(divider);
         addedDivider = true;
+      } else if (idx > 0 && idx % 10 === 0) {
+        var divider10 = document.createElement('div');
+        divider10.className = 'toplist-divider';
+        divider10.style.cssText = 'height:1px; background:var(--dimmer); margin:12px 0; opacity:0.2;';
+        firstSection.appendChild(divider10);
       }
       firstSection.appendChild(item);
     });
