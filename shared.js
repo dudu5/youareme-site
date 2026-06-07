@@ -52,6 +52,12 @@ var scoreColor, getVotes;
   metaAppleStatus.content = 'black-translucent';
   document.head.appendChild(metaAppleStatus);
 
+  // iOS splash screen (dark background with logo)
+  var splash = document.createElement('link');
+  splash.rel = 'apple-touch-startup-image';
+  splash.href = '/images/Logo/Logo-dark.png';
+  document.head.appendChild(splash);
+
   document.addEventListener('DOMContentLoaded', function () {
     // Fade in after a brief delay so the CSS transition is visible
     setTimeout(function () {
