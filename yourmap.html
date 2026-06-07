@@ -352,21 +352,27 @@ if (saved) {
 }
 
 // ── TREE FILTERS ──
+// Will hold original HTML for restoring family view
+var originalSectionsHTML;
+
 function filterTree(mode, btn) {
   document.querySelectorAll('.tree-filter').forEach(function(b) { b.classList.remove('active'); });
   btn.classList.add('active');
 
+  if (mode === 'family') {
+    // Restore original DOM structure
+    document.querySelector('.tree-wrap').innerHTML = originalSectionsHTML;
+    // Re-run widgets since DOM was replaced
+    setupDoneWidgets();
+    setupVoteWidgets();
+    setupRecordButtons();
+    return;
+  }
+
   var sections = document.querySelectorAll('.tree-section');
   var items = document.querySelectorAll('.tree-item');
 
-  if (mode === 'family') {
-    // Show all grouped by family, clean up toplist artifacts
-    sections.forEach(function(s) { s.style.display = ''; s.querySelector('.tree-section-title').style.display = ''; });
-    items.forEach(function(i) { i.style.display = ''; });
-    document.querySelectorAll('.toplist-rank').forEach(function(r) { r.remove(); });
-    document.querySelectorAll('.toplist-divider').forEach(function(d) { d.remove(); });
-    document.querySelectorAll('.tree-item.todo .tree-item-bg').forEach(function(bg) { bg.style.width = '0'; });
-  } else if (mode === 'toplist') {
+  if (mode === 'toplist') {
     // Hide section titles, show all items flat sorted by votes
     sections.forEach(function(s) {
       s.querySelector('.tree-section-title').style.display = 'none';
@@ -452,6 +458,9 @@ function getVotes() {
 setupDoneWidgets();
 setupVoteWidgets();
 setupRecordButtons();
+
+// Save original structure AFTER widgets are added
+originalSectionsHTML = document.querySelector('.tree-wrap').innerHTML;
 
 // Default to Available view
 filterTree('available', document.getElementById('filterAvailable'));
