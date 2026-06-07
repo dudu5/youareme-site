@@ -73,45 +73,65 @@ var scoreColor, getVotes;
       document.body.classList.add('loaded');
     }, 150);
 
-    // PWA install prompt (show once per session)
+    // PWA install prompt — full overlay on mobile
     var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-    if (!isStandalone && !sessionStorage.getItem('yam_pwa_dismissed')) {
+    if (!isStandalone && !localStorage.getItem('yam_pwa_dismissed')) {
       var isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
       var isAndroid = /Android/.test(navigator.userAgent);
       if (isIOS || isAndroid) {
         setTimeout(function() {
-          var banner = document.createElement('div');
-          banner.style.cssText = 'position:fixed; top:0; left:0; right:0; z-index:300; background:var(--bg); border-bottom:1px solid var(--dimmer); padding:16px 20px; display:flex; flex-direction:column; gap:8px; animation:slideDown 0.4s ease;';
+          var overlay = document.createElement('div');
+          overlay.style.cssText = 'position:fixed; inset:0; z-index:500; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 32px; text-align:center;';
 
-          var title = document.createElement('div');
-          title.style.cssText = 'font-family:DM Sans,sans-serif; font-size:14px; font-weight:400; color:var(--white);';
-          title.textContent = 'Install You Are Me for the best experience';
+          var logo = document.createElement('img');
+          logo.src = '/images/Logo/Logo-dark.png';
+          logo.style.cssText = 'width:80px; height:80px; margin-bottom:24px; border-radius:16px;';
+
+          var title = document.createElement('h1');
+          title.style.cssText = 'font-family:Cormorant Garamond,serif; font-size:28px; font-weight:300; color:var(--white); margin-bottom:8px;';
+          title.textContent = 'You Are Me';
+
+          var subtitle = document.createElement('p');
+          subtitle.style.cssText = 'font-family:DM Sans,sans-serif; font-size:14px; color:var(--dim); margin-bottom:32px;';
+          subtitle.textContent = 'Install for the full experience — no app store needed.';
 
           var steps = document.createElement('div');
-          steps.style.cssText = 'font-family:DM Sans,sans-serif; font-size:12px; color:var(--dim); line-height:1.6;';
+          steps.style.cssText = 'font-family:DM Sans,sans-serif; font-size:15px; color:var(--white); line-height:2.2; text-align:left; margin-bottom:32px;';
 
           if (isIOS) {
-            steps.innerHTML = '1. Tap the <b style="color:var(--white);">⋯</b> (three dots, bottom-right corner)<br>2. Tap <b style="color:var(--white);">Share</b> (square with arrow)<br>3. Scroll down, tap <b style="color:var(--white);">Add to Home Screen</b><br>4. Tap <b style="color:var(--white);">Add</b>';
+            steps.innerHTML = '<span style="color:var(--accent);">1.</span> Tap <b>⋯</b> (bottom-right corner)<br><span style="color:var(--accent);">2.</span> Tap <b>Share</b> (square with arrow)<br><span style="color:var(--accent);">3.</span> Scroll down → <b>Add to Home Screen</b><br><span style="color:var(--accent);">4.</span> Tap <b>Add</b>';
           } else {
-            steps.innerHTML = '1. Tap the <b style="color:var(--white);">⋮ menu</b> (top-right)<br>2. Tap <b style="color:var(--white);">Add to Home Screen</b> or <b style="color:var(--white);">Install app</b><br>3. Tap <b style="color:var(--white);">Install</b>';
+            steps.innerHTML = '<span style="color:var(--accent);">1.</span> Tap <b>⋮</b> (top-right menu)<br><span style="color:var(--accent);">2.</span> Tap <b>Install app</b> or <b>Add to Home Screen</b><br><span style="color:var(--accent);">3.</span> Tap <b>Install</b>';
           }
 
-          var dismiss = document.createElement('button');
-          dismiss.textContent = 'Got it';
-          dismiss.style.cssText = 'align-self:flex-start; font-family:DM Sans,sans-serif; font-size:12px; padding:6px 14px; border:1px solid var(--accent); background:none; color:var(--accent); cursor:pointer; margin-top:4px;';
-          dismiss.onclick = function() {
-            banner.remove();
-            sessionStorage.setItem('yam_pwa_dismissed', '1');
+          var continueBtn = document.createElement('button');
+          continueBtn.textContent = 'Continue in browser';
+          continueBtn.style.cssText = 'font-family:DM Sans,sans-serif; font-size:14px; padding:12px 28px; border:1px solid var(--accent); background:none; color:var(--accent); cursor:pointer; border-radius:4px; margin-bottom:12px;';
+          continueBtn.onclick = function() {
+            overlay.style.opacity = '0';
+            overlay.style.transition = 'opacity 0.4s';
+            setTimeout(function() { overlay.remove(); }, 400);
+            localStorage.setItem('yam_pwa_dismissed', '1');
           };
 
-          banner.appendChild(title);
-          banner.appendChild(steps);
-          banner.appendChild(dismiss);
-          document.body.appendChild(banner);
+          var neverBtn = document.createElement('button');
+          neverBtn.textContent = "Don't show again";
+          neverBtn.style.cssText = 'font-family:DM Sans,sans-serif; font-size:12px; background:none; border:none; color:var(--dimmer); cursor:pointer; text-decoration:underline;';
+          neverBtn.onclick = function() {
+            overlay.style.opacity = '0';
+            overlay.style.transition = 'opacity 0.4s';
+            setTimeout(function() { overlay.remove(); }, 400);
+            localStorage.setItem('yam_pwa_dismissed', 'forever');
+          };
 
-          // Auto-dismiss after 15s
-          setTimeout(function() { if (banner.parentElement) banner.remove(); }, 15000);
-        }, 2000);
+          overlay.appendChild(logo);
+          overlay.appendChild(title);
+          overlay.appendChild(subtitle);
+          overlay.appendChild(steps);
+          overlay.appendChild(continueBtn);
+          overlay.appendChild(neverBtn);
+          document.body.appendChild(overlay);
+        }, 500);
       }
     }
 
