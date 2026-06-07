@@ -59,9 +59,11 @@ var scoreColor, getVotes;
       var mobileBar = document.createElement('div');
       mobileBar.style.cssText = 'position:fixed; bottom:0; left:0; right:0; z-index:100; display:flex; justify-content:space-between; align-items:center; padding:12px 24px; background:var(--bg); border-top:1px solid var(--dimmer);';
 
+      var mobBtnStyle = 'width:44px; height:44px; border-radius:50%; border:1px solid var(--dim); background:none; color:var(--dim); font-size:20px; cursor:pointer;';
+
       var mobMenuBtn = document.createElement('button');
       mobMenuBtn.textContent = '☰';
-      mobMenuBtn.style.cssText = 'width:44px; height:44px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:20px; cursor:pointer;';
+      mobMenuBtn.style.cssText = mobBtnStyle;
       mobMenuBtn.onclick = function() {
         document.getElementById('mobileMenu').classList.toggle('open');
         document.getElementById('mobileOverlay').classList.toggle('open');
@@ -69,7 +71,7 @@ var scoreColor, getVotes;
 
       var mobThemeBtn = document.createElement('button');
       mobThemeBtn.textContent = '◐';
-      mobThemeBtn.style.cssText = 'width:44px; height:44px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:20px; cursor:pointer;';
+      mobThemeBtn.style.cssText = mobBtnStyle;
       mobThemeBtn.onclick = randomizeTheme;
 
       var mobResetBtn = document.createElement('button');
