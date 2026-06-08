@@ -221,7 +221,8 @@ var scoreColor, getVotes;
       document.body.appendChild(themeWrap);
     }
 
-    // Bottom-left: save button with +/- stacked above
+    // Bottom-left: save button with +/- stacked above (desktop only)
+    if (!isMobile) {
     var leftWrap = document.createElement('div');
     leftWrap.style.cssText = 'position:fixed; bottom:24px; left:24px; z-index:100; display:flex; flex-direction:column; align-items:center; gap:8px;';
 
@@ -277,6 +278,7 @@ var scoreColor, getVotes;
     }
 
     document.body.appendChild(leftWrap);
+    }
 
     // Intercept internal links for a smooth fade-out before navigation
     document.querySelectorAll('a[href]').forEach(function (a) {
