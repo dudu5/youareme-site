@@ -806,9 +806,10 @@
   .router-card:hover { transform: scale(1.03) translateY(-4px); box-shadow: 0 12px 40px var(--accent-bg); }
 
 
-  /* Hide mobile-only choices on desktop */
-  #choice1, #choice2, #choice3 { display: none; }
-  .desktop-only-router { display: flex; }
+  @media (min-width: 769px) {
+    #choice1, #choice2, #choice3 { display: none !important; }
+    .desktop-only-router { display: flex; }
+  }
 
   @media (max-width: 768px) {
     .desktop-only-router { display: none !important; }
