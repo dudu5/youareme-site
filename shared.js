@@ -52,7 +52,7 @@ var scoreColor, getVotes;
   document.head.appendChild(metaTheme);
 
   var metaApple = document.createElement('meta');
-  metaApple.name = 'apple-mobile-web-app-capable';
+  metaApple.name = 'mobile-web-app-capable';
   metaApple.content = 'yes';
   document.head.appendChild(metaApple);
 

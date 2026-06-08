@@ -16,10 +16,10 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
+  if (event.request.method !== 'GET') return;
   event.respondWith(
     fetch(event.request)
       .then(function(response) {
-        // Cache a copy for offline
         var clone = response.clone();
         caches.open(CACHE_NAME).then(function(cache) {
           cache.put(event.request, clone);
@@ -27,7 +27,6 @@ self.addEventListener('fetch', function(event) {
         return response;
       })
       .catch(function() {
-        // Offline: serve from cache
         return caches.match(event.request);
       })
   );
