@@ -1,4 +1,4 @@
-var CACHE_NAME = 'yam-v2';
+var CACHE_NAME = 'yam-v3';
 
 self.addEventListener('install', function(event) {
   self.skipWaiting();
@@ -20,10 +20,12 @@ self.addEventListener('fetch', function(event) {
   event.respondWith(
     fetch(event.request)
       .then(function(response) {
-        var clone = response.clone();
-        caches.open(CACHE_NAME).then(function(cache) {
-          cache.put(event.request, clone);
-        });
+        if (response.ok) {
+          var clone = response.clone();
+          caches.open(CACHE_NAME).then(function(cache) {
+            cache.put(event.request, clone);
+          });
+        }
         return response;
       })
       .catch(function() {
