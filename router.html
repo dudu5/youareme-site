@@ -806,6 +806,19 @@
   .router-card:hover { transform: scale(1.03) translateY(-4px); box-shadow: 0 12px 40px var(--accent-bg); }
 
 
+  .choice-card {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 32px 24px;
+    border: 1px solid var(--dimmer);
+    border-radius: 20px;
+    transition: border-color 0.3s;
+  }
+  .choice-card:active { border-color: var(--accent); }
+
   @media (min-width: 769px) {
     #choice1, #choice2, #choice3 { display: none !important; }
     #heroLast { display: none !important; }
@@ -966,28 +979,28 @@
 
   <!-- ── CHOICE 1 ── -->
   <div class="hero" id="choice1">
-    <a href="yourmap" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:16px;">
-      <img src="images/LP/map-where-you-are.png" style="width:60vw; max-width:320px; aspect-ratio:1; border-radius:50%; object-fit:cover; -webkit-mask-image:radial-gradient(circle, black 40%, transparent 70%); mask-image:radial-gradient(circle, black 40%, transparent 70%);">
+    <a href="yourmap" class="choice-card">
+      <img src="images/LP/map-where-you-are.png" style="width:50vw; max-width:200px; aspect-ratio:1; border-radius:50%; object-fit:cover; -webkit-mask-image:radial-gradient(circle, black 40%, transparent 70%); mask-image:radial-gradient(circle, black 40%, transparent 70%);">
       <p style="font-size:clamp(20px, 5vw, 28px); color:var(--white); text-align:center;">I <span style="color:var(--accent);">Need</span> to see where I am</p>
-      <p style="font-size:14px; color:var(--dim);">→ Get your map (free)</p>
+      <p style="font-size:14px; color:var(--accent);">→ Get your map (free)</p>
     </a>
   </div>
 
   <!-- ── CHOICE 2 ── -->
   <div class="hero" id="choice2">
-    <a href="/" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:16px;">
-      <img src="images/LP/you-are-me.png" style="width:60vw; max-width:320px; aspect-ratio:1; border-radius:50%; object-fit:cover; -webkit-mask-image:radial-gradient(circle, black 40%, transparent 70%); mask-image:radial-gradient(circle, black 40%, transparent 70%);">
+    <a href="/" class="choice-card">
+      <img src="images/LP/you-are-me.png" style="width:50vw; max-width:200px; aspect-ratio:1; border-radius:50%; object-fit:cover; -webkit-mask-image:radial-gradient(circle, black 40%, transparent 70%); mask-image:radial-gradient(circle, black 40%, transparent 70%);">
       <p style="font-size:clamp(20px, 5vw, 28px); color:var(--white); text-align:center;">Curious of new perspectives</p>
-      <p style="font-size:14px; color:var(--dim);">→ You Are <b style="color:var(--accent);">Me</b> (free)</p>
+      <p style="font-size:14px; color:var(--accent);">→ You Are <b style="color:var(--accent);">Me</b> (free)</p>
     </a>
   </div>
 
   <!-- ── CHOICE 3 ── -->
   <div class="hero" id="choice3">
-    <a href="collaborate" style="text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:16px;">
-      <img src="images/LP/collaborate.png" style="width:60vw; max-width:320px; aspect-ratio:1; border-radius:50%; object-fit:cover; -webkit-mask-image:radial-gradient(circle, black 40%, transparent 70%); mask-image:radial-gradient(circle, black 40%, transparent 70%);">
+    <a href="collaborate" class="choice-card">
+      <img src="images/LP/collaborate.png" style="width:50vw; max-width:200px; aspect-ratio:1; border-radius:50%; object-fit:cover; -webkit-mask-image:radial-gradient(circle, black 40%, transparent 70%); mask-image:radial-gradient(circle, black 40%, transparent 70%);">
       <p style="font-size:clamp(20px, 5vw, 28px); color:var(--white); text-align:center;">Ready to <span style="color:var(--accent);">Meet</span></p>
-      <p style="font-size:14px; color:var(--dim);">→ This is <b style="color:var(--white);">Me</b></p>
+      <p style="font-size:14px; color:var(--accent);">→ This is <b style="color:var(--white);">Me</b></p>
     </a>
   </div>
 
