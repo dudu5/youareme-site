@@ -899,8 +899,8 @@ function renderStatement(idx) {
   var color = scoreColor(score);
   var html = '<div class="dash-statement" style="--stmt-color:' + color + ';" data-stmt="' + idx + '">';
   html += '<div class="dash-statement-bg" style="width:' + pct + '%; background:' + color + ';"></div>';
-  html += '<button class="stmt-mic" onclick="toggleStmtRecord(this,' + idx + ')" style="font-size:14px; background:none; border:none; cursor:pointer; opacity:0.4; transition:opacity 0.2s; position:relative; z-index:1; padding:4px;" onmouseenter="this.style.opacity=1" onmouseleave="if(!this.classList.contains(\'recording\'))this.style.opacity=0.4">🎙</button>';
   html += '<div class="dash-bar-score" style="color:' + color + ';">' + score + '</div>';
+  html += '<button class="stmt-mic" onclick="toggleStmtRecord(this,' + idx + ')" style="font-size:14px; background:none; border:none; cursor:pointer; opacity:0.4; transition:opacity 0.2s; position:relative; z-index:1; padding:4px;" onmouseenter="this.style.opacity=1" onmouseleave="if(!this.classList.contains(\'recording\'))this.style.opacity=0.4">🎙</button>';
   html += '<div class="dash-bar-text">' + statements[idx] + '</div>';
   html += '</div>';
   return html;
