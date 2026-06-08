@@ -883,36 +883,12 @@ function saveResult() {
   localStorage.removeItem(STORAGE_KEY);
 }
 
-function showExportReminder() {
-  var reminder = document.createElement('div');
-  reminder.style.cssText = 'position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(0,201,167,0.1); border:1px solid var(--accent-border); padding:12px 20px; font-size:13px; color:var(--dim); z-index:100; display:flex; align-items:center; gap:12px; max-width:400px;';
-  reminder.innerHTML = '<span>Your results are saved locally. <a href="#" style="color:var(--accent); text-decoration:underline;" onclick="downloadResults(); this.parentElement.parentElement.remove(); return false;">Download a backup?</a></span><button style="background:none; border:none; color:var(--dimmer); cursor:pointer; font-size:18px;" onclick="this.parentElement.remove()">\u2715</button>';
-  document.body.appendChild(reminder);
-  setTimeout(function() { if (reminder.parentElement) reminder.remove(); }, 15000);
-}
-
-function downloadResults() {
-  var data = {};
-  for (var i = 0; i < localStorage.length; i++) {
-    var key = localStorage.key(i);
-    if (key.startsWith('yam_')) {
-      try { data[key] = JSON.parse(localStorage.getItem(key)); } catch(e) { data[key] = localStorage.getItem(key); }
-    }
-  }
-  var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  var a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'youareme-map-' + new Date().toISOString().slice(0,10) + '.json';
-  a.click();
-}
-
 function showResult() {
   setupDashboardLayout();
   var scores = calculateScores();
   renderDashboardUI(scores);
   saveResult();
   updateRetestStatus();
-  showExportReminder();
 }
 
 function renderStatement(idx) {
