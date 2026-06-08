@@ -52,7 +52,7 @@ var MENU_CONFIG = [
   if (mobileMenu) {
     var mobileHtml = '';
     // Close button
-    mobileHtml += '<button style="position:absolute; top:16px; left:16px; font-size:24px; color:var(--white); background:none; border:none; cursor:pointer;" onclick="document.getElementById(\'mobileMenu\').classList.remove(\'open\'); document.getElementById(\'mobileOverlay\').classList.remove(\'open\'); var h=document.querySelector(\'.hamburger-inline\'); if(h) h.textContent=\'\\u2630\';">\u2715</button>';
+    mobileHtml += '<button style="align-self:flex-end; font-size:20px; color:var(--dim); background:none; border:none; cursor:pointer; margin-bottom:8px;" onclick="document.getElementById(\'mobileMenu\').classList.remove(\'open\'); document.getElementById(\'mobileOverlay\').classList.remove(\'open\'); var h=document.querySelector(\'.hamburger-inline\'); if(h) h.textContent=\'\\u2630\';">\u2715</button>';
 
     MENU_CONFIG.forEach(function(item) {
       var isActive = (item.href === currentPage) ? ' mob-active' : '';
