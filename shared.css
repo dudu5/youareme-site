@@ -334,9 +334,33 @@ body {
     padding: 4px 0;
   }
   .mobile-menu a.mob-active { color: var(--accent); }
-  .mobile-menu .mob-child { padding-left: 16px; font-size: 14px; }
-  .mobile-menu .mob-child-deep { padding-left: 28px; font-size: 13px; }
-  .mobile-menu .mob-child-deepest { padding-left: 40px; font-size: 13px; }
+  .mobile-menu .mob-child { padding-left: 16px; font-size: 14px; position: relative; }
+  .mobile-menu .mob-child-deep { padding-left: 28px; font-size: 13px; position: relative; }
+  .mobile-menu .mob-child-deepest { padding-left: 40px; font-size: 13px; position: relative; }
+
+  .mobile-menu .mob-child::before,
+  .mobile-menu .mob-child-deep::before,
+  .mobile-menu .mob-child-deepest::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    bottom: -4px;
+    width: 1px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .mobile-menu .mob-child::after,
+  .mobile-menu .mob-child-deep::after,
+  .mobile-menu .mob-child-deepest::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    width: 6px;
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+  }
 
   .mobile-overlay {
     display: none;
