@@ -817,13 +817,33 @@
     #sectionHub > div > div:last-child, #sectionHub2 > div > div:last-child { grid-template-columns: 1fr !important; }
     .side-menu { display: none; }
     .hero { padding: 40px 22px 80px; }
-    #router { padding: 20px 0 !important; height: auto !important; min-height: 100vh; }
+    .site-wrap { overflow: hidden; height: 100vh; position: relative; }
+    .hero { display: none; position: absolute; inset: 0; }
+    .hero.active-slide { display: flex; }
+    .hero-statement { font-size: clamp(24px, 7vw, 40px); }
+    .hero-statement .no-wrap { white-space: normal; }
+    .scroll-hint { display: none; }
+    #router { padding: 20px 16px !important; height: auto !important; min-height: 100vh; }
     .router-cards { max-width: 100% !important; padding: 0; flex-direction: column !important; gap: 16px !important; }
     .router-cards a { padding: 16px 20px !important; }
     .router-cards a img { width: 60vw !important; max-width: 260px !important; height: auto !important; }
-    .hero-statement { font-size: clamp(24px, 7vw, 40px); }
-    .hero-statement .no-wrap { white-space: normal; }
-    .scroll-hint { bottom: 48px; }
+    .slide-dots {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 100;
+    }
+    .slide-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--dimmer);
+      transition: background 0.3s;
+    }
+    .slide-dot.active { background: var(--accent); }
     .narrative { padding: 0 22px 24px; }
     .section { padding: 40px 22px 60px; display: flex; flex-direction: column; }
     .section-inner { display: flex; flex-direction: column; gap: 0; }
@@ -990,6 +1010,62 @@ window.addEventListener('scroll', function() {
 });
 bottomFade.style.transition = 'opacity 0.3s';
 
+// ── MOBILE TAP-THROUGH ──
+if (window.innerWidth <= 768) {
+  var slides = document.querySelectorAll('.site-wrap > .hero');
+  var currentSlide = 0;
+  var totalSlides = slides.length;
+
+  // Create dot indicators
+  var dotsWrap = document.createElement('div');
+  dotsWrap.className = 'slide-dots';
+  for (var d = 0; d < totalSlides; d++) {
+    var dot = document.createElement('div');
+    dot.className = 'slide-dot' + (d === 0 ? ' active' : '');
+    dotsWrap.appendChild(dot);
+  }
+  document.body.appendChild(dotsWrap);
+
+  // Show first slide
+  slides[0].classList.add('active-slide');
+  slides[0].querySelectorAll('.reveal').forEach(function(el) { el.classList.add('visible'); });
+
+  // Hide fades on mobile
+  if (bottomFade) bottomFade.style.display = 'none';
+  var topFade = document.getElementById('topFade');
+  if (topFade) topFade.style.display = 'none';
+
+  function showSlide(idx) {
+    slides[currentSlide].classList.remove('active-slide');
+    currentSlide = idx;
+    slides[currentSlide].classList.add('active-slide');
+    slides[currentSlide].querySelectorAll('.reveal').forEach(function(el) { el.classList.add('visible'); });
+    // Update dots
+    var dots = dotsWrap.querySelectorAll('.slide-dot');
+    dots.forEach(function(dot, i) {
+      dot.classList.toggle('active', i === currentSlide);
+    });
+  }
+
+  // Tap anywhere to advance (except links)
+  document.querySelector('.site-wrap').addEventListener('click', function(e) {
+    if (e.target.closest('a') || e.target.closest('button')) return;
+    if (currentSlide < totalSlides - 1) {
+      showSlide(currentSlide + 1);
+    }
+  });
+
+  // Swipe support
+  var touchStartX = 0;
+  document.querySelector('.site-wrap').addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+  document.querySelector('.site-wrap').addEventListener('touchend', function(e) {
+    var diff = touchStartX - e.changedTouches[0].screenX;
+    if (diff > 50 && currentSlide < totalSlides - 1) showSlide(currentSlide + 1);
+    if (diff < -50 && currentSlide > 0) showSlide(currentSlide - 1);
+  });
+}
 
 </script>
 <script src="shared.js"></script>
