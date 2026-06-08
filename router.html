@@ -1049,7 +1049,7 @@ bottomFade.style.transition = 'opacity 0.3s';
 
 // ── MOBILE TAP-THROUGH ──
 if (window.innerWidth <= 768) {
-  var slides = document.querySelectorAll('.site-wrap > .hero');
+  var slides = document.querySelectorAll('.site-wrap > .hero:not(.desktop-only-router)');
   var currentSlide = 0;
   var totalSlides = slides.length;
 
