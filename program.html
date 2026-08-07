@@ -482,7 +482,7 @@ var diagramThemes = [
   // Midnight purple — gold
   { bg: '#12081f', text: '#f0e8d0', ring: '#ffc640', ringBg: ['none','none','#ffc64030','#ffc64050'], border: ['#ffc64040','#ffc64060','#ffc64088','#ffc640bb'] },
 ];
-var currentDiagramColor = 0;
+var currentDiagramColor = parseInt(localStorage.getItem('yam_program_theme') || '0');
 
 function randomizeDiagramColor() {
   var t = diagramThemes[currentDiagramColor];
@@ -536,6 +536,7 @@ function nextTheme() {
 }
 
 function applyDiagramTheme() {
+  localStorage.setItem('yam_program_theme', currentDiagramColor);
   randomizeDiagramColor();
 }
 
@@ -606,6 +607,12 @@ document.addEventListener('click', function() {
   palette.style.display = 'none';
   paletteBtn.style.display = '';
 });
+
+// Apply saved theme on load
+applyDiagramTheme();
+// Highlight active swatch
+var swatches = palette.querySelectorAll('button:not(:last-child)');
+if (swatches[currentDiagramColor]) swatches[currentDiagramColor].style.borderColor = '#fff';
 </script>
 </body>
 </html>
