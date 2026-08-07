@@ -455,45 +455,52 @@ function closeDetail() {
 }
 
 // ── COLOR RANDOMIZER ──
-var diagramColors = [
-  '#00c9a7', '#ff6b6b', '#6c5ce7', '#fd79a8', '#74b9ff',
-  '#ffd93d', '#55efc4', '#e17055', '#a29bfe', '#fab1a0',
-  '#00b894', '#d63031', '#0984e3', '#fdcb6e', '#e84393'
+var diagramThemes = [
+  { bg: '#0a0a0a', text: '#f0f0f0', ring: '#00c9a7' },    // teal on black
+  { bg: '#f5f0e8', text: '#1a1510', ring: '#8b4513' },     // brown on cream
+  { bg: '#0e0a1a', text: '#e0d8f0', ring: '#9b59b6' },     // purple on dark violet
+  { bg: '#fdf2f2', text: '#2d1414', ring: '#c0392b' },      // red on blush
+  { bg: '#0a0e14', text: '#c8e4ff', ring: '#2980b9' },      // blue on midnight
+  { bg: '#f0fcf7', text: '#0a2d20', ring: '#1a8a5a' },      // forest green on mint
+  { bg: '#1a1a1a', text: '#ffd700', ring: '#daa520' },       // gold on charcoal
+  { bg: '#fff5f5', text: '#4a1028', ring: '#c2185b' },       // magenta on rose white
+  { bg: '#0d1117', text: '#e8f0f8', ring: '#58a6ff' },       // github blue on dark
+  { bg: '#faf8f0', text: '#2d2a1a', ring: '#d4740a' },       // amber on warm white
 ];
 var currentDiagramColor = 0;
 
-var darkDiagramColors = [
-  '#006b58', '#a03030', '#3d2e8a', '#a04068', '#2a6ab0',
-  '#a08a10', '#208a60', '#903820', '#5a50b0', '#a06050',
-  '#006a50', '#901818', '#0560a0', '#a09020', '#901058'
-];
-
 function randomizeDiagramColor() {
-  currentDiagramColor = (currentDiagramColor + 1) % diagramColors.length;
-  var isLight = document.body.getAttribute('data-theme') === 'light';
-  var c = isLight ? darkDiagramColors[currentDiagramColor] : diagramColors[currentDiagramColor];
-  var r = document.documentElement;
-  r.style.setProperty('--diagram-color', c);
+  currentDiagramColor = (currentDiagramColor + 1) % diagramThemes.length;
+  var t = diagramThemes[currentDiagramColor];
+  var c = t.ring;
 
-  // Update rings (stronger opacity for light backgrounds)
-  document.querySelector('.ring-meaning').style.borderColor = c + '40';
-  document.querySelector('.ring-meaning').style.background = c + '15';
-  document.querySelector('.ring-perspective').style.borderColor = c + '50';
-  document.querySelector('.ring-perspective').style.background = c + '1a';
-  document.querySelector('.ring-body').style.borderColor = c + '60';
-  document.querySelector('.ring-body').style.background = c + '20';
-  document.querySelector('.ring-attention').style.borderColor = c + '80';
-  document.querySelector('.ring-attention').style.background = c + '30';
+  // Apply full theme
+  document.body.style.background = t.bg;
+  document.querySelector('.bg-fixed').style.background = t.bg;
+  document.querySelectorAll('.label, .label-meaning-sub').forEach(function(el) { el.style.color = t.text + 'aa'; });
+  document.querySelectorAll('.side-label').forEach(function(el) { el.style.color = t.text + '99'; });
+
+  // Update rings
+  document.querySelector('.ring-meaning').style.borderColor = c + '55';
+  document.querySelector('.ring-meaning').style.background = c + '18';
+  document.querySelector('.ring-perspective').style.borderColor = c + '66';
+  document.querySelector('.ring-perspective').style.background = c + '22';
+  document.querySelector('.ring-body').style.borderColor = c + '77';
+  document.querySelector('.ring-body').style.background = c + '2a';
+  document.querySelector('.ring-attention').style.borderColor = c + '99';
+  document.querySelector('.ring-attention').style.background = c + '35';
 
   // Update connectors
   document.querySelectorAll('.connector').forEach(function(el) {
-    el.style.background = 'linear-gradient(to right, rgba(255,255,255,0.08), ' + c + '1a)';
+    el.style.background = 'linear-gradient(to right, ' + t.text + '14, ' + c + '33)';
   });
 
-  // Update arrow color
+  // Update arrows and detail panel
   document.querySelectorAll('.arrow').forEach(function(el) { el.style.color = c; });
+  document.querySelector('.detail-panel').style.background = t.bg;
+  document.querySelector('.detail-panel').style.borderColor = c + '33';
 
-  // Update button color
+  // Update button
   colorBtn.style.borderColor = c;
   colorBtn.style.color = c;
 }
