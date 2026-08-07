@@ -47,8 +47,8 @@
     left: -8%;
     transform: translate(0, -50%);
     background: none;
-    border: 1px solid rgba(255,255,255,0.1);
-    animation: breathe-outer 12s ease-in-out infinite;
+    border: 2px solid rgba(31,232,195,0.5);
+    animation: none;
   }
   .ring-meaning:hover {
     border-color: rgba(255,255,255,0.12);
@@ -64,8 +64,8 @@
     left: 3%;
     transform: translate(0, -50%);
     background: none;
-    border: 1px solid rgba(255,255,255,0.12);
-    animation: breathe-mid 10s ease-in-out infinite;
+    border: 2px solid rgba(31,232,195,0.5);
+    animation: none;
   }
   .ring-perspective:hover {
     border-color: rgba(255,255,255,0.15);
@@ -81,9 +81,9 @@
     left: 14%;
     transform: translate(0, -50%);
     background: radial-gradient(circle at center, rgba(31,232,195,0.06) 0%, rgba(31,232,195,0.02) 70%, transparent 100%);
-    border: 1px solid rgba(31,232,195,0.15);
+    border: 2px solid rgba(31,232,195,0.5);
     box-shadow: 0 0 40px rgba(31,232,195,0.05) inset;
-    animation: breathe-inner 8s ease-in-out infinite;
+    animation: none;
   }
   .ring-body:hover {
     border-color: rgba(31,232,195,0.3);
@@ -99,7 +99,7 @@
     left: 22%;
     transform: translate(0, -50%);
     background: radial-gradient(circle at center, rgba(31,232,195,0.15) 0%, rgba(31,232,195,0.05) 60%, transparent 100%);
-    border: 1px solid rgba(31,232,195,0.25);
+    border: 2px solid rgba(31,232,195,0.5);
     box-shadow: 0 0 30px rgba(31,232,195,0.08) inset, 0 0 60px rgba(31,232,195,0.03);
     animation: pulse-core 4s ease-in-out infinite;
     backdrop-filter: blur(2px);
@@ -552,7 +552,7 @@ function randomizeDiagramColor() {
   rings.forEach(function(name, i) {
     var ring = document.querySelector('.ring-' + name);
     ring.style.background = i < 2 ? 'none' : t.ringBg[i];
-    ring.style.borderColor = t.border[i];
+    ring.style.setProperty('border-color', t.border[i], 'important');
     ring.style.boxShadow = i < 2 ? 'none' : '0 0 ' + (20 + i*10) + 'px ' + c + '20 inset';
   });
 
