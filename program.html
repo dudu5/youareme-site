@@ -178,19 +178,19 @@
 
   .side-label .arrow { color: var(--accent); margin-right: 4px; }
 
-  .label-experimental {
+  .label-pattern {
     top: 38%;
-    right: 12%;
+    right: 10%;
+  }
+
+  .label-experimental {
+    top: 48%;
+    right: 10%;
   }
 
   .label-relational {
-    top: 62%;
-    right: 12%;
-  }
-
-  .label-pattern {
-    top: 12%;
-    right: 8%;
+    top: 58%;
+    right: 10%;
   }
 
   .label-friction {
@@ -215,36 +215,6 @@
   }
 
   /* Connector lines */
-  .connector {
-    position: absolute;
-    background: linear-gradient(to right, rgba(255,255,255,0.08), rgba(0,201,167,0.1));
-    height: 1px;
-  }
-
-  .conn-experimental {
-    width: 1px;
-    height: 0;
-    top: 42%;
-    left: 56%;
-    transform-origin: top left;
-    transform: rotate(-5deg);
-    width: 12%;
-    height: 1px;
-  }
-
-  .conn-relational {
-    top: 63%;
-    left: 56%;
-    width: 12%;
-    height: 1px;
-  }
-
-  .conn-pattern {
-    top: 14%;
-    left: 52%;
-    width: 18%;
-    height: 1px;
-  }
 
   /* Detail panel */
   .detail-panel {
@@ -345,15 +315,10 @@
       <span class="ring-label ring-label-center">Attention</span>
     </div>
 
-    <!-- Connectors -->
-    <div class="connector conn-experimental"></div>
-    <div class="connector conn-relational"></div>
-    <div class="connector conn-pattern"></div>
-
     <!-- Right side labels -->
+    <div class="side-label label-pattern" onclick="showDetail('pattern')"><span class="arrow">→</span> Pattern awareness</div>
     <div class="side-label label-experimental" onclick="showDetail('experimental')"><span class="arrow">→</span> Experimental practice</div>
     <div class="side-label label-relational" onclick="showDetail('relational')"><span class="arrow">→</span> Relational contact</div>
-    <div class="side-label label-pattern" onclick="showDetail('pattern')">Pattern awareness</div>
 
     <!-- Friction → Acceptance -->
     <div class="side-label label-friction" onclick="showDetail('friction')">F R I C T I O N</div>
