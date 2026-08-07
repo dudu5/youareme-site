@@ -108,23 +108,26 @@
   .ring-label {
     position: absolute;
     font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    color: var(--dim);
+    font-weight: 400;
+    color: var(--white);
     white-space: nowrap;
     pointer-events: none;
     text-align: center;
     line-height: 1.4;
+    text-shadow: 0 0 15px rgba(0,255,204,0.3);
+    transition: text-shadow 0.3s;
   }
 
   .ring-label-center {
-    font-size: 15px;
-    font-weight: 400;
+    font-size: 16px;
+    font-weight: 500;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    letter-spacing: 0.05em;
   }
 
-  .ring:hover .ring-label { color: var(--white); }
+  .ring:hover .ring-label { text-shadow: 0 0 30px rgba(0,255,204,0.5); }
 
   .ring-label-top {
     font-size: 13px;
@@ -467,16 +470,11 @@ function closeDetail() {
 
 // ── COLOR RANDOMIZER ──
 var diagramThemes = [
-  { bg: '#0a0a0a', text: '#f0f0f0', ring: '#00c9a7' },    // teal on black
-  { bg: '#f5f0e8', text: '#1a1510', ring: '#8b4513' },     // brown on cream
-  { bg: '#0e0a1a', text: '#e0d8f0', ring: '#9b59b6' },     // purple on dark violet
-  { bg: '#fdf2f2', text: '#2d1414', ring: '#c0392b' },      // red on blush
-  { bg: '#0a0e14', text: '#c8e4ff', ring: '#2980b9' },      // blue on midnight
-  { bg: '#f0fcf7', text: '#0a2d20', ring: '#1a8a5a' },      // forest green on mint
-  { bg: '#1a1a1a', text: '#ffd700', ring: '#daa520' },       // gold on charcoal
-  { bg: '#fff5f5', text: '#4a1028', ring: '#c2185b' },       // magenta on rose white
-  { bg: '#0d1117', text: '#e8f0f8', ring: '#58a6ff' },       // github blue on dark
-  { bg: '#faf8f0', text: '#2d2a1a', ring: '#d4740a' },       // amber on warm white
+  { bg: '#0a0a0a', text: '#ffffff', ring: '#00ffcc', ringBg: ['#00ffcc22','#00ffcc2a','#00ffcc35','#00ffcc50'], border: ['#00ffcc44','#00ffcc66','#00ffcc88','#00ffccbb'] },
+  { bg: '#0c0018', text: '#e8d0ff', ring: '#bf5fff', ringBg: ['#bf5fff1a','#bf5fff28','#bf5fff38','#bf5fff55'], border: ['#bf5fff40','#bf5fff60','#bf5fff88','#bf5fffbb'] },
+  { bg: '#001a1a', text: '#a0fff0', ring: '#ff6b6b', ringBg: ['#ff6b6b1a','#ff6b6b28','#ff6b6b38','#ff6b6b55'], border: ['#ff6b6b40','#ff6b6b60','#ff6b6b88','#ff6b6bbb'] },
+  { bg: '#1a1000', text: '#ffe8a0', ring: '#ffaa00', ringBg: ['#ffaa001a','#ffaa0028','#ffaa0038','#ffaa0055'], border: ['#ffaa0040','#ffaa0060','#ffaa0088','#ffaa00bb'] },
+  { bg: '#000a1a', text: '#c0e8ff', ring: '#4da6ff', ringBg: ['#4da6ff1a','#4da6ff28','#4da6ff38','#4da6ff55'], border: ['#4da6ff40','#4da6ff60','#4da6ff88','#4da6ffbb'] },
 ];
 var currentDiagramColor = 0;
 
@@ -484,37 +482,46 @@ function randomizeDiagramColor() {
   var t = diagramThemes[currentDiagramColor];
   var c = t.ring;
 
-  // Apply full theme
+  // Background
   document.body.style.background = t.bg;
   document.querySelector('.bg-fixed').style.background = t.bg;
-  document.querySelectorAll('.label, .label-meaning-sub').forEach(function(el) { el.style.color = t.text + 'aa'; });
-  document.querySelectorAll('.side-label').forEach(function(el) { el.style.color = t.text + '99'; });
 
-  // Update rings
-  document.querySelector('.ring-meaning').style.borderColor = c + '55';
-  document.querySelector('.ring-meaning').style.background = c + '18';
-  document.querySelector('.ring-perspective').style.borderColor = c + '66';
-  document.querySelector('.ring-perspective').style.background = c + '22';
-  document.querySelector('.ring-body').style.borderColor = c + '77';
-  document.querySelector('.ring-body').style.background = c + '2a';
-  document.querySelector('.ring-attention').style.borderColor = c + '99';
-  document.querySelector('.ring-attention').style.background = c + '35';
-
-  // Update connectors
-  document.querySelectorAll('.connector').forEach(function(el) {
-    el.style.background = 'linear-gradient(to right, ' + t.text + '14, ' + c + '33)';
+  // Ring fills and borders — each ring gets stronger toward center
+  var rings = ['meaning','perspective','body','attention'];
+  rings.forEach(function(name, i) {
+    var ring = document.querySelector('.ring-' + name);
+    ring.style.background = t.ringBg[i];
+    ring.style.borderColor = t.border[i];
+    ring.style.boxShadow = '0 0 ' + (20 + i*10) + 'px ' + c + (10 + i*8).toString(16).padStart(2,'0') + ' inset';
   });
 
-  // Update arrows and detail panel
-  document.querySelectorAll('.arrow').forEach(function(el) { el.style.color = c; });
-  document.querySelector('.detail-panel').style.background = t.bg;
-  document.querySelector('.detail-panel').style.borderColor = c + '33';
+  // Text — bright and popping
+  document.querySelectorAll('.ring-label').forEach(function(el) {
+    el.style.color = t.text;
+    el.style.textShadow = '0 0 20px ' + c + '40';
+  });
+  document.querySelectorAll('.side-label').forEach(function(el) {
+    el.style.color = t.text;
+  });
 
-  // Update nav arrows
+  // Connectors
+  document.querySelectorAll('.connector').forEach(function(el) {
+    el.style.background = 'linear-gradient(to right, ' + c + '20, ' + c + '60)';
+  });
+
+  // Arrows
+  document.querySelectorAll('.arrow').forEach(function(el) { el.style.color = c; });
+
+  // Detail panel
+  document.querySelector('.detail-panel').style.background = t.bg;
+  document.querySelector('.detail-panel').style.borderColor = c + '44';
+  document.querySelector('.detail-title').style.color = c;
+
+  // Nav arrows
   prevBtn.style.color = c;
-  prevBtn.style.borderColor = c + '40';
+  prevBtn.style.borderColor = c + '60';
   nextBtn.style.color = c;
-  nextBtn.style.borderColor = c + '40';
+  nextBtn.style.borderColor = c + '60';
 }
 
 function prevTheme() {
