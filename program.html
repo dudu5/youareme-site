@@ -522,11 +522,6 @@ function randomizeDiagramColor() {
   document.querySelector('.detail-panel').style.borderColor = c + '44';
   document.querySelector('.detail-title').style.color = c;
 
-  // Nav arrows
-  prevBtn.style.color = c;
-  prevBtn.style.borderColor = c + '60';
-  nextBtn.style.color = c;
-  nextBtn.style.borderColor = c + '60';
 }
 
 function prevTheme() {
@@ -543,33 +538,24 @@ function applyDiagramTheme() {
   randomizeDiagramColor();
 }
 
-// Nav arrows
-var navWrap = document.createElement('div');
-navWrap.style.cssText = 'position:fixed; bottom:24px; left:50%; transform:translateX(-50%); z-index:100; display:flex; gap:16px;';
 
-var prevBtn = document.createElement('button');
-prevBtn.textContent = '←';
-prevBtn.style.cssText = 'width:48px; height:48px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:22px; cursor:pointer; transition:all 0.2s;';
-prevBtn.onclick = prevTheme;
+// Color palette toggle
+var paletteBtn = document.createElement('button');
+paletteBtn.textContent = '🎨';
+paletteBtn.style.cssText = 'position:fixed; left:20px; top:50%; transform:translateY(-50%); z-index:101; width:44px; height:44px; border-radius:50%; border:1px solid var(--dimmer); background:none; font-size:22px; cursor:pointer; transition:all 0.2s;';
+paletteBtn.onmouseenter = function() { this.style.transform = 'translateY(-50%) scale(1.1)'; };
+paletteBtn.onmouseleave = function() { this.style.transform = 'translateY(-50%)'; };
+document.body.appendChild(paletteBtn);
 
-var nextBtn = document.createElement('button');
-nextBtn.textContent = '→';
-nextBtn.style.cssText = 'width:48px; height:48px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:22px; cursor:pointer; transition:all 0.2s;';
-nextBtn.onclick = nextTheme;
-
-navWrap.appendChild(prevBtn);
-navWrap.appendChild(nextBtn);
-document.body.appendChild(navWrap);
-
-// Color palette on left side
 var palette = document.createElement('div');
-palette.style.cssText = 'position:fixed; left:20px; top:50%; transform:translateY(-50%); z-index:100; display:flex; flex-direction:column; gap:6px;';
+palette.style.cssText = 'position:fixed; left:20px; top:50%; transform:translateY(-50%); z-index:100; display:none; flex-direction:column; gap:8px; padding:12px; background:rgba(0,0,0,0.6); border-radius:24px; backdrop-filter:blur(8px);';
 
 diagramThemes.forEach(function(t, i) {
   var swatch = document.createElement('button');
-  swatch.style.cssText = 'width:28px; height:28px; border-radius:50%; border:2px solid transparent; cursor:pointer; transition:all 0.2s; background:' + t.ring + '; box-shadow:0 0 8px ' + t.ring + '40;';
+  swatch.style.cssText = 'width:32px; height:32px; border-radius:50%; border:2px solid transparent; cursor:pointer; transition:all 0.2s; background:' + t.ring + '; box-shadow:0 0 8px ' + t.ring + '40;';
   if (i === 0) swatch.style.borderColor = '#fff';
-  swatch.onclick = function() {
+  swatch.onclick = function(e) {
+    e.stopPropagation();
     currentDiagramColor = i;
     applyDiagramTheme();
     palette.querySelectorAll('button').forEach(function(b) { b.style.borderColor = 'transparent'; });
@@ -581,6 +567,18 @@ diagramThemes.forEach(function(t, i) {
 });
 
 document.body.appendChild(palette);
+
+paletteBtn.onclick = function(e) {
+  e.stopPropagation();
+  var isOpen = palette.style.display === 'flex';
+  palette.style.display = isOpen ? 'none' : 'flex';
+  paletteBtn.style.display = isOpen ? '' : 'none';
+};
+
+document.addEventListener('click', function() {
+  palette.style.display = 'none';
+  paletteBtn.style.display = '';
+});
 </script>
 </body>
 </html>
