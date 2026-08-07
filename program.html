@@ -165,7 +165,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 60px;
+    gap: 20px;
     width: 22%;
   }
 
@@ -332,7 +332,9 @@
     <!-- Right side: cycle diagram -->
     <div class="cycle-wrap">
       <div class="cycle-label cycle-acceptance" onclick="showDetail('acceptance')" style="font-size:24px; font-weight:500;">ACCEPTANCE</div>
-      <div class="cycle-label cycle-friction" onclick="showDetail('friction')" style="font-size:20px;">↑<br>F R I C T I O N<br>↑</div>
+      <div class="cycle-arrow-up" style="font-size:14px; color:var(--dimmer);">↑</div>
+      <div class="cycle-label cycle-friction" onclick="showDetail('friction')" style="font-size:20px;">F R I C T I O N</div>
+      <div class="cycle-arrow-up" style="font-size:14px; color:var(--dimmer);">↑</div>
 
       <div class="cycle-circle">
         <svg viewBox="0 0 200 200" style="width:100%; height:100%;">
