@@ -875,7 +875,7 @@ var scoreColor, getVotes;
   }
 
   // Apply saved theme on load
-  if (currentTheme > 0) applyTheme(themes[currentTheme]);
+  if (currentTheme > 0 && !window.skipTheme) applyTheme(themes[currentTheme]);
 
   window.randomizeTheme = randomizeTheme;
 
