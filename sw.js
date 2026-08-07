@@ -1,4 +1,4 @@
-var CACHE_NAME = 'yam-v3';
+var CACHE_NAME = 'yam-v4';
 
 self.addEventListener('install', function(event) {
   self.skipWaiting();
