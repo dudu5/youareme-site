@@ -383,10 +383,21 @@
         <div class="cycle-inner-label cycle-relational" onclick="showDetail('relational')">Relational contact</div>
         <div class="cycle-inner-label cycle-pattern" onclick="showDetail('pattern')">Pattern awareness</div>
 
-        <!-- Half circle arrow from bottom to top on left side -->
-        <svg class="cycle-arrow-svg" viewBox="0 0 60 200" style="position:absolute; left:-45px; top:0%; height:100%; width:50px; overflow:visible; z-index:10;">
-          <path d="M 45 180 C 5 150, 5 50, 45 20" fill="none" stroke-width="1.2"/>
-          <path d="M 38 28 L 45 16 L 50 28" fill="none" stroke-width="1.2"/>
+        <!-- Rectangular flow arrows -->
+        <svg class="cycle-arrow-svg" viewBox="0 0 240 220" preserveAspectRatio="none" style="position:absolute; left:-25px; top:0; width:calc(100% + 50px); height:100%; overflow:visible; z-index:-1;">
+          <!-- Left side: bottom to top -->
+          <path d="M 10 190 L 10 30" fill="none" stroke-width="1"/>
+          <!-- Top connector: left to label -->
+          <path d="M 10 30 L 30 30" fill="none" stroke-width="1"/>
+          <!-- Arrow pointing right into Experimental -->
+          <path d="M 25 25 L 33 30 L 25 35" fill="none" stroke-width="1"/>
+
+          <!-- Right side: top to bottom -->
+          <path d="M 230 30 L 230 190" fill="none" stroke-width="1"/>
+          <!-- Bottom connector: right to label -->
+          <path d="M 230 190 L 210 190" fill="none" stroke-width="1"/>
+          <!-- Arrow pointing left into Pattern -->
+          <path d="M 215 185 L 207 190 L 215 195" fill="none" stroke-width="1"/>
         </svg>
       </div>
     </div>
