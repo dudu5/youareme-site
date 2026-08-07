@@ -155,6 +155,29 @@ if (dim) {
   document.getElementById('dimDesc').textContent = dim.desc;
   document.title = dim.title + ' — You Are Me';
 }
+
+// Apply same color theme as program page
+var programThemes = [
+  { bg: '#0a0a0a', text: '#ffffff', ring: '#00ffcc' },
+  { bg: '#f5f0e6', text: '#2a1520', ring: '#8c1c4a' },
+  { bg: '#0d1b2a', text: '#e0f0ff', ring: '#ff6b6b' },
+  { bg: '#e8ede4', text: '#1a2818', ring: '#c47d15' },
+  { bg: '#12081f', text: '#f0e8d0', ring: '#ffc640' },
+];
+var themeIdx = parseInt(localStorage.getItem('yam_program_theme') || '0');
+var t = programThemes[themeIdx];
+if (t) {
+  document.documentElement.style.background = t.bg;
+  document.body.style.background = t.bg;
+  document.querySelector('.bg-fixed').style.background = t.bg;
+  document.querySelector('.dim-wrap').style.background = 'radial-gradient(ellipse at 30% 40%, ' + t.ring + '08, transparent 60%)';
+  document.querySelector('.dim-title').style.color = t.text;
+  document.querySelector('.dim-title').style.textShadow = '0 0 40px ' + t.ring + '25';
+  document.querySelector('.dim-desc').style.color = t.text + '8c';
+  document.querySelector('.dim-divider').style.background = 'linear-gradient(to right, ' + t.ring + '50, transparent)';
+  document.querySelector('.dim-content').style.color = t.text + '55';
+  document.querySelector('.dim-back').style.color = t.text + '66';
+}
 </script>
 <script src="shared.js"></script>
 </body>
