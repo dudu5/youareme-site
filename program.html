@@ -560,6 +560,27 @@ nextBtn.onclick = nextTheme;
 navWrap.appendChild(prevBtn);
 navWrap.appendChild(nextBtn);
 document.body.appendChild(navWrap);
+
+// Color palette on left side
+var palette = document.createElement('div');
+palette.style.cssText = 'position:fixed; left:20px; top:50%; transform:translateY(-50%); z-index:100; display:flex; flex-direction:column; gap:6px;';
+
+diagramThemes.forEach(function(t, i) {
+  var swatch = document.createElement('button');
+  swatch.style.cssText = 'width:28px; height:28px; border-radius:50%; border:2px solid transparent; cursor:pointer; transition:all 0.2s; background:' + t.ring + '; box-shadow:0 0 8px ' + t.ring + '40;';
+  if (i === 0) swatch.style.borderColor = '#fff';
+  swatch.onclick = function() {
+    currentDiagramColor = i;
+    applyDiagramTheme();
+    palette.querySelectorAll('button').forEach(function(b) { b.style.borderColor = 'transparent'; });
+    swatch.style.borderColor = '#fff';
+  };
+  swatch.onmouseenter = function() { this.style.transform = 'scale(1.2)'; };
+  swatch.onmouseleave = function() { this.style.transform = 'scale(1)'; };
+  palette.appendChild(swatch);
+});
+
+document.body.appendChild(palette);
 </script>
 </body>
 </html>
