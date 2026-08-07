@@ -329,19 +329,20 @@
       <div class="cycle-label cycle-friction" onclick="showDetail('friction')" style="font-size:20px;">FRICTION</div>
       <div class="cycle-arrow-up" style="font-size:14px; color:var(--dimmer);">↑</div>
 
-      <div class="cycle-circle">
+      <div class="cycle-circle" style="position:relative;">
 
         <div class="cycle-inner-label cycle-experimental" onclick="showDetail('experimental')">Experimental practice</div>
         <div class="cycle-inner-label cycle-relational" onclick="showDetail('relational')">Relational contact</div>
         <div class="cycle-inner-label cycle-pattern" onclick="showDetail('pattern')">Pattern awareness</div>
+
+        <!-- Half circle arrow from bottom to top on left side -->
+        <svg viewBox="0 0 40 200" preserveAspectRatio="none" style="position:absolute; left:-35px; top:5%; height:90%; width:30px; overflow:visible;">
+          <path d="M 30 190 C 0 150, 0 50, 30 10" fill="none" stroke="var(--dimmer)" stroke-width="1.5"/>
+          <path d="M 25 16 L 30 6 L 35 16" fill="none" stroke="var(--dimmer)" stroke-width="1.5"/>
+        </svg>
       </div>
     </div>
 
-    <!-- Curved arrow from Pattern awareness back to circles -->
-    <svg class="feedback-arrow" viewBox="0 0 200 100" style="position:absolute; bottom:18%; left:15%; width:40%; height:15%; overflow:visible;">
-      <path d="M 190 20 C 140 20, 100 80, 10 50" fill="none" stroke="var(--dimmer)" stroke-width="0.8"/>
-      <path d="M 15 44 L 8 50 L 18 54" fill="none" stroke="var(--dimmer)" stroke-width="0.8"/>
-    </svg>
   </div>
 </div>
 
