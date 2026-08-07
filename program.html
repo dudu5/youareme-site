@@ -30,14 +30,8 @@
   .ring {
     position: absolute;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.1);
     cursor: pointer;
-    transition: border-color 0.3s, background 0.3s, transform 0.3s;
-  }
-
-  .ring:hover {
-    border-color: var(--accent);
-    background: rgba(0,201,167,0.03);
+    transition: all 0.5s ease;
   }
 
   .ring-meaning {
@@ -46,6 +40,15 @@
     top: 50%;
     left: 18%;
     transform: translate(0, -50%);
+    background: radial-gradient(circle at center, transparent 60%, rgba(255,255,255,0.02) 100%);
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 0 40px rgba(255,255,255,0.02) inset;
+  }
+  .ring-meaning:hover {
+    border-color: rgba(0,201,167,0.3);
+    background: radial-gradient(circle at center, transparent 50%, rgba(0,201,167,0.04) 100%);
+    box-shadow: 0 0 60px rgba(0,201,167,0.06) inset, 0 0 40px rgba(0,201,167,0.03);
+    transform: translate(0, -50%) scale(1.02);
   }
 
   .ring-perspective {
@@ -54,6 +57,15 @@
     top: 50%;
     left: 25%;
     transform: translate(0, -50%);
+    background: radial-gradient(circle at center, transparent 50%, rgba(255,255,255,0.03) 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 0 30px rgba(255,255,255,0.02) inset;
+  }
+  .ring-perspective:hover {
+    border-color: rgba(0,201,167,0.4);
+    background: radial-gradient(circle at center, transparent 40%, rgba(0,201,167,0.06) 100%);
+    box-shadow: 0 0 50px rgba(0,201,167,0.08) inset, 0 0 30px rgba(0,201,167,0.04);
+    transform: translate(0, -50%) scale(1.03);
   }
 
   .ring-body {
@@ -62,6 +74,15 @@
     top: 50%;
     left: 32%;
     transform: translate(0, -50%);
+    background: radial-gradient(circle at center, transparent 40%, rgba(255,255,255,0.04) 100%);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 25px rgba(255,255,255,0.03) inset;
+  }
+  .ring-body:hover {
+    border-color: rgba(0,201,167,0.5);
+    background: radial-gradient(circle at center, transparent 30%, rgba(0,201,167,0.08) 100%);
+    box-shadow: 0 0 40px rgba(0,201,167,0.1) inset, 0 0 25px rgba(0,201,167,0.05);
+    transform: translate(0, -50%) scale(1.04);
   }
 
   .ring-attention {
@@ -70,6 +91,21 @@
     top: 50%;
     left: 38%;
     transform: translate(0, -50%);
+    background: radial-gradient(circle at center, rgba(0,201,167,0.08) 0%, rgba(255,255,255,0.05) 100%);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 0 20px rgba(0,201,167,0.05) inset;
+    animation: pulse-attention 4s ease-in-out infinite;
+  }
+  .ring-attention:hover {
+    border-color: var(--accent);
+    background: radial-gradient(circle at center, rgba(0,201,167,0.15) 0%, rgba(0,201,167,0.08) 100%);
+    box-shadow: 0 0 30px rgba(0,201,167,0.15) inset, 0 0 20px rgba(0,201,167,0.08);
+    transform: translate(0, -50%) scale(1.08);
+  }
+
+  @keyframes pulse-attention {
+    0%, 100% { box-shadow: 0 0 20px rgba(0,201,167,0.05) inset; }
+    50% { box-shadow: 0 0 30px rgba(0,201,167,0.1) inset, 0 0 15px rgba(0,201,167,0.04); }
   }
 
   /* Labels */
@@ -83,8 +119,8 @@
     white-space: nowrap;
   }
 
-  .label:hover { color: var(--white); }
-  .label.active { color: var(--accent); }
+  .label:hover { color: var(--white); text-shadow: 0 0 20px rgba(255,255,255,0.15); }
+  .label.active { color: var(--accent); text-shadow: 0 0 20px rgba(0,201,167,0.2); }
 
   .label-attention {
     font-size: 14px;
@@ -126,11 +162,23 @@
     font-weight: 300;
     color: var(--dim);
     cursor: pointer;
-    transition: color 0.3s;
+    transition: all 0.3s;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid transparent;
   }
 
-  .side-label:hover { color: var(--white); }
-  .side-label.active { color: var(--accent); }
+  .side-label:hover {
+    color: var(--white);
+    border-color: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02);
+    transform: translateX(-4px);
+  }
+  .side-label.active {
+    color: var(--accent);
+    border-color: rgba(0,201,167,0.2);
+    background: rgba(0,201,167,0.04);
+  }
 
   .side-label .arrow { color: var(--accent); margin-right: 4px; }
 
@@ -173,7 +221,8 @@
   /* Connector lines */
   .connector {
     position: absolute;
-    background: rgba(255,255,255,0.06);
+    background: linear-gradient(to right, rgba(255,255,255,0.08), rgba(0,201,167,0.1));
+    height: 1px;
   }
 
   .conn-experimental {
