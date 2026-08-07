@@ -103,54 +103,33 @@
     50% { border-color: rgba(0,201,167,0.35); }
   }
 
-  /* Labels */
-  .label {
+  /* Ring labels */
+
+  .ring-label {
     position: absolute;
     font-family: 'DM Sans', sans-serif;
     font-weight: 300;
     color: var(--dim);
-    cursor: pointer;
-    transition: color 0.3s;
     white-space: nowrap;
+    pointer-events: none;
+    text-align: center;
+    line-height: 1.4;
   }
 
-  .label:hover { color: var(--white); text-shadow: 0 0 20px rgba(255,255,255,0.15); }
-  .label.active { color: var(--accent); text-shadow: 0 0 20px rgba(0,201,167,0.2); }
-
-  .label-attention {
+  .ring-label-center {
     font-size: 15px;
     font-weight: 400;
     top: 50%;
-    left: 38%;
+    left: 50%;
     transform: translate(-50%, -50%);
   }
 
-  .label-body {
-    font-size: 14px;
-    top: 64%;
-    left: 38%;
-    transform: translate(-50%, 0);
-  }
+  .ring:hover .ring-label { color: var(--white); }
 
-  .label-perspective {
+  .ring-label-bottom {
     font-size: 13px;
-    top: 28%;
-    left: 38%;
-    transform: translate(-50%, 0);
-  }
-
-  .label-meaning {
-    font-size: 13px;
-    top: 15%;
-    left: 38%;
-    transform: translate(-50%, 0);
-  }
-
-  .label-meaning-sub {
-    font-size: 11px;
-    color: var(--dimmer);
-    top: 19%;
-    left: 38%;
+    bottom: 12%;
+    left: 50%;
     transform: translate(-50%, 0);
   }
 
@@ -335,18 +314,19 @@
 
 <div class="program-wrap">
   <div class="diagram">
-    <!-- Rings -->
-    <div class="ring ring-meaning" onclick="showDetail('meaning')"></div>
-    <div class="ring ring-perspective" onclick="showDetail('perspective')"></div>
-    <div class="ring ring-body" onclick="showDetail('body')"></div>
-    <div class="ring ring-attention" onclick="showDetail('attention')"></div>
-
-    <!-- Circle labels -->
-    <div class="label label-attention" onclick="showDetail('attention')">Attention</div>
-    <div class="label label-body" onclick="showDetail('body')">Body</div>
-    <div class="label label-perspective" onclick="showDetail('perspective')">Perspective flexibility</div>
-    <div class="label label-meaning" onclick="showDetail('meaning')">Meaning-making</div>
-    <div class="label label-meaning-sub" onclick="showDetail('meaning')">(the larger why)</div>
+    <!-- Rings with labels inside -->
+    <div class="ring ring-meaning" onclick="showDetail('meaning')">
+      <span class="ring-label ring-label-bottom">Meaning-making<br><span style="font-size:0.85em; opacity:0.6;">(the larger why)</span></span>
+    </div>
+    <div class="ring ring-perspective" onclick="showDetail('perspective')">
+      <span class="ring-label ring-label-bottom">Perspective flexibility</span>
+    </div>
+    <div class="ring ring-body" onclick="showDetail('body')">
+      <span class="ring-label ring-label-bottom">Body</span>
+    </div>
+    <div class="ring ring-attention" onclick="showDetail('attention')">
+      <span class="ring-label ring-label-center">Attention</span>
+    </div>
 
     <!-- Connectors -->
     <div class="connector conn-experimental"></div>
