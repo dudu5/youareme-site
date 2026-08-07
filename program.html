@@ -418,6 +418,9 @@ var details = {
 };
 
 function showDetail(key) {
+  window.location.href = 'dimension?d=' + key;
+  return;
+  // Legacy detail panel code below
   var d = details[key];
   document.getElementById('detailTitle').textContent = d.title;
   document.getElementById('detailDesc').textContent = d.desc;

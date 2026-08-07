@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#0a0a0a;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You Are Me</title>
+<link rel="icon" type="image/png" href="images/Logo/Logo-dark.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .dim-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 10vh 40px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .dim-back {
+    font-size: 18px;
+    color: var(--dim);
+    text-decoration: none;
+    margin-bottom: 24px;
+    display: inline-block;
+    padding: 8px 12px;
+    transition: color 0.2s;
+  }
+
+  .dim-back:hover { color: var(--white); }
+
+  .dim-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .dim-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--dim);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  .dim-content {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--dimmer);
+    line-height: 1.6;
+    min-height: 200px;
+    border-top: 1px solid var(--dimmer);
+    padding-top: 24px;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-fixed"></div>
+
+<div class="dim-wrap">
+  <a href="program" class="dim-back">← Back</a>
+  <h1 class="dim-title" id="dimTitle"></h1>
+  <p class="dim-desc" id="dimDesc"></p>
+  <div class="dim-content" id="dimContent">
+    <p style="color:var(--dimmer); font-style:italic;">Coming soon...</p>
+  </div>
+</div>
+
+<script>
+var dimensions = {
+  attention: {
+    title: 'Attention',
+    desc: 'The center of everything. Where your focus goes, energy follows. Before you can change anything, you need to notice where your attention actually lives — not where you think it should be.'
+  },
+  body: {
+    title: 'Body',
+    desc: 'Your body holds what your mind avoids. Tension, shutdown, restlessness — these aren\'t problems. They\'re information. Learning to read your body is learning to read the truth of your situation.'
+  },
+  perspective: {
+    title: 'Perspective Flexibility',
+    desc: 'Can you see the same situation from a different angle? Rigidity keeps you stuck. Flexibility creates options. This isn\'t about being "open-minded" — it\'s about being able to genuinely occupy a perspective that isn\'t your default.'
+  },
+  meaning: {
+    title: 'Meaning-Making',
+    desc: 'The story you tell about why things happen. This is the outermost layer — the narrative that either traps you or frees you. When you can see that your meaning is constructed, you can begin to construct differently.'
+  },
+  experimental: {
+    title: 'Experimental Practice',
+    desc: 'Change doesn\'t come from understanding. It comes from trying something different and surviving it. Small experiments — doing one thing you normally avoid, saying one thing you normally suppress — build the evidence your system needs.'
+  },
+  relational: {
+    title: 'Relational Contact',
+    desc: 'You can\'t see your own patterns alone. Another person — awake, present, honest — becomes a mirror. Not to fix you. To witness you. That witnessing changes what\'s possible.'
+  },
+  pattern: {
+    title: 'Pattern Awareness',
+    desc: 'The ability to see your own loops as they\'re running. Not after. Not in theory. In real time. This is the skill that makes everything else possible.'
+  },
+  friction: {
+    title: 'Friction',
+    desc: 'The resistance you feel when change gets real. Your system pushes back — not because you\'re doing it wrong, but because you\'re threatening what kept you safe. Friction isn\'t the enemy. It\'s the signal that you\'re at the edge of growth.'
+  },
+  acceptance: {
+    title: 'Acceptance',
+    desc: 'Not giving up. Not settling. Seeing what is — fully, without needing it to be different — so you can choose from clarity instead of reactivity. Acceptance is the ground that makes real change possible.'
+  }
+};
+
+var params = new URLSearchParams(window.location.search);
+var key = params.get('d') || 'attention';
+var dim = dimensions[key];
+
+if (dim) {
+  document.getElementById('dimTitle').textContent = dim.title;
+  document.getElementById('dimDesc').textContent = dim.desc;
+  document.title = dim.title + ' — You Are Me';
+}
+</script>
+<script src="shared.js"></script>
+</body>
+</html>
