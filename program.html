@@ -478,8 +478,8 @@ function randomizeDiagramColor() {
   document.body.style.background = t.bg;
   document.querySelector('.bg-fixed').style.background = t.bg;
 
-  // Ring fills and borders — each ring gets stronger toward center
-  var rings = ['meaning','perspective','body','attention'];
+  // Ring fills and borders — body strongest, attention subtler
+  var rings = ['meaning','perspective','attention','body'];
   rings.forEach(function(name, i) {
     var ring = document.querySelector('.ring-' + name);
     ring.style.background = i < 2 ? 'none' : t.ringBg[i];
