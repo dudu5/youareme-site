@@ -462,9 +462,16 @@ var diagramColors = [
 ];
 var currentDiagramColor = 0;
 
+var darkDiagramColors = [
+  '#006b58', '#a03030', '#3d2e8a', '#a04068', '#2a6ab0',
+  '#a08a10', '#208a60', '#903820', '#5a50b0', '#a06050',
+  '#006a50', '#901818', '#0560a0', '#a09020', '#901058'
+];
+
 function randomizeDiagramColor() {
   currentDiagramColor = (currentDiagramColor + 1) % diagramColors.length;
-  var c = diagramColors[currentDiagramColor];
+  var isLight = document.body.getAttribute('data-theme') === 'light';
+  var c = isLight ? darkDiagramColors[currentDiagramColor] : diagramColors[currentDiagramColor];
   var r = document.documentElement;
   r.style.setProperty('--diagram-color', c);
 
