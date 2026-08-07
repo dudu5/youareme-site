@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Program — You Are Me</title>
 <link rel="icon" type="image/png" href="images/Logo/Logo-dark.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
@@ -370,7 +373,15 @@
   <a class="detail-link" id="detailLink" href="#" style="display:none;"></a>
 </div>
 
-<script>window.skipToolbar = true;</script>
+<script>
+window.skipToolbar = true;
+// Force service worker to update
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(regs) {
+    regs.forEach(function(r) { r.update(); });
+  });
+}
+</script>
 <script src="shared.js"></script>
 <script src="menu.js"></script>
 <script>
