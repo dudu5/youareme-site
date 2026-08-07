@@ -135,7 +135,8 @@ var scoreColor, getVotes;
       }
     }
 
-    // Bottom controls
+    // Bottom controls (skip on pages that handle their own)
+    if (!window.skipToolbar) {
     var btnStyle = 'width:48px; height:48px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:22px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center;';
     var isMobile = window.innerWidth <= 768;
 
@@ -279,6 +280,7 @@ var scoreColor, getVotes;
 
     document.body.appendChild(leftWrap);
     }
+    } // end skipToolbar check
 
     // Intercept internal links for a smooth fade-out before navigation
     document.querySelectorAll('a[href]').forEach(function (a) {

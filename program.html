@@ -38,8 +38,8 @@
     width: 52%;
     aspect-ratio: 1;
     top: 50%;
-    left: 18%;
-    transform: translate(0, -50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.06);
   }
@@ -53,8 +53,8 @@
     width: 38%;
     aspect-ratio: 1;
     top: 50%;
-    left: 25%;
-    transform: translate(0, -50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
   }
@@ -68,8 +68,8 @@
     width: 24%;
     aspect-ratio: 1;
     top: 50%;
-    left: 32%;
-    transform: translate(0, -50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.1);
   }
@@ -83,8 +83,8 @@
     width: 12%;
     aspect-ratio: 1;
     top: 50%;
-    left: 38%;
-    transform: translate(0, -50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: rgba(0,201,167,0.08);
     border: 1px solid rgba(0,201,167,0.2);
     animation: pulse-attention 4s ease-in-out infinite;
@@ -117,33 +117,37 @@
   .label-attention {
     font-size: 14px;
     top: 50%;
-    left: 38%;
-    transform: translate(calc(6vw - 50%), -50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .label-body {
     font-size: 14px;
-    top: 68%;
-    left: 35%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 60px));
   }
 
   .label-perspective {
     font-size: 13px;
-    top: 25%;
-    left: 26%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% - 80px));
   }
 
   .label-meaning {
     font-size: 13px;
-    top: 12%;
-    left: 20%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% - 140px));
   }
 
   .label-meaning-sub {
     font-size: 11px;
     color: var(--dimmer);
-    top: 16%;
-    left: 20%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% - 120px));
   }
 
   /* Right side elements */
@@ -365,6 +369,7 @@
   <a class="detail-link" id="detailLink" href="#" style="display:none;"></a>
 </div>
 
+<script>window.skipToolbar = true;</script>
 <script src="shared.js"></script>
 <script src="menu.js"></script>
 <script>
