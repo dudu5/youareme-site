@@ -566,6 +566,32 @@ diagramThemes.forEach(function(t, i) {
   palette.appendChild(swatch);
 });
 
+// Font randomizer
+var fonts = [
+  "'DM Sans', sans-serif",
+  "'Cormorant Garamond', serif",
+  "'Georgia', serif",
+  "'Courier New', monospace",
+  "'Helvetica Neue', sans-serif",
+];
+var currentFont = 0;
+var fontBtn = document.createElement('button');
+fontBtn.textContent = 'Aa';
+fontBtn.style.cssText = 'width:32px; height:32px; border-radius:50%; border:2px solid rgba(255,255,255,0.3); background:none; color:rgba(255,255,255,0.7); font-size:13px; cursor:pointer; transition:all 0.2s; font-family:serif;';
+fontBtn.onmouseenter = function() { this.style.transform = 'scale(1.2)'; };
+fontBtn.onmouseleave = function() { this.style.transform = 'scale(1)'; };
+fontBtn.onclick = function(e) {
+  e.stopPropagation();
+  currentFont = (currentFont + 1) % fonts.length;
+  document.querySelectorAll('.ring-label').forEach(function(el) {
+    el.style.fontFamily = fonts[currentFont];
+  });
+  document.querySelectorAll('.side-label').forEach(function(el) {
+    el.style.fontFamily = fonts[currentFont];
+  });
+};
+palette.appendChild(fontBtn);
+
 document.body.appendChild(palette);
 
 paletteBtn.onclick = function(e) {
