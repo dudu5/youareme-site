@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#0a0a0a;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Program — You Are Me</title>
+<link rel="icon" type="image/png" href="images/Logo/Logo-dark.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<script async src="https://plausible.io/js/pa-ueYEguemb1yoTmQce6Gad.js"></script>
+<style>
+  .program-wrap {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .diagram {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    aspect-ratio: 16/10;
+  }
+
+  /* Circles */
+  .ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    transition: border-color 0.3s, background 0.3s, transform 0.3s;
+  }
+
+  .ring:hover {
+    border-color: var(--accent);
+    background: rgba(0,201,167,0.03);
+  }
+
+  .ring-meaning {
+    width: 52%;
+    aspect-ratio: 1;
+    top: 50%;
+    left: 18%;
+    transform: translate(0, -50%);
+  }
+
+  .ring-perspective {
+    width: 38%;
+    aspect-ratio: 1;
+    top: 50%;
+    left: 25%;
+    transform: translate(0, -50%);
+  }
+
+  .ring-body {
+    width: 24%;
+    aspect-ratio: 1;
+    top: 50%;
+    left: 32%;
+    transform: translate(0, -50%);
+  }
+
+  .ring-attention {
+    width: 12%;
+    aspect-ratio: 1;
+    top: 50%;
+    left: 38%;
+    transform: translate(0, -50%);
+  }
+
+  /* Labels */
+  .label {
+    position: absolute;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    color: var(--dim);
+    cursor: pointer;
+    transition: color 0.3s;
+    white-space: nowrap;
+  }
+
+  .label:hover { color: var(--white); }
+  .label.active { color: var(--accent); }
+
+  .label-attention {
+    font-size: 14px;
+    top: 50%;
+    left: 38%;
+    transform: translate(calc(6vw - 50%), -50%);
+  }
+
+  .label-body {
+    font-size: 14px;
+    top: 68%;
+    left: 35%;
+  }
+
+  .label-perspective {
+    font-size: 13px;
+    top: 25%;
+    left: 26%;
+  }
+
+  .label-meaning {
+    font-size: 13px;
+    top: 12%;
+    left: 20%;
+  }
+
+  .label-meaning-sub {
+    font-size: 11px;
+    color: var(--dimmer);
+    top: 16%;
+    left: 20%;
+  }
+
+  /* Right side elements */
+  .side-label {
+    position: absolute;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--dim);
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .side-label:hover { color: var(--white); }
+  .side-label.active { color: var(--accent); }
+
+  .side-label .arrow { color: var(--accent); margin-right: 4px; }
+
+  .label-experimental {
+    top: 38%;
+    right: 12%;
+  }
+
+  .label-relational {
+    top: 62%;
+    right: 12%;
+  }
+
+  .label-pattern {
+    top: 12%;
+    right: 8%;
+  }
+
+  .label-friction {
+    top: 80%;
+    right: 8%;
+    font-size: 14px;
+    letter-spacing: 0.15em;
+  }
+
+  .label-acceptance {
+    top: 80%;
+    right: -2%;
+    font-size: 14px;
+  }
+
+  .friction-arrow {
+    position: absolute;
+    top: 81%;
+    right: 7%;
+    color: var(--dimmer);
+    font-size: 13px;
+  }
+
+  /* Connector lines */
+  .connector {
+    position: absolute;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .conn-experimental {
+    width: 1px;
+    height: 0;
+    top: 42%;
+    left: 56%;
+    transform-origin: top left;
+    transform: rotate(-5deg);
+    width: 12%;
+    height: 1px;
+  }
+
+  .conn-relational {
+    top: 63%;
+    left: 56%;
+    width: 12%;
+    height: 1px;
+  }
+
+  .conn-pattern {
+    top: 14%;
+    left: 52%;
+    width: 18%;
+    height: 1px;
+  }
+
+  /* Detail panel */
+  .detail-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border-top: 1px solid var(--dimmer);
+    padding: 24px 32px;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+    z-index: 200;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+
+  .detail-panel.open { transform: translateY(0); }
+
+  .detail-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .detail-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--dim);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .detail-link {
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 4px;
+  }
+
+  .detail-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 20px;
+    color: var(--dim);
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  @media (max-width: 768px) {
+    .diagram { aspect-ratio: 1; }
+    .label, .side-label { font-size: 12px; }
+    .ring-meaning { width: 70%; left: 5%; }
+    .ring-perspective { width: 52%; left: 14%; }
+    .ring-body { width: 34%; left: 23%; }
+    .ring-attention { width: 18%; left: 31%; }
+    .label-attention { left: 31%; transform: translate(calc(9vw - 50%), -50%); }
+    .label-body { left: 25%; top: 70%; }
+    .label-perspective { left: 16%; top: 24%; }
+    .label-meaning { left: 8%; top: 10%; }
+    .label-meaning-sub { left: 8%; top: 14%; }
+    .label-experimental { right: 2%; top: 35%; }
+    .label-relational { right: 2%; top: 65%; }
+    .label-pattern { right: 2%; top: 8%; }
+    .label-friction { right: 2%; top: 82%; }
+    .friction-arrow { right: 1%; }
+    .label-acceptance { right: -8%; }
+    .conn-experimental { left: 58%; width: 15%; }
+    .conn-relational { left: 58%; width: 15%; }
+    .conn-pattern { left: 55%; width: 20%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-fixed"></div>
+
+<div class="side-menu" id="sideMenu"></div>
+
+<div class="program-wrap">
+  <div class="diagram">
+    <!-- Rings -->
+    <div class="ring ring-meaning" onclick="showDetail('meaning')"></div>
+    <div class="ring ring-perspective" onclick="showDetail('perspective')"></div>
+    <div class="ring ring-body" onclick="showDetail('body')"></div>
+    <div class="ring ring-attention" onclick="showDetail('attention')"></div>
+
+    <!-- Circle labels -->
+    <div class="label label-attention" onclick="showDetail('attention')">Attention</div>
+    <div class="label label-body" onclick="showDetail('body')">Body</div>
+    <div class="label label-perspective" onclick="showDetail('perspective')">Perspective flexibility</div>
+    <div class="label label-meaning" onclick="showDetail('meaning')">Meaning-making</div>
+    <div class="label label-meaning-sub" onclick="showDetail('meaning')">(the larger why)</div>
+
+    <!-- Connectors -->
+    <div class="connector conn-experimental"></div>
+    <div class="connector conn-relational"></div>
+    <div class="connector conn-pattern"></div>
+
+    <!-- Right side labels -->
+    <div class="side-label label-experimental" onclick="showDetail('experimental')"><span class="arrow">→</span> Experimental practice</div>
+    <div class="side-label label-relational" onclick="showDetail('relational')"><span class="arrow">→</span> Relational contact</div>
+    <div class="side-label label-pattern" onclick="showDetail('pattern')">Pattern awareness</div>
+
+    <!-- Friction → Acceptance -->
+    <div class="side-label label-friction" onclick="showDetail('friction')">F R I C T I O N</div>
+    <div class="friction-arrow">→</div>
+    <div class="side-label label-acceptance" onclick="showDetail('acceptance')">Acceptance</div>
+  </div>
+</div>
+
+<!-- Detail panel -->
+<div class="detail-panel" id="detailPanel">
+  <button class="detail-close" onclick="closeDetail()">✕</button>
+  <div class="detail-title" id="detailTitle"></div>
+  <div class="detail-desc" id="detailDesc"></div>
+  <a class="detail-link" id="detailLink" href="#" style="display:none;"></a>
+</div>
+
+<script src="shared.js"></script>
+<script src="menu.js"></script>
+<script>
+var details = {
+  attention: {
+    title: 'Attention',
+    desc: 'The center of everything. Where your focus goes, energy follows. Before you can change anything, you need to notice where your attention actually lives — not where you think it should be.',
+    link: 'test-meta',
+    linkText: '→ Take the Meta-Observation test'
+  },
+  body: {
+    title: 'Body',
+    desc: 'Your body holds what your mind avoids. Tension, shutdown, restlessness — these aren\'t problems. They\'re information. Learning to read your body is learning to read the truth of your situation.',
+    link: 'yourmap',
+    linkText: '→ Explore your map'
+  },
+  perspective: {
+    title: 'Perspective Flexibility',
+    desc: 'Can you see the same situation from a different angle? Rigidity keeps you stuck. Flexibility creates options. This isn\'t about being "open-minded" — it\'s about being able to genuinely occupy a perspective that isn\'t your default.',
+    link: '/',
+    linkText: '→ Read perspectives'
+  },
+  meaning: {
+    title: 'Meaning-Making',
+    desc: 'The story you tell about why things happen. This is the outermost layer — the narrative that either traps you or frees you. When you can see that your meaning is constructed, you can begin to construct differently.',
+    link: null,
+    linkText: ''
+  },
+  experimental: {
+    title: 'Experimental Practice',
+    desc: 'Change doesn\'t come from understanding. It comes from trying something different and surviving it. Small experiments — doing one thing you normally avoid, saying one thing you normally suppress — build the evidence your system needs.',
+    link: null,
+    linkText: ''
+  },
+  relational: {
+    title: 'Relational Contact',
+    desc: 'You can\'t see your own patterns alone. Another person — awake, present, honest — becomes a mirror. Not to fix you. To witness you. That witnessing changes what\'s possible.',
+    link: 'collaborate',
+    linkText: '→ Work with me'
+  },
+  pattern: {
+    title: 'Pattern Awareness',
+    desc: 'The ability to see your own loops as they\'re running. Not after. Not in theory. In real time. This is the skill that makes everything else possible.',
+    link: 'awareness',
+    linkText: '→ Presence & Intention'
+  },
+  friction: {
+    title: 'Friction',
+    desc: 'The resistance you feel when change gets real. Your system pushes back — not because you\'re doing it wrong, but because you\'re threatening what kept you safe. Friction isn\'t the enemy. It\'s the signal that you\'re at the edge of growth.',
+    link: null,
+    linkText: ''
+  },
+  acceptance: {
+    title: 'Acceptance',
+    desc: 'Not giving up. Not settling. Seeing what is — fully, without needing it to be different — so you can choose from clarity instead of reactivity. Acceptance is the ground that makes real change possible.',
+    link: null,
+    linkText: ''
+  }
+};
+
+function showDetail(key) {
+  var d = details[key];
+  document.getElementById('detailTitle').textContent = d.title;
+  document.getElementById('detailDesc').textContent = d.desc;
+  var link = document.getElementById('detailLink');
+  if (d.link) {
+    link.href = d.link;
+    link.textContent = d.linkText;
+    link.style.display = '';
+  } else {
+    link.style.display = 'none';
+  }
+  document.getElementById('detailPanel').classList.add('open');
+
+  // Highlight active
+  document.querySelectorAll('.label, .side-label').forEach(function(el) { el.classList.remove('active'); });
+  document.querySelectorAll('.ring').forEach(function(el) { el.style.borderColor = ''; el.style.background = ''; });
+  var labels = document.querySelectorAll('.label-' + key + ', .label-' + key + '-sub');
+  labels.forEach(function(el) { el.classList.add('active'); });
+  var ring = document.querySelector('.ring-' + key);
+  if (ring) { ring.style.borderColor = 'var(--accent)'; ring.style.background = 'rgba(0,201,167,0.04)'; }
+}
+
+function closeDetail() {
+  document.getElementById('detailPanel').classList.remove('open');
+  document.querySelectorAll('.label, .side-label').forEach(function(el) { el.classList.remove('active'); });
+  document.querySelectorAll('.ring').forEach(function(el) { el.style.borderColor = ''; el.style.background = ''; });
+}
+</script>
+</body>
+</html>
