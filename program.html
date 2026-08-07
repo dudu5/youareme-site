@@ -126,6 +126,13 @@
 
   .ring:hover .ring-label { color: var(--white); }
 
+  .ring-label-top {
+    font-size: 13px;
+    top: 2%;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
   .ring-label-bottom {
     font-size: 13px;
     bottom: 12%;
@@ -319,7 +326,7 @@
       <span class="ring-label ring-label-bottom">Meaning-making<br><span style="font-size:0.85em; opacity:0.6;">(the larger why)</span></span>
     </div>
     <div class="ring ring-perspective" onclick="showDetail('perspective')">
-      <span class="ring-label ring-label-bottom">Perspective flexibility</span>
+      <span class="ring-label ring-label-top">Perspective flexibility</span>
     </div>
     <div class="ring ring-body" onclick="showDetail('body')">
       <span class="ring-label ring-label-bottom">Body</span>
