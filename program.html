@@ -385,19 +385,19 @@
 
         <!-- Rectangular flow arrows -->
         <svg class="cycle-arrow-svg" viewBox="0 0 240 220" preserveAspectRatio="none" style="position:absolute; left:-25px; top:0; width:calc(100% + 50px); height:100%; overflow:visible; z-index:-1;">
-          <!-- Left side: bottom to top -->
-          <path d="M 10 190 L 10 30" fill="none" stroke-width="1"/>
-          <!-- Top connector: left to label -->
-          <path d="M 10 30 L 30 30" fill="none" stroke-width="1"/>
-          <!-- Arrow pointing right into Experimental -->
-          <path d="M 25 25 L 33 30 L 25 35" fill="none" stroke-width="1"/>
+          <!-- Left side: top to bottom -->
+          <path d="M 10 30 L 10 190" fill="none" stroke-width="1"/>
+          <!-- Bottom connector: left to label -->
+          <path d="M 10 190 L 30 190" fill="none" stroke-width="1"/>
+          <!-- Arrow pointing right into Pattern -->
+          <path d="M 25 185 L 33 190 L 25 195" fill="none" stroke-width="1"/>
 
-          <!-- Right side: top to bottom -->
-          <path d="M 230 30 L 230 190" fill="none" stroke-width="1"/>
-          <!-- Bottom connector: right to label -->
-          <path d="M 230 190 L 210 190" fill="none" stroke-width="1"/>
-          <!-- Arrow pointing left into Pattern -->
-          <path d="M 215 185 L 207 190 L 215 195" fill="none" stroke-width="1"/>
+          <!-- Right side: bottom to top -->
+          <path d="M 230 190 L 230 30" fill="none" stroke-width="1"/>
+          <!-- Top connector: right to label -->
+          <path d="M 230 30 L 210 30" fill="none" stroke-width="1"/>
+          <!-- Arrow pointing left into Experimental -->
+          <path d="M 215 25 L 207 30 L 215 35" fill="none" stroke-width="1"/>
         </svg>
       </div>
     </div>
@@ -521,15 +521,15 @@ function closeDetail() {
 // ── COLOR RANDOMIZER ──
 var diagramThemes = [
   // Dark black — neon teal
-  { bg: '#0a0a0a', text: '#ffffff', ring: '#00ffcc', ringBg: ['none','none','#00ffcc18','#00ffcc55'], border: ['#00ffcc','#00ffcc','#00ffcc','#00ffcc'] },
+  { bg: '#0a0a0a', text: '#ffffff', ring: '#00ffcc', ringBg: ['none','none','none','#00ffcc18'], border: ['#00ffcc25','#00ffcc35','#00ffcc','#00ffcc'] },
   // Warm cream — deep burgundy
-  { bg: '#f5f0e6', text: '#2a1520', ring: '#8c1c4a', ringBg: ['none','none','#8c1c4a28','#8c1c4a45'], border: ['#8c1c4a','#8c1c4a','#8c1c4a','#8c1c4a'] },
+  { bg: '#f5f0e6', text: '#2a1520', ring: '#8c1c4a', ringBg: ['none','none','none','#8c1c4a28'], border: ['#8c1c4a25','#8c1c4a35','#8c1c4a','#8c1c4a'] },
   // Deep navy — electric coral
-  { bg: '#0d1b2a', text: '#e0f0ff', ring: '#ff6b6b', ringBg: ['none','none','#ff6b6b30','#ff6b6b4a'], border: ['#ff6b6b','#ff6b6b','#ff6b6b','#ff6b6b'] },
+  { bg: '#0d1b2a', text: '#e0f0ff', ring: '#ff6b6b', ringBg: ['none','none','none','#ff6b6b30'], border: ['#ff6b6b25','#ff6b6b35','#ff6b6b','#ff6b6b'] },
   // Sage green — warm amber
-  { bg: '#e8ede4', text: '#1a2818', ring: '#c47d15', ringBg: ['none','none','#c47d1528','#c47d1545'], border: ['#c47d15','#c47d15','#c47d15','#c47d15'] },
+  { bg: '#e8ede4', text: '#1a2818', ring: '#c47d15', ringBg: ['none','none','none','#c47d1528'], border: ['#c47d1525','#c47d1535','#c47d15','#c47d15'] },
   // Midnight purple — gold
-  { bg: '#12081f', text: '#f0e8d0', ring: '#ffc640', ringBg: ['none','none','#ffc64030','#ffc64050'], border: ['#ffc640','#ffc640','#ffc640','#ffc640'] },
+  { bg: '#12081f', text: '#f0e8d0', ring: '#ffc640', ringBg: ['none','none','none','#ffc64030'], border: ['#ffc64025','#ffc64035','#ffc640','#ffc640'] },
 ];
 var currentDiagramColor = parseInt(localStorage.getItem('yam_program_theme') || '0');
 
@@ -551,9 +551,9 @@ function randomizeDiagramColor() {
   var rings = ['meaning','perspective','attention','body'];
   rings.forEach(function(name, i) {
     var ring = document.querySelector('.ring-' + name);
-    ring.style.background = i < 2 ? 'none' : t.ringBg[i];
+    ring.style.background = t.ringBg[i];
     ring.style.setProperty('border-color', t.border[i], 'important');
-    ring.style.boxShadow = i < 2 ? 'none' : '0 0 ' + (20 + i*10) + 'px ' + c + '20 inset';
+    ring.style.boxShadow = i === 3 ? '0 0 30px ' + c + '20 inset' : 'none';
   });
 
   // All text — theme colored
