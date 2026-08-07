@@ -470,11 +470,16 @@ function closeDetail() {
 
 // ── COLOR RANDOMIZER ──
 var diagramThemes = [
-  { bg: '#0a0a0a', text: '#ffffff', ring: '#00ffcc', ringBg: ['#00ffcc22','#00ffcc2a','#00ffcc35','#00ffcc50'], border: ['#00ffcc44','#00ffcc66','#00ffcc88','#00ffccbb'] },
-  { bg: '#0c0018', text: '#e8d0ff', ring: '#bf5fff', ringBg: ['#bf5fff1a','#bf5fff28','#bf5fff38','#bf5fff55'], border: ['#bf5fff40','#bf5fff60','#bf5fff88','#bf5fffbb'] },
-  { bg: '#001a1a', text: '#a0fff0', ring: '#ff6b6b', ringBg: ['#ff6b6b1a','#ff6b6b28','#ff6b6b38','#ff6b6b55'], border: ['#ff6b6b40','#ff6b6b60','#ff6b6b88','#ff6b6bbb'] },
-  { bg: '#1a1000', text: '#ffe8a0', ring: '#ffaa00', ringBg: ['#ffaa001a','#ffaa0028','#ffaa0038','#ffaa0055'], border: ['#ffaa0040','#ffaa0060','#ffaa0088','#ffaa00bb'] },
-  { bg: '#000a1a', text: '#c0e8ff', ring: '#4da6ff', ringBg: ['#4da6ff1a','#4da6ff28','#4da6ff38','#4da6ff55'], border: ['#4da6ff40','#4da6ff60','#4da6ff88','#4da6ffbb'] },
+  // Dark black — neon teal
+  { bg: '#0a0a0a', text: '#ffffff', ring: '#00ffcc', ringBg: ['none','none','#00ffcc35','#00ffcc50'], border: ['#00ffcc44','#00ffcc66','#00ffcc88','#00ffccbb'] },
+  // Warm cream — deep burgundy
+  { bg: '#f5f0e6', text: '#2a1520', ring: '#8c1c4a', ringBg: ['none','none','#8c1c4a28','#8c1c4a45'], border: ['#8c1c4a30','#8c1c4a50','#8c1c4a70','#8c1c4a99'] },
+  // Deep navy — electric coral
+  { bg: '#0d1b2a', text: '#e0f0ff', ring: '#ff6b6b', ringBg: ['none','none','#ff6b6b30','#ff6b6b4a'], border: ['#ff6b6b40','#ff6b6b60','#ff6b6b85','#ff6b6baa'] },
+  // Sage green — warm amber
+  { bg: '#e8ede4', text: '#1a2818', ring: '#c47d15', ringBg: ['none','none','#c47d1528','#c47d1545'], border: ['#c47d1530','#c47d1550','#c47d1575','#c47d15aa'] },
+  // Midnight purple — gold
+  { bg: '#12081f', text: '#f0e8d0', ring: '#ffc640', ringBg: ['none','none','#ffc64030','#ffc64050'], border: ['#ffc64040','#ffc64060','#ffc64088','#ffc640bb'] },
 ];
 var currentDiagramColor = 0;
 
