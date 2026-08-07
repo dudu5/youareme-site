@@ -468,15 +468,15 @@ function randomizeDiagramColor() {
   var r = document.documentElement;
   r.style.setProperty('--diagram-color', c);
 
-  // Update rings
-  document.querySelector('.ring-meaning').style.borderColor = c + '10';
-  document.querySelector('.ring-meaning').style.background = c + '08';
-  document.querySelector('.ring-perspective').style.borderColor = c + '14';
-  document.querySelector('.ring-perspective').style.background = c + '0a';
-  document.querySelector('.ring-body').style.borderColor = c + '1a';
-  document.querySelector('.ring-body').style.background = c + '0d';
-  document.querySelector('.ring-attention').style.borderColor = c + '33';
-  document.querySelector('.ring-attention').style.background = c + '14';
+  // Update rings (stronger opacity for light backgrounds)
+  document.querySelector('.ring-meaning').style.borderColor = c + '40';
+  document.querySelector('.ring-meaning').style.background = c + '15';
+  document.querySelector('.ring-perspective').style.borderColor = c + '50';
+  document.querySelector('.ring-perspective').style.background = c + '1a';
+  document.querySelector('.ring-body').style.borderColor = c + '60';
+  document.querySelector('.ring-body').style.background = c + '20';
+  document.querySelector('.ring-attention').style.borderColor = c + '80';
+  document.querySelector('.ring-attention').style.background = c + '30';
 
   // Update connectors
   document.querySelectorAll('.connector').forEach(function(el) {
