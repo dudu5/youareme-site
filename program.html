@@ -470,7 +470,6 @@ var diagramThemes = [
 var currentDiagramColor = 0;
 
 function randomizeDiagramColor() {
-  currentDiagramColor = (currentDiagramColor + 1) % diagramThemes.length;
   var t = diagramThemes[currentDiagramColor];
   var c = t.ring;
 
@@ -500,18 +499,44 @@ function randomizeDiagramColor() {
   document.querySelector('.detail-panel').style.background = t.bg;
   document.querySelector('.detail-panel').style.borderColor = c + '33';
 
-  // Update button
-  colorBtn.style.borderColor = c;
-  colorBtn.style.color = c;
+  // Update nav arrows
+  prevBtn.style.color = c;
+  prevBtn.style.borderColor = c + '40';
+  nextBtn.style.color = c;
+  nextBtn.style.borderColor = c + '40';
 }
 
-// Add button
-var colorBtn = document.createElement('button');
-colorBtn.textContent = '◐';
-colorBtn.title = 'Change color';
-colorBtn.style.cssText = 'position:fixed; bottom:24px; right:24px; z-index:100; width:48px; height:48px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:22px; cursor:pointer; transition:all 0.2s;';
-colorBtn.onclick = randomizeDiagramColor;
-document.body.appendChild(colorBtn);
+function prevTheme() {
+  currentDiagramColor = (currentDiagramColor - 1 + diagramThemes.length) % diagramThemes.length;
+  applyDiagramTheme();
+}
+
+function nextTheme() {
+  currentDiagramColor = (currentDiagramColor + 1) % diagramThemes.length;
+  applyDiagramTheme();
+}
+
+function applyDiagramTheme() {
+  randomizeDiagramColor();
+}
+
+// Nav arrows
+var navWrap = document.createElement('div');
+navWrap.style.cssText = 'position:fixed; bottom:24px; left:50%; transform:translateX(-50%); z-index:100; display:flex; gap:16px;';
+
+var prevBtn = document.createElement('button');
+prevBtn.textContent = '←';
+prevBtn.style.cssText = 'width:48px; height:48px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:22px; cursor:pointer; transition:all 0.2s;';
+prevBtn.onclick = prevTheme;
+
+var nextBtn = document.createElement('button');
+nextBtn.textContent = '→';
+nextBtn.style.cssText = 'width:48px; height:48px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:22px; cursor:pointer; transition:all 0.2s;';
+nextBtn.onclick = nextTheme;
+
+navWrap.appendChild(prevBtn);
+navWrap.appendChild(nextBtn);
+document.body.appendChild(navWrap);
 </script>
 </body>
 </html>
