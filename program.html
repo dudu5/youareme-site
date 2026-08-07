@@ -453,6 +453,51 @@ function closeDetail() {
   document.querySelectorAll('.label, .side-label').forEach(function(el) { el.classList.remove('active'); });
   document.querySelectorAll('.ring').forEach(function(el) { el.style.borderColor = ''; el.style.background = ''; });
 }
+
+// ── COLOR RANDOMIZER ──
+var diagramColors = [
+  '#00c9a7', '#ff6b6b', '#6c5ce7', '#fd79a8', '#74b9ff',
+  '#ffd93d', '#55efc4', '#e17055', '#a29bfe', '#fab1a0',
+  '#00b894', '#d63031', '#0984e3', '#fdcb6e', '#e84393'
+];
+var currentDiagramColor = 0;
+
+function randomizeDiagramColor() {
+  currentDiagramColor = (currentDiagramColor + 1) % diagramColors.length;
+  var c = diagramColors[currentDiagramColor];
+  var r = document.documentElement;
+  r.style.setProperty('--diagram-color', c);
+
+  // Update rings
+  document.querySelector('.ring-meaning').style.borderColor = c + '10';
+  document.querySelector('.ring-meaning').style.background = c + '08';
+  document.querySelector('.ring-perspective').style.borderColor = c + '14';
+  document.querySelector('.ring-perspective').style.background = c + '0a';
+  document.querySelector('.ring-body').style.borderColor = c + '1a';
+  document.querySelector('.ring-body').style.background = c + '0d';
+  document.querySelector('.ring-attention').style.borderColor = c + '33';
+  document.querySelector('.ring-attention').style.background = c + '14';
+
+  // Update connectors
+  document.querySelectorAll('.connector').forEach(function(el) {
+    el.style.background = 'linear-gradient(to right, rgba(255,255,255,0.08), ' + c + '1a)';
+  });
+
+  // Update arrow color
+  document.querySelectorAll('.arrow').forEach(function(el) { el.style.color = c; });
+
+  // Update button color
+  colorBtn.style.borderColor = c;
+  colorBtn.style.color = c;
+}
+
+// Add button
+var colorBtn = document.createElement('button');
+colorBtn.textContent = '◐';
+colorBtn.title = 'Change color';
+colorBtn.style.cssText = 'position:fixed; bottom:24px; right:24px; z-index:100; width:48px; height:48px; border-radius:50%; border:1px solid var(--accent); background:none; color:var(--accent); font-size:22px; cursor:pointer; transition:all 0.2s;';
+colorBtn.onclick = randomizeDiagramColor;
+document.body.appendChild(colorBtn);
 </script>
 </body>
 </html>
