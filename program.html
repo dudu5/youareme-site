@@ -358,10 +358,13 @@
 <script>
 window.skipToolbar = true;
 window.skipTheme = true;
-// Force service worker to update
+// Unregister service worker for this page to prevent caching issues
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(function(regs) {
-    regs.forEach(function(r) { r.update(); });
+    regs.forEach(function(r) { r.unregister(); });
+  });
+  caches.keys().then(function(names) {
+    names.forEach(function(name) { caches.delete(name); });
   });
 }
 </script>
