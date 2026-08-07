@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#0a0a0a;">
+<html lang="en" style="background:#050508;">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared.css">
 <style>
+  body { background: #050508; }
+
   .dim-wrap {
     position: relative;
     z-index: 1;
@@ -18,59 +20,89 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background: radial-gradient(ellipse at 30% 40%, rgba(31,232,195,0.03) 0%, transparent 60%);
   }
 
   .dim-back {
-    font-size: 18px;
-    color: var(--dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.4);
     text-decoration: none;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
     display: inline-block;
     padding: 8px 12px;
-    transition: color 0.2s;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .dim-back:hover { color: var(--white); }
+  .dim-back:hover { color: var(--white); transform: translateX(-4px); }
 
   .dim-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(28px, 5vw, 44px);
+    font-size: clamp(32px, 5vw, 48px);
     font-weight: 300;
     color: var(--white);
     margin-bottom: 16px;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 40px rgba(31,232,195,0.15);
+    opacity: 0;
+    animation: dim-in 1s ease 0.2s forwards;
   }
 
   .dim-desc {
     font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 300;
-    color: var(--dim);
-    line-height: 1.7;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.8;
+    margin-bottom: 40px;
+    max-width: 520px;
+    opacity: 0;
+    animation: dim-in 1s ease 0.5s forwards;
+  }
+
+  .dim-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, rgba(31,232,195,0.3), transparent);
     margin-bottom: 32px;
+    opacity: 0;
+    animation: dim-in 1s ease 0.7s forwards;
   }
 
   .dim-content {
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     font-weight: 300;
-    color: var(--dimmer);
-    line-height: 1.6;
-    min-height: 200px;
-    border-top: 1px solid var(--dimmer);
-    padding-top: 24px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.7;
+    min-height: 100px;
+    opacity: 0;
+    animation: dim-in 1s ease 0.9s forwards;
+  }
+
+  @keyframes dim-in {
+    from { opacity: 0; filter: blur(4px); transform: translateY(8px); }
+    to { opacity: 1; filter: blur(0); transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .dim-wrap { padding: 8vh 24px; }
+    .dim-title { font-size: 28px; }
   }
 </style>
 </head>
 <body>
 
-<div class="bg-fixed"></div>
+<div class="bg-fixed" style="background:#050508;"></div>
 
 <div class="dim-wrap">
   <a href="program" class="dim-back">← Back</a>
   <h1 class="dim-title" id="dimTitle"></h1>
   <p class="dim-desc" id="dimDesc"></p>
+  <div class="dim-divider"></div>
   <div class="dim-content" id="dimContent">
-    <p style="color:var(--dimmer); font-style:italic;">Coming soon...</p>
+    <p style="font-style:italic;">Coming soon...</p>
   </div>
 </div>
 
